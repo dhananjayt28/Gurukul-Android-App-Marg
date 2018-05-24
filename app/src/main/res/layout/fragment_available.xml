@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/availableLayout"
+    tools:context="fragment.AvailableFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/nrivityGurukul"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:dividerHeight="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/customborder2"
+                        android:src="@drawable/gurukul" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:gravity="left"
+                        android:padding="10dp"
+                        android:text="Nivritti Gurukul"
+                        android:textColor="#ed545a"
+                        android:textSize="25sp" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/nivlayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#ed545a"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
+
+                    <Spinner
+                        android:id="@+id/avlilavleyear"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center" />
+
+                    <Spinner
+                        android:id="@+id/avlilavlemon"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center" />
+
+                    <ImageView
+                        android:id="@+id/serchNivrity"
+                        android:layout_margin="5dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/search" />
+                </LinearLayout>
+                <in.jivanmuktas.www.marg.utils.ExpandableHeightListView
+                    android:id="@+id/nivrityAvalList"
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent">
+
+                </in.jivanmuktas.www.marg.utils.ExpandableHeightListView>
+
+            </LinearLayout>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/workshop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:dividerHeight="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/customborder2"
+                        android:src="@drawable/workshop" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="sans-serif-condensed"
+                        android:gravity="left"
+                        android:padding="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:text="Workshop"
+                        android:textColor="#ed545a"
+                        android:textSize="25sp" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+            <LinearLayout
+                android:id="@+id/worklayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#ed545a"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp">
+
+                    <Spinner
+                        android:id="@+id/workshopyear"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center" />
+
+                    <Spinner
+                        android:id="@+id/workshopmon"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
+                    <Spinner
+                        android:id="@+id/workshopstate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center" />
+
+                    <ImageView
+                        android:id="@+id/serchWorkshop"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/search" />
+                </LinearLayout>
+                <in.jivanmuktas.www.marg.utils.ExpandableHeightListView
+                    android:id="@+id/workshopAvalList"
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent">
+
+                </in.jivanmuktas.www.marg.utils.ExpandableHeightListView>
+
+            </LinearLayout>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/gitaDistribution"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:dividerHeight="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/customborder2"
+                        android:src="@drawable/distribution" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:gravity="left"
+                        android:padding="10dp"
+                        android:text="Gita Distribution"
+                        android:textColor="#ed545a"
+                        android:textSize="25sp" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/gitaLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="#ed545a"
+                android:orientation="vertical">
+
+                <in.jivanmuktas.www.marg.utils.ExpandableHeightListView
+                    android:id="@+id/gitaAvalList"
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent">
+                </in.jivanmuktas.www.marg.utils.ExpandableHeightListView>
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

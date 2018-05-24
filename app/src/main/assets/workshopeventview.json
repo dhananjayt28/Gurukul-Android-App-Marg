@@ -1,0 +1,24 @@
+{
+  "status": true,
+  "response": [
+    {
+      "EVENT_REG_ID": "2",
+      "PROJECT_NAME": "Workshop",
+      "START_DATE": "02-02-2018",
+      "END_DATE": "27-02-2018",
+      "ALLOTTED_DISTRICT": "Pune,Nagpur,Nashik,Thane",
+      "ORIGIN":"Pune",
+      "END":"Nagpur",
+      "AIRPORT":"Pune",
+      "RAILWAY_STATION":"Nagpur",
+      "COMMENT_TO_APPROVER": "Please Approve me",
+      "ARRIVAL_DATE": "05-02-2018",
+      "DEPARTURE_DATE": "07-02-2018",
+      "ARRIVAL_TIME": "10.00 AM",
+      "DEPARTURE_TIME": "05.30 PM",
+      "COMMENT_FOR_HOD": "Thank You",
+      "STATUS": "1"
+
+    }
+  ]
+}

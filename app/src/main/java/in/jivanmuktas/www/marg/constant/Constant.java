@@ -1,0 +1,36 @@
+package in.jivanmuktas.www.marg.constant;
+
+
+public class Constant {
+   public static final String BASE_URL = "http://jivanmuktas.tangenttechsolutions.com/Gurukul_App_Services.svc/";//Live
+   //public static final String BASE_URL = "http://testgurukul.tmlcsr.com/Gurukul_App_Services.svc/";//Testing
+
+   public static final String LOGIN = BASE_URL + "user-login";
+
+   public static final String Registration = BASE_URL + "user-registration";
+
+   public static final String ProfileView = BASE_URL + "get-user-profile";
+
+   public static final String ProfileUpdate = BASE_URL + "user-profile-update";
+
+   public static final String AvailableEvent = BASE_URL + "get-event-data?eventid=";
+   public static final String ApprovedEvent = BASE_URL + "get-approved-event-data?id=";
+   public static final String RejectEvent = BASE_URL + "get-rejected-event-data?id=";
+
+   public static final String PASSWORD_RESET = BASE_URL + "password-reset";
+   public static final String PASSWORD_UPDATE = BASE_URL + "password-update";
+   public static final String GET_SATSANG_CHAPTER = BASE_URL + "get-satsang-chapter-data?id=";
+
+   public static final String GET_COUNTRY_LIST = BASE_URL + "get-country-list";
+
+   public static final String EVENT_REGISTRTION = BASE_URL + "event-registration";
+   public static final String GET_SUBJECT = BASE_URL + "get-education-data?educationid=";
+
+   public static final String CANCEL_EVENT = BASE_URL + "event-registration-cancel";
+
+   public static final String EVENT_MODIFICATION = BASE_URL + "event-registration-modification";
+
+   public static final String VOLUNTEER_EVENT_APPROVE = BASE_URL + "get-volunteer-event-approved-data?";
+
+   public static final String VOLUNTEER_EVENT_CHECKINOUT_UPDATE = BASE_URL + "volunteer-event-checkinout-update?eid=";
+}

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/layout_bg"
+            android:gravity="center"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/tvOTPtxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="One Time Password send to your mobile number **********1234 . Please enter ther same here to change password."
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/llFooter"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:text="Please enter OTP"
+                    android:textColor="#e66a61"
+                    android:layout_height="wrap_content" />
+
+                <com.alimuzaffar.lib.pin.PinEntryEditText
+                    android:id="@+id/etOTP"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:cursorVisible="false"
+                    android:layout_marginTop="10dp"
+                    android:maxLength="6"
+                    android:textIsSelectable="false"
+                    android:textSize="24sp"
+                    app:pinLineColors="@color/colorPrimary"
+                    android:imeOptions="actionDone"
+                    app:pinLineStroke="2dp"
+                    app:pinLineStrokeSelected="6dp">
+
+                </com.alimuzaffar.lib.pin.PinEntryEditText>
+
+                <Button
+                    android:id="@+id/btnResend"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="50dp"
+                    android:background="@color/colorPrimary"
+                    android:textSize="16sp"
+                    android:drawableLeft="@drawable/reload"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:textColor="#ffffff"
+                    android:text="re-send" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar1"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:progress="0"
+                    android:max="60"
+                    android:minHeight="40dp"
+                    />
+                <TextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="match_parent"
+                    android:text="Time: 0.00"
+                    android:gravity="right"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llFooter"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorPrimary"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/llReset"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center"
+                    android:paddingLeft="5dp">
+
+
+                    <Button
+                        android:id="@+id/btnSubmit"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorPrimary"
+                        android:duplicateParentState="true"
+                        android:gravity="center"
+                        android:text="SUBMIT"
+                        android:textColor="#ffffff"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

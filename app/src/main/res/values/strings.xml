@@ -1,0 +1,480 @@
+<resources>
+    <string name="app_name">Marg</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last Name</string>
+    <string name="middle_name">Middle Name</string>
+    <string name="signuppassword">Password</string>
+    <string name="education">Education</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="reg_phone">Registered Phone Number</string>
+    <string name="pin">Pin Code</string>
+    <string name="create_acc">Create an Account</string>
+    <string name="login">Login</string>
+    <string name="signin">Sign In</string>
+    <string name="allready_have_an_account">Allready have an account?</string>
+    <string name="forgot_password">Forgot password? Click here</string>
+    <string name="create_an_account">Create an account.</string>
+    <string name="logo">Logo</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
+    <string name="create_date">Create Date</string>
+    <string name="modified_date">Modified Date</string>
+    <string name="no_of_children">No Of Children</string>
+    <string name="special_requirment">Special Requirment</string>
+    <string name="tittle">Tittle</string>
+    <string name="fname">First Name</string>
+    <string name="middle">Middle Name</string>
+    <string name="Last">Last Name</string>
+    <string name="other">Other</string>
+    <string name="others">Others</string>
+    <string name="dob">DOB</string>
+    <string name="yoj">Year Of Joining</string>
+    <string name="action_logout">Log Out</string>
+    <string name="save">Save</string>
+    <string name="nivrittigurukul">Nivritti Gurukul</string>
+    <string name="workshop">Workshop</string>
+    <string name="gitadistribution">Gita Distribution</string>
+    <string name="volunteering_starting_date">Volunteering Start Date</string>
+    <string name="enter_starting_date">Enter your Volunteering start date</string>
+    <string name="volunteering_ending_date">Volunteering End Date</string>
+    <string name="enter_ending_date">Enter your Volunteering end date</string>
+    <string name="selectproject">Project</string>
+    <string name="number_of_persons_with_you_excluding_kids">Number Of Persons With You Excluding Kids</string>
+    <string name="enter_number_of_persons_with_you">Enter number of persons with you</string>
+    <string name="persons_s_name">Persons Name</string>
+    <string name="enter_name_of_the_persons">Enter name of the persons</string>
+    <string name="persons_s_gender">Persons Gender</string>
+    <string name="relationship_with_person">Relationship With Person</string>
+    <string name="number_of_kids_with_you">Number of Kids With You</string>
+    <string name="check_in_date">Check In Date</string>
+    <string name="enter_check_in_date">Enter check in date</string>
+    <string name="check_in_time">Check In Time</string>
+    <string name="enter_check_in_time">Enter check in time</string>
+    <string name="edit">EDIT</string>
+    <string name="update">UPDATE</string>
+    <string name="cancel">CANCEL</string>
+    <string name="arrival_date">Arrival Date</string>
+    <string name="arrival_time">Arrival Time</string>
+    <string name="departure_date">Departure Date</string>
+    <string name="departure_time">Departure Time</string>
+    <string name="origin_from">Origin From</string>
+    <string name="ends_at">Ends At</string>
+    <string name="starting_airportstation">Starting Airport/Station</string>
+    <string name="ending_airportstation">Ending Airport/Station</string>
+    <string name="allotted_calendar">Allotted Calendar</string>
+    <string name="alloted_subject">Your Allotted Subject</string>
+    <string name="topics_allotted">Topics Allotted</string>
+    <string name="check_out_date">Check Out Date</string>
+    <string name="enter_check_out_date">Enter check out date</string>
+    <string name="check_out_time">Check Out Time</string>
+    <string name="enter_check_out_time">Enter check out time</string>
+    <string name="subject">Subject</string>
+    <string name="topic">Topic</string>
+    <string name="enter_subject_name">Enter subject name</string>
+    <string name="enter_topic_name">Enter topic name</string>
+    <string name="special_requirement">Comment to Approval</string>
+    <string name="enter_special_requirement_if_any">Enter special requirement if any</string>
+    <string name="profile">Profile</string>
+    <string name="notification">Notification</string>
+    <string name="home">Home</string>
+    <string name="itienary">Itienary</string>
+    <string name="volunteer">Volunteer</string>
+    <string name="jivanmuktas">Jivanmuktas</string>
+    <string name="title_text">Google Sign-In\nQuickstart</string>
+    <string name="menu_item">Menu</string>
+    <!-- Sign-in status messages -->
+    <string name="signed_in_fmt">Signed in as: %s</string>
+    <string name="signed_in">Signed in</string>
+    <string name="signing_in">Signing in…</string>
+    <string name="signed_out">Signed out</string>
+    <string name="signed_in_err">"Error: please check logs."</string>
+    <string name="error_null_person">
+        Error: Plus.PeopleApi.getCurrentPerson returned null. Ensure that the Google+ API is
+        enabled for your project, you have a properly configured google-services.json file
+        and that your device has an internet connection.
+    </string>
+    <string name="loading">Loading…</string>
+    <string name="auth_code_fmt">Auth Code: %s</string>
+    <string name="id_token_fmt">ID Token: %s</string>
+
+    <!-- Google Play Services error for Toast -->
+    <string name="play_services_error_fmt">Google Play Services Error: %i</string>
+
+    <!-- Button labels -->
+    <string name="sign_out">Sign Out</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="refresh_token">Get Fresh Token</string>
+
+    <!-- Content Description for images -->
+    <string name="desc_google_icon">Google Logo</string>
+
+    <!-- Rationale for asking for Contacts -->
+    <string name="contacts_permission_rationale">Contacts access is needed in order to retrieve your email address.</string>
+
+    <!-- Activity Names and Descriptions -->
+    <string name="name_sign_in_activity">SignInActivity</string>
+    <string name="desc_sign_in_activity">Signing in, signing out, and revoking access.</string>
+    <string name="desc_sign_in_activity_scopes">Signing in, signing out, and revoking access with Google Drive permissions.</string>
+
+    <string name="name_id_token_activity">IdTokenActivity</string>
+    <string name="desc_id_token_activity">Retrieving an ID Token for the user.</string>
+
+    <string name="desc_auth_code_activity">Demonstrate retrieving an auth code for authorizing your server.</string>
+    <string name="name_auth_code_activity">ServerAuthCodeActivity</string>
+
+    <string name="desc_rest_activity">Demonstrate using Google Sign In with a Google REST API</string>
+    <string name="name_rest_activity">RestApiActivity</string>
+
+    <!-- Messages for the Rest API activity -->
+    <string name="connections_fmt">Connections: %1$s</string>
+    <string name="msg_contacts_failed">Get contacts failed.</string>
+
+    <!-- TODO(user): replace with your real server client ID -->
+    <!-- Server Client ID.  This should be a valid Web OAuth 2.0 Client ID obtained
+         from https://console.developers.google.com/ -->
+    <string name="server_client_id">YOUR_SERVER_CLIENT_ID</string>
+    <string name="schedule">Schedule</string>
+    <string name="logout">Logout</string>
+    <string name="settings">Settings</string>
+    <string name="username">Email Id/Mobile No.</string>
+    <string name="password">Password</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="enter_valid_mobile_number">Enter Valid Mobile Number</string>
+    <string name="enter_name">Name</string>
+    <string name="enter_first_name">Enter First Name</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="reenter_password">Re-Enter Password</string>
+    <string name="enter_dob">Enter Date of Birth</string>
+    <string name="age">Age</string>
+    <string name="enter_middle_name">Enter Middle Name</string>
+    <string name="enter_last_name">Enter Last Name</string>
+    <string name="email_id">Email Id</string>
+    <string name="enter_valid_email_id">Enter Valid Email Id</string>
+    <string name="area">Satsang Chapter</string>
+    <string name="gender">Gender</string>
+    <string name="enter_postel_code">Enter Postal Code</string>
+    <string name="postel_code">Postal Code</string>
+    <string name="enter_your_phone_number">Enter Your Phone Number</string>
+    <string name="select_date">Select Date</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="chapter">Chapter</string>
+    <string name="enter_the_year_you_join">Enter The Year You Join</string>
+    <string name="comment">Comment To Approver</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="about_us">Jivanmukta derived from the Sanskrit words \'Jiva\' (soul) and \'Mukti\' (liberation) Just like the body changes clothes everyday, the soul takes new bodies every birth. The divine aspect of the soul is in its immortality, timelessness, self-knowledge as well as the ability to experience itself, both as dual and non-dual. Spirituality is not something that needs to be pursued only when we get ?old? or we having nothing \'better\' to do. It is the only way of life. \n\n
+
+Tulasidas said "Binu satsang viveka nahin Rama kripa binu satsang naahi....." With this firm faith, our journey started in 1981. Through the last 3 decades it has spread its wings across the world. Param Pujya Gurudev who has not only championed learning of a variety of scriptures but have inspired to live that knowledge. One who has firmly advocated that the knowledge has to transpire into living. Gurudev talks the walk. His teachings are through his living. The talks and writings are merely a reflection of the living. A role model and inspiration who magnetically attracts all who come across by his expression of love. Once experienced it is yearned for? This website is an expression of such love. An open invitation to all to experience this. \n\n
+
+Our Satsang started 35 years ago and over the last decade has grown into a truly global Satsang. 
+Please write to us at Jivanmuktas.global@gmail.com\n\n\n</string>
+
+    <string name="hometext">
+        Param Pujya Guruji says actions need to follow knowledge.
+        suna-mana-KIYA-toh jana. The emphasis is on \"KIYA\" (ACTION)!\n\nVivekachoodamani says increasing the desire to do good to others is the only way to liberation.\n\nGuru Seva for a week a year provides the opportunity to do good to others.
+        At just 2% of the year we can start a new habit.\nThis new habit will help achieve all the Satsang goals across Nivritti, Gita Distribution and Workshops. Let us do it.\n
+
+    </string>
+
+
+    <string-array name="faq">
+        <item>1. What​ ​is​ ​the​ ​minimum​ ​timespan​ ​I​ ​need​ ​to​ ​commit​ ​for​ ​volunteering?</item>
+        <item>2. Who​ ​bears​ ​the​ ​cost​ ​of​ ​my​ ​travel​ ​to​ ​Nivritti​ ​Gurukul​ ​​ ​(from​ ​mangalore​ ​/​ ​Udupi)?</item>
+        <item>3. There are already many resident volunteers. Are visiting volunteers really needed?</item>
+        <item>4. I​ ​have​ ​been​ ​to​ ​Nivritti​ ​and​ ​there​ ​were​ ​so​ ​many​ ​volunteers​ ​that​ ​I​ ​had​ ​no​ ​work?</item>
+        <item>5. I would have loved to go to Nivritti but I have volunteered for Gita Distribution /​ ​workshops.</item>
+        <item>6. Is​ ​it​ ​only​ ​teaching​ ​academics​ ​that​ ​can​ ​be​ ​done​ ​at​ ​Nivritti​ ​Gurukul?</item>
+        <item>7. I​ ​have​ ​never​ ​taught​ ​before​ ​–​ ​how​ ​can​ ​I​ ​assist​ ​in​ ​students​ ​learning? </item>
+        <item>8. How​ ​difficult​ ​it​ ​is​ ​to​ ​adjust​ ​in​ ​Nivritti​ ​–​ ​are​ ​there​ ​any​ ​infrastructure​ ​issues?</item>
+        <item>9. I​ ​have​ ​small​ ​children​ ​-​ ​can​ ​I​ ​take​ ​them​ ​along? </item>
+        <item>10. Are there any list of instructions given to volunteers before they reach Gurukula? </item>
+        <item>11.​ ​When​ ​should​ ​I​ ​fill​ ​in​ ​the​ ​volunteer​ ​availability​ ​form? </item>
+    </string-array>
+
+
+    <string-array name="faqans">
+        <item>The minimum timespan is seven days including travel time. You can volunteer for moreif you wish.</item>
+        <item>You do. Travel cost to Nivritti Gurukul one way from various points given below:\n
+            ● Mangalore airport INR 1800 (at times parking charges needs to be pe paid extra)\n
+            ● Mangalore Railway station INR 1800\n
+            ● Udupi Railway station INR [500]\n
+            There is no other cost to be incurred by you since stay and food is at Nivritti.\n</item>
+
+        <item>There are at least five visiting volunteers required every day of the week, in addition to
+                the resident volunteers. Reduction to these numbers results in untoward pressure on
+                Param Pujya Guruji, which we all want to avoid.
+                Param Pujya Guruji, is there for 12 hours a day and seven days a week – no break!! He
+                takes three hours of satsangh plus also academic/music sessions for students. Surely
+                none of us would want him to take such load and hence visiting volunteers are absolutely required.</item>
+
+        <item>This rarely happens when there are late additions to volunteers exceeding daily
+            requirements. Generally, in most other parts of the year the numbers have remained
+            below optimal requirement of five per day. This means there is added pressure on
+            Param Pujya Guruji and the few resident volunteers.\n
+            Every week a list is published in the Good News mail with number of volunteers
+            required from Jan 1 to May 30 to make up the five every day. You will see from that list
+            that many days there are zero volunteers!!</item>
+
+        <item>Param Pujya Guruji has advised that Nivritti takes priority in terms of Guru Seva during
+            the current year. If you can do Gita Distribution / workshops and Nivritti; good! Else
+            prioritise seva at Nivritti.</item>
+
+        <item>Teaching is the primary job so at any given time we do need three of the five volunteers
+                who can do some degree of teaching. Having said that if you cannot teach at all then
+                there are other jobs that can be done like teaching musical instruments, bhajans, routine
+                admin jobs of minding the store supplies, Library management, looking after the girls (if
+                you are lady), serving the food, getting ready for aarti, saying grace etc – all small jobs
+                individually but these add up.</item>
+
+        <item>The subjects are very simple and the material is made available to you in advance of
+                your visits. The technical subjects like accountancy and economics can be taught only by
+                certain people with prior knowledge but certainly history, sociology and English can be
+                taught by almost anyone who is willing to prepare a little bit.</item>
+        <item>There are no issues – perhaps minor inconvenience for some. If you can adjust to Indian
+            toilets and sleeping with beds on the floor, then the infrastructure is excellent.</item>
+
+        <item>Given the location and conditions, only children above the age of 15 are encouraged to
+                be brought along to the Gurukul. If you have smaller children then volunteer for offsite seva.</item>
+
+        <item>Yes….there is an instruction manual circulated to all visiting volunteers</item>
+        <item>Immediately once you mail/whatsapp your dates/confirm on phone</item>
+    </string-array>
+
+    <string name="guidelines">
+        Charansparsh to all those who have volunteered and will be volunteering for
+NG-Harikhandige.\n
+A​.​ ​Pointers​ ​for​ ​Visiting​ ​volunteers​ ​before​ ​reaching​ ​Harikhandige\n
+1. Please fill up the Volunteer​ ​Availability​ ​Forms​ ​,​ ​Volunteer​ ​-​ ​Seva​ ​Form\n
+2. The date in volunteer availability form is in the MM/DD/YYYY​ format.\n
+3. Name of the visiting volunteer has to be same on both the forms.\n
+4. If volunteers go as couple, separate forms need to be filled for each husband
+and wife.\n
+5. If you are a repeat volunteer fill in only the Volunteer Availability Form.\n
+6. Kindly update your travel details to Mata Janaki ji -
+janaki.shrikanth16@gmail.com / Mata Anuranjani ji -
+anuranjaninagar@gmail.com to enable better allocation of tasks at Nivrutti
+as it helps to understand what is the exact time of your arrival at Nivrutti.\n\n
+*****************************************************************\n\n
+B.​ ​Travel​ ​&amp;​ ​Other​ ​Vital​ ​details\n
+1. How​ ​do​ ​I​ ​reach​ ​Harikhandige​ ​(HK)?\n
+a. You can come by train to Udupi or Mangalore or flights are only to
+Mangalore.\n
+b. Bus route from Udupi - available upon request.\n
+c. For any queries on transport, from udupi / Mangalore, please contact
+Yogeshji (91-78997 79976) / Anuradhaji (91-9740200446).
+BEST​ ​OPTION\n
+a. Call Rajendra (9480267029) to arrange for transport to &amp; fro from Udupi /
+Mangalore to HK.\n
+Distance
+Mangalore to Udupi - 55kms / Udupi to HK - 23 kms\n\n
+*****************************************************************\n\n
+C.​ ​Seva​ ​at​ ​Harikhandige Academics \n
+1. Please get printouts of lecture material as well as USB with soft copies for
+the areas that you have been allocated.\n
+2. The students in Nivritti Gurukul are enrolled in Annamalai University for
+BA(Sociology/History/Economics) and B.Com. The volunteers are expected
+to teach from the material given to the students from the university.\n
+3. Other tasks that may be given include content creation - notes, tests, etc.
+Some​ ​Key​ ​Points​ ​to​ ​be​ ​noted​ ​as​ ​you​ ​take​ ​the​ ​Lectures\n
+1. Start the class by Chanting OM 3 times .\n
+2. Ask the students to read the chapter before next day\'s lecture.\n
+3. Student\'s English needs a lot of improvement (most of them are from Hindi
+medium) so please use simple words .\n
+4. At the end of the class help them to build their vocabulary by asking
+meaning of difficult word that were there in the chapter.\n
+5. Make the class interactive, by asking them question or creating an activity
+for the students to participate\n
+6. Please follow the schedule given to you and complete the chapter in the
+allotted time.\n
+7. Please update the Google form and register (physical) to indicate what
+portions you have completed with the students.\n
+Volunteers​ ​instructions​ ​at​ ​NG Must​ ​Do\n
+1. Participate in all three Satsanghs of Param Pujyas Gurujis during the day
+without fail.\n
+2. Be on time for aarti’s, Satsanghs, Breakfast, Lunch and Dinner.
+3. Consume food / drink, other than that served in Nivritti Gurukul (NG), in the
+office room.\n
+4. Do not change any NG schedule or activity. Do as instructed. No Man
+Maani​ ​–​ ​only​ ​Guru​ ​ki​ ​Maani!\n
+5. Teach only those topics allotted to you using material given to you. No
+changes are allowed.\n
+6. Clean as you Go – Do not leave work for others to do after you. Eg roll up
+your own bed, clean your own tea cups, drop your own litter in the bin etc
+Guidance\n
+1. Avoid any physical contact with students of opposite sex (eg patting,
+touching their head)\n
+2. Please complete the feedback form given to you and hand over to the NG
+volunteer.\n
+3. Please provide full information as required to HoDs of all that you have
+covered\n
+4. Ensure safety of students when you are accompanying them in and around
+the campus.\n
+5. Use mobile in designated places (outside the academic bloc and not in
+presence of students)\n
+6. Restrain from using NG Wi-Fi for non Gurukul purposes.Please understand
+that there is no WiFi for visiting volunteers - those who would like Wifi
+should bring their own Airtel dongles.\n
+7. Male volunteers entry restricted in the academic block from 09:45 pm to
+08:00 am.\n
+8. Be prepared to carry out any adhoc urgent requirements on the campus\n
+9. Avoid direct contact with students (for eg – sharing of photos / messages
+with students).\n
+10.At arathi times, all volunteers to remain at the rear (and not on stage or in the
+front).\n\n
+*****************************************************************​\n\n
+ D.Persona​l​ ​effects\n
+1. Indian rupees for transportation and local spends (NO MORE THAN INR
+10k)\n
+2. Mosquito repellents\n
+3. Any special food / medicines stock as required. Please note basic medicines
+will be available on premises but if you require anything specific such as lip
+balms, or any special pain balm please get it as part of your personal effects.\n
+4. Flash light\n
+5. Bath soap -Please take a liquid soap (as there is no place to keep your soap
+bar)\n
+6. Plastic bags to take clothes to bath area, and to bring back wet clothes\n
+7. Thin bath towel\n
+8. Cap\n
+9. Pillow cover and a couple of thin bedsheets - These are provided, but if you
+prefer personal ones, please pack these.\n
+10.Notebook/diary &amp; pen\n
+11.Small water bottle\n
+12.Avoid jewellery/ expensive things.\n
+13.Extra pairs of clothes- Please bring enough clothes, so you can avoid
+washing here - due to water scarcity- (please note aug &amp; sept are rainy
+months). For those coming for more than a week, please bring washing
+powder and soap for washing.\n
+14.A pair of comfortable slippers &amp; shoes (please note aug &amp; sept are rainy
+months)- Washable (hawai) slippers is a must - not an option.\n
+15.A light shawl / cover - Winter months can be slightly chilly in the morning.\n
+16.Moisturiser\n
+17.Umbrella / Rain coat (please​ ​note​ ​aug​ ​&amp;​ ​sept​ ​are​ ​rainy​ ​months).\n
+18.Hand Sanitizer\n
+19.Photo ID (pan card/passport)\n
+20.Dress code\n
+a. Men - kurta/pyjama or Pant/shirt\n
+b. Women - salwar kameez dupatta / saree - no low back / neck\n
+21.Laptop for all presentations / work on-site\n
+22.Mobile and or laptop charger\n
+23.Airtel dongle if you can lay your hands on one , or an Airtel connection on
+your phone - that’s what works here.\n\n
+*****************************************************************\n\n
+Important​ ​ ​Additional​ ​Guidelines​ ​-
+1. Mobiles to be switched off / Silent inside the NG
+building.​ ​All​ ​calls​ ​to​ ​be​ ​taken​ ​outside​ ​the​ ​building\n
+2. All photography / Videography is strictly prohibited in
+the​ ​campus.\n
+3. Volunteers are strictly prohibited from interacting
+with​ ​the​ ​students​ ​one​ ​on​ ​one\n
+4. Volunteers are refrained from giving counselling /
+guidance​ ​to​ ​the​ ​students.\n
+5. All Professors must update the register on a daily
+basis.\n
+    </string>
+    <string-array name="monList">
+        <item>Month</item>
+        <item>Jan</item>
+        <item>Feb</item>
+        <item>Mar</item>
+        <item>Apr</item>
+        <item>May</item>
+        <item>Jun</item>
+        <item>Jul</item>
+        <item>Aug</item>
+        <item>Sep</item>
+        <item>Oct</item>
+        <item>Nov</item>
+        <item>Dec</item>
+    </string-array>
+    <string-array name="yearList">
+        <item>Year</item>
+        <item>2018</item>
+        <item>2017</item>
+    </string-array>
+
+    <string-array name="stateList">
+        <item>State</item>
+        <item>Assam</item>
+        <item>Bihar</item>
+        <item>Gujarat</item>
+        <item>Maharashtra</item>
+        <item>Uttar Pradesh</item>
+        <item>West Bengal</item>
+    </string-array>
+
+    <string-array name="personno">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string-array name="itiespinner">
+        <item>Select</item>
+        <item>Confirm</item>
+        <item>Modification Required</item>
+    </string-array>
+    <string-array name="itiesidpinner">
+        <item>Aadhar Card</item>
+        <item>Driving Licence</item>
+        <item>PAN</item>
+        <item>Voter Id</item>
+    </string-array>
+    <string-array name="classname">
+        <item>Select Class</item>
+        <item>BCom</item>
+        <item>BA Econs</item>
+        <item>BA History</item>
+    </string-array>
+    <string name="note">Note   :</string>
+    <string name="name">Name</string>
+
+    <string-array name="country">
+        <item>Select Country</item>
+        <item>Bahrain</item>
+        <item>Dubai</item>
+        <item>India - ex Mumbai</item>
+        <item>Indonesia</item>
+        <item>Mumbai</item>
+        <item>Muscat</item>
+        <item>Singapore</item>
+        <item>Thailand</item>
+        <item>USA</item>
+    </string-array>
+    <!--Country Code respective Country-->
+    <string-array name="country_code">
+        <item>00</item>
+        <item>+973</item>
+        <item>+971</item>
+        <item>+91</item>
+        <item>+62</item>
+        <item>+91</item>
+        <item>+968</item>
+        <item>+65</item>
+        <item>+66</item>
+        <item>+1</item>
+    </string-array>
+
+    <string-array name="education">
+        <item>Select Education</item>
+        <item>Graduate</item>
+        <item>Post graduate</item>
+        <item>Professional</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="action">
+        <item>Select</item>
+        <item>Complete</item>
+        <item>Not Complete</item>
+    </string-array>
+</resources>

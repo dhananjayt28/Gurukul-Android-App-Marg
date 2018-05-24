@@ -1,0 +1,15 @@
+{
+  "status": true,
+  "response": [
+    {
+      "EVENT_REG_ID": "3",
+      "PROJECT_NAME": "Gita Distribution",
+      "START_DATE": "02-02-2018",
+      "END_DATE": "27-02-2018",
+      "NOTE":"You have to reach Mumbai by 10:00 AM",
+      "NAME":"Rajan Kumar",
+      "DOB":"11-09-1992, 25 Years",
+      "GENDER":"Male"
+    }
+  ]
+}

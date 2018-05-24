@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
+    android:padding="2dp"
+    tools:context=".activity.MainActivity">
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+
+        <Button
+            android:id="@+id/title_bar_left_menu"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/titlebar_menu_selector" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="7dp"
+            android:text="@string/app_name"
+            android:textColor="#ffffff"
+            android:textSize="24sp" />
+
+    </FrameLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/toolbar_bottom"
+                    android:layout_below="@id/toolbar_top"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/home"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/homeDoc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hometext"
+                    android:fontFamily="sans-serif-condensed"
+                    android:textSize="15sp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textSize="15sp"
+                        android:text="The time for NOBLE action is "/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="NOW"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textSize="15sp"
+                        android:textColor="#ff0000"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textSize="15sp"
+                        android:text="!"/>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+

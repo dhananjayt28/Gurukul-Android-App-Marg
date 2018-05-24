@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_volunteer"
+        android:icon="@drawable/icons_home"
+        android:orderInCategory="200"
+        android:title="@string/volunteer"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_home"
+        android:icon="@drawable/myprofile"
+        android:orderInCategory="201"
+        android:title="@string/home"
+        app:showAsAction="always" />
+   <!-- <item
+        android:id="@+id/action_jivanmuktas"
+        android:icon="@drawable/googleg_color"
+        android:orderInCategory="202"
+        android:title="@string/jivanmuktas"
+        app:showAsAction="always" />-->
+    <item
+        android:id="@+id/action_schedule"
+        android:icon="@drawable/my_schedule"
+        android:orderInCategory="202"
+        android:title="@string/schedule"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/settings"
+        android:orderInCategory="202"
+        android:title="@string/settings"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_logout"
+        android:icon="@drawable/log_out"
+        android:orderInCategory="202"
+        android:title="@string/logout"
+        app:showAsAction="always" />
+
+
+</menu>

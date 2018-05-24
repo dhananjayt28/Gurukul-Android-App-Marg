@@ -1,0 +1,13 @@
+{
+  "status": true,
+  "response": [
+    {
+      "COUNTRY_ID": 1,
+      "COUNTRY_NAME": "Bahrain"
+    },
+    {
+      "COUNTRY_ID": 2,
+      "COUNTRY_NAME": "Dubai"
+    }
+  ]
+}

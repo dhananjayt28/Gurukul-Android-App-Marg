@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "632325630883",
+    "firebase_url": "https://marg-11c44.firebaseio.com",
+    "project_id": "marg-11c44",
+    "storage_bucket": "marg-11c44.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:632325630883:android:e3ac072269d7d8ab",
+        "android_client_info": {
+          "package_name": "in.jivanmuktas.www.marg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "632325630883-karbmbpb7v1m9rtqeuh7q75n7splm2e0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.jivanmuktas.www.marg",
+            "certificate_hash": "adfe8b253af6d7dbcd8561ae6fb39a45d57b309b"
+          }
+        },
+        {
+          "client_id": "632325630883-8ije4h0g1587eldla183f4h0p43it9vv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCasSWAmmAe0D5iwO1sdmA5jLfGeg1tQZg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "632325630883-8ije4h0g1587eldla183f4h0p43it9vv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

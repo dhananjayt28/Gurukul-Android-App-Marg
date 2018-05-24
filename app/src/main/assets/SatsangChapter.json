@@ -1,0 +1,19 @@
+{
+  "status": true,
+  "response": [
+    {
+      "CHAPTER_ID": 60,
+      "CHAPTER_NAME": "Florida",
+      "DESCRIPTION": "N/A",
+      "COUNTRY_NAME": "USA",
+      "ISACTIVE": 1
+    },
+    {
+      "CHAPTER_ID": 59,
+      "CHAPTER_NAME": "Minneapolis",
+      "DESCRIPTION": "N/A",
+      "COUNTRY_NAME": "USA",
+      "ISACTIVE": 1
+    }
+  ]
+}

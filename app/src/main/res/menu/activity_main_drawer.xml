@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/my_profile"
+            android:icon="@drawable/myprofile"
+            android:title="My Profile" />
+       <!-- <item
+            android:id="@+id/my_activity"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="My Activity" />
+        <item
+            android:id="@+id/my_schedule"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="My Schedule" />-->
+
+        <item
+            android:id="@+id/nav_manage"
+            android:icon="@drawable/volunteering"
+            android:title="Volunteering Calender" />
+        <item
+            android:id="@+id/faq"
+            android:icon="@drawable/faq"
+            android:title="FAQ" />
+        <item
+            android:id="@+id/ias_coaching"
+            android:icon="@drawable/ias_coaching"
+            android:title="IAS Coaching" />
+        <item
+            android:id="@+id/hod_board"
+            android:icon="@drawable/hod"
+            android:title="HOD Board" />
+        <item
+            android:id="@+id/about_us"
+            android:icon="@drawable/abuot_us"
+            android:title="About Us" />
+        <item
+            android:id="@+id/guidelines"
+            android:icon="@drawable/guidelines"
+            android:title="Guidelines" />
+        <item
+            android:id="@+id/contactus"
+            android:icon="@drawable/mobile"
+            android:title="Contact Us" />
+      <!--  <item
+            android:id="@+id/nav_admin"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Admin Approvals" />-->
+    </group>
+
+   <!-- <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Send" />
+        </menu>
+    </item>-->
+
+</menu>

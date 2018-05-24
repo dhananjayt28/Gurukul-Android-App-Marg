@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ed545a</color>
+    <color name="colorPrimaryDeep">#FFEF4249</color>
+    <color name="colorPrimaryDark">#FFEF4249</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="Red">#fc0109</color>
+    <color name="colorBackground">#d6d6d6</color>
+    <color name="colorButtonText">#363636</color>
+    <color name="colorSubRowBackground">#EFE6D0</color>
+    <color name="colorFloatingButton">#099302</color>
+    <color name="blue_grey_500">#607D8B</color>
+    <color name="blue_grey_600">#546E7A</color>
+    <color name="blue_grey_700">#455A64</color>
+    <color name="blue_grey_800">#37474F</color>
+    <color name="blue_grey_900">#263238</color>
+    <color name="colorEditText">#313131</color>
+    <color name="colorTextViewLight">#313131</color>
+    <color name="colorTextLabel">#9c9898</color>
+    <color name="white">#ffffff</color>
+    <color name="blue">#002e6e</color>
+</resources>

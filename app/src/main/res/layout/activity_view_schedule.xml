@@ -1,0 +1,532 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context="in.jivanmuktas.www.marg.activity.CreateScheduleActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbarTop"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorBackground"
+                    android:paddingBottom="1dp"
+                    android:paddingEnd="2dp"
+                    android:paddingStart="2dp"
+                    android:paddingTop="5dp"
+                    android:text="@string/volunteering_starting_date"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvStartDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:gravity="center|start"
+                    android:hint="@string/enter_starting_date"
+                    android:maxLines="1"
+                    android:padding="10dp"
+                    android:text="10-10-2017"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorBackground"
+                    android:paddingBottom="1dp"
+                    android:paddingEnd="2dp"
+                    android:paddingStart="2dp"
+                    android:paddingTop="5dp"
+                    android:text="@string/volunteering_ending_date"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvEndDate"
+                    android:text="20-10-2017"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:gravity="center|start"
+                    android:hint="@string/enter_ending_date"
+                    android:maxLines="1"
+                    android:padding="10dp"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorBackground"
+                    android:paddingBottom="1dp"
+                    android:paddingEnd="2dp"
+                    android:paddingStart="2dp"
+                    android:paddingTop="5dp"
+                    android:text="@string/number_of_persons_with_you_excluding_kids"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:text="3"
+                    android:id="@+id/spinnerNumberOfPersons"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:gravity="center|start"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
+                    android:padding="10dp"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorBackground"
+                    android:paddingBottom="1dp"
+                    android:paddingEnd="2dp"
+                    android:paddingStart="2dp"
+                    android:paddingTop="5dp"
+                    android:text="@string/persons_s_name"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/etPersonName"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:gravity="center|start"
+                    android:text="R. Roy"
+                    android:inputType="textCapSentences"
+                    android:padding="10dp"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorBackground"
+                    android:paddingBottom="1dp"
+                    android:paddingEnd="2dp"
+                    android:paddingStart="2dp"
+                    android:paddingTop="5dp"
+                    android:text="@string/persons_s_gender"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:text="  Male"
+                    android:gravity="start|center"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorBackground"
+                    android:paddingBottom="1dp"
+                    android:paddingEnd="2dp"
+                    android:paddingStart="2dp"
+                    android:paddingTop="5dp"
+                    android:text="@string/relationship_with_person"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/spinnerRelationship"
+                    android:text="Father"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:gravity="center|start"
+                    android:padding="5dp"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorBackground"
+                    android:paddingBottom="1dp"
+                    android:paddingEnd="2dp"
+                    android:paddingStart="2dp"
+                    android:paddingTop="5dp"
+                    android:text="@string/number_of_kids_with_you"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/spinnerNoOfKids"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:gravity="center|start"
+                    android:text="3"
+                    android:maxLines="1"
+                    android:padding="5dp"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_margin="10dp"
+                android:background="@android:color/white"
+                android:id="@+id/age"
+                android:visibility="gone"
+                android:textSize="18dp"
+                android:textColor="#e96828"
+                android:text="Enter Age of the Children"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:id="@+id/age_group"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorBackground"
+                    android:paddingBottom="1dp"
+                    android:paddingEnd="2dp"
+                    android:paddingStart="2dp"
+                    android:paddingTop="5dp"
+                    android:text="@string/check_in_date"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvCheckInDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:gravity="center|start"
+                    android:text="12-10-2017"
+                    android:maxLines="1"
+                    android:padding="5dp"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorBackground"
+                    android:paddingBottom="1dp"
+                    android:paddingEnd="2dp"
+                    android:paddingStart="2dp"
+                    android:paddingTop="5dp"
+                    android:text="@string/check_in_time"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvCheckInTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:gravity="center|start"
+                    android:text="12:30 AM"
+                    android:maxLines="1"
+                    android:padding="5dp"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorBackground"
+                    android:paddingBottom="1dp"
+                    android:paddingEnd="2dp"
+                    android:paddingStart="2dp"
+                    android:paddingTop="5dp"
+                    android:text="@string/check_out_date"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvCheckOutDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:gravity="center|start"
+                    android:text="21-10-2017"
+                    android:padding="5dp"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorBackground"
+                    android:paddingBottom="1dp"
+                    android:paddingEnd="2dp"
+                    android:paddingStart="2dp"
+                    android:paddingTop="5dp"
+                    android:text="@string/check_out_time"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvCheckOutTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:gravity="center|start"
+                    android:text="3:00 PM"
+                    android:padding="5dp"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorBackground"
+                    android:paddingBottom="1dp"
+                    android:paddingEnd="2dp"
+                    android:paddingStart="2dp"
+                    android:paddingTop="5dp"
+                    android:text="@string/subject"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etSubjectName"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:gravity="center|start"
+                    android:text="Mathematics"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorBackground"
+                    android:paddingBottom="1dp"
+                    android:paddingEnd="2dp"
+                    android:paddingStart="2dp"
+                    android:paddingTop="5dp"
+                    android:text="@string/topic"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/etTopic"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:gravity="center|start"
+                    android:text="Arithmetic, Alzebra"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorBackground"
+                    android:paddingBottom="1dp"
+                    android:paddingEnd="2dp"
+                    android:paddingStart="2dp"
+                    android:paddingTop="5dp"
+                    android:text="@string/special_requirement"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/etSpecialRequirement"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:gravity="center|start"
+                    android:text="Pick-Up and Drop car"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

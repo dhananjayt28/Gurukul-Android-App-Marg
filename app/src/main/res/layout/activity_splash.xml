@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="in.jivanmuktas.www.marg.activity.SplashActivity">
+
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:background="@drawable/customborder"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imgLogo"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            android:src="@drawable/gurukul_icon" />
+    </LinearLayout>
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/loader"
+        style="@style/AVLoadingIndicatorView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:indicatorColor="@color/colorPrimary"
+        app:indicatorName="BallScaleRippleMultipleIndicator" />
+</LinearLayout>

@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/gitadisLayout"
+    tools:context="in.jivanmuktas.www.marg.activity.View6">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarTopView6"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/distribution"/>
+                <TextView
+                    android:id="@+id/gitaDistribution"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="left"
+                    android:padding="10dp"
+                    android:text="Gita Distribution"
+                    android:textColor="@color/colorTextLabel"
+                    android:textSize="15sp"
+                    android:fontFamily="sans-serif-condensed"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="left"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/event_date"/>
+
+                <TextView
+                    android:text=" 02-Nov-17 To 05-Nov-17"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="left"
+                    android:padding="10dp"
+                    android:textColor="@color/colorTextLabel"
+                    android:textSize="15sp"
+                    android:fontFamily="sans-serif-condensed"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="left"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/note"/>
+
+                <TextView
+                    android:text="You have to reach Mumbai by 10:00 AM"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="left"
+                    android:padding="10dp"
+                    android:textColor="@color/colorTextLabel"
+                    android:textSize="15sp"
+                    android:fontFamily="sans-serif-condensed"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="For booking ticket below info is available to Admin Team"
+                android:textColor="@color/colorPrimaryDeep"
+                android:textSize="15sp"
+                android:fontFamily="sans-serif-condensed"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/customborder2"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:id="@+id/picImg"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="left"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/take_photo"/>
+                    <TextView
+                        android:text="Rajan Panth"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:gravity="left"
+                        android:padding="10dp"
+                        android:textColor="@color/colorTextLabel"
+                        android:textSize="15sp"
+                        android:fontFamily="sans-serif-condensed"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="left"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/birthday"/>
+
+                    <TextView
+                        android:text="12-09-1992, 25 Years"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:gravity="left"
+                        android:padding="10dp"
+                        android:textColor="@color/colorTextLabel"
+                        android:textSize="15sp"
+                        android:fontFamily="sans-serif-condensed"/>
+                </LinearLayout>
+                <!--<LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="left"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/distribution"/>
+
+                    <TextView
+                        android:text="25 years"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:gravity="left"
+                        android:padding="10dp"
+                        android:textColor="@color/colorTextLabel"
+                        android:textSize="15sp" />
+                </LinearLayout>-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="left"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/gender"/>
+
+                    <TextView
+                        android:text="Male"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:gravity="left"
+                        android:padding="10dp"
+                        android:textColor="@color/colorTextLabel"
+                        android:textSize="15sp"
+                        android:fontFamily="sans-serif-condensed" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="left"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/id_proof"/>
+
+                    <Spinner
+                        android:id="@+id/idpprofSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="10dp"
+                        android:gravity="left" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Is Transport arrangement required ?"
+                    android:textColor="@color/colorTextLabel"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="15sp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="left"/>
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Is accommodation required ?"
+                android:textColor="@color/colorTextLabel"
+                android:layout_marginLeft="10dp"
+                android:textSize="15sp"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="left"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Do you want to continue with above information for booking Train Ticket?"
+                android:textColor="@color/colorPrimaryDeep"
+                android:textSize="15sp"
+                android:fontFamily="sans-serif-condensed"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:gravity="center">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:onClick="view6"
+                android:text="Yes" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="No" />
+            </LinearLayout>
+            <!--<LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="2"
+                    android:text="\nCountry"
+                    android:textColor="#1136d7"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:text="\n India"
+                    android:textColor="#080808"
+                    android:textSize="15sp" />
+            </LinearLayout>-->
+
+            <!-- <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Allotted calendar"
+                android:textColor="#1136d7"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text=" 01-Oct-17 - 10-Oct-17"
+                android:textColor="#080808"
+                android:textSize="15sp" />
+
+           &lt;!&ndash; <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="\nYour Allotted Subject"
+                android:textColor="#1136d7"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="\n English,History"
+                android:textColor="#080808"
+                android:textSize="15sp" />&ndash;&gt;
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="\nYour Allotted District"
+                android:textColor="#1136d7"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text=" Thane,Pune,Nashik,Nagpur\n"
+                android:textColor="#080808"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="2"
+                    android:text="@string/origin_from"
+                    android:textColor="#1136d7"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:text="Thane"
+                    android:textColor="#080808"
+                    android:textSize="15sp" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="2"
+                    android:text="@string/ends_at"
+                    android:textColor="#1136d7"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:text="Nagpur"
+                    android:textColor="#080808"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+
+                &lt;!&ndash;<TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="2"
+                    android:text="@string/starting_airportstation"
+                    android:textColor="#1136d7"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />&ndash;&gt;
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/aeroplane"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="2"
+                    android:text="Thane"
+                    android:layout_gravity="center"
+                    android:textColor="#080808"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/dot"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+
+               &lt;!&ndash; <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="2"
+                    android:text="@string/ending_airportstation"
+                    android:textColor="#1136d7"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />&ndash;&gt;
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/railway_station"/>
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="2"
+                    android:text="Nagpur\n"
+                    android:textColor="#080808"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/comment"
+                android:textColor="#1136d7"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text=" I shall reach alone\n"
+                android:textColor="#080808"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text="@string/check_in_date"
+                    android:textColor="#1136d7"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:text="01-Oct-17, 10:00 AM"
+                    android:textColor="#080808"
+                    android:textSize="15sp" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text="@string/check_out_date"
+                    android:textColor="#1136d7"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:text="10-Oct-17, 05:00 PM"
+                    android:textColor="#080808"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/itienary"
+                android:textColor="#1136d7"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <ImageView
+                    android:id="@+id/imgItie"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/bullet" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:onClick="topiclinkItie"
+                    android:src="@drawable/web2" />
+
+                <Spinner
+                    android:id="@+id/topicItie"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="160dp"
+                    android:layout_height="30dp"></Spinner>
+            </LinearLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/modiReasonItie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/etItie"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:gravity="bottom|start"
+                    android:hint="Enter Reason for Modification"
+                    android:imeOptions="actionNext"
+                    android:inputType="textCapSentences"
+                    android:padding="10dp"
+                    android:textSize="20sp"
+                    android:textColorHint="@color/colorEditText"/>
+            </android.support.design.widget.TextInputLayout>-->
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

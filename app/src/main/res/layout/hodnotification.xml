@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/tiphod"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="* For delete item press long on item "
+        android:textColor="@color/Red"
+        android:layout_marginLeft="10dp"
+        android:fontFamily="monospace"/>
+    <ListView
+        android:id="@+id/hodNotiList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></ListView>
+</LinearLayout>

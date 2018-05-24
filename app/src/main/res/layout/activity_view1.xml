@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="in.jivanmuktas.www.marg.activity.View1">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarTopView1"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+    </android.support.design.widget.AppBarLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/gurukul"/>
+
+                <TextView
+                    android:text="Nivritti Gurukul"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="left"
+                    android:padding="10dp"
+                    android:textColor="@color/colorTextLabel"
+                    android:textSize="15sp"
+                    android:fontFamily="sans-serif-condensed"/>
+
+
+            </LinearLayout>
+            <!--<LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="2"
+                    android:text="\nCountry"
+                    android:textColor="@color/colorPrimaryDeep"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:text="\n India"
+                    android:textColor="#080808"
+                    android:textSize="15sp" />
+            </LinearLayout>-->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Allotted Calendar"
+                android:textColor="@color/colorPrimaryDeep"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-condensed"/>
+
+            <TextView
+                android:id="@+id/calendar1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text=" 01-Oct-17 - 10-Oct-17"
+                android:textColor="@color/colorTextLabel"
+                android:textSize="15sp"
+                android:fontFamily="sans-serif-condensed"/>
+            <LinearLayout
+                android:id="@+id/choosecal1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tvStartDate"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@color/colorBackground">
+                    <EditText
+                        android:id="@+id/startDate1"
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|start"
+                        android:hint="Start Date"
+                        android:maxLines="1"
+                        android:padding="10dp"
+                        android:textSize="16sp"
+                        android:layout_weight="1"/>
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorBackground"
+                    android:layout_marginLeft="10dp">
+                    <EditText
+                        android:id="@+id/endDate1"
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|start"
+                        android:hint="End Date"
+                        android:maxLines="1"
+                        android:padding="10dp"
+                        android:textSize="16sp" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Your Allotted Subject"
+                android:textColor="@color/colorPrimaryDeep"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-condensed" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text=" English,History of India"
+                android:textColor="@color/colorTextLabel"
+                android:textSize="15sp"
+                android:fontFamily="sans-serif-condensed"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/comment"
+                android:textColor="@color/colorPrimaryDeep"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-condensed" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text=" I shall reach alone"
+                android:textColor="@color/colorTextLabel"
+                android:textSize="15sp"
+                android:fontFamily="sans-serif-condensed"/>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <android.support.design.widget.TextInputLayout
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:background="@color/colorBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+    <EditText
+        android:id="@+id/tvCheckInDate"
+        android:focusable="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center|start"
+        android:hint="@string/check_in_date"
+        android:maxLines="1"
+        android:padding="5dp"
+        android:textSize="15sp" />
+    </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@color/colorBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+
+                <EditText
+                    android:id="@+id/tvCheckInTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:gravity="center|start"
+                    android:hint="@string/check_in_time"
+                    android:maxLines="1"
+                    android:padding="5dp"
+                    android:textSize="15sp" />
+            </android.support.design.widget.TextInputLayout>
+</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <android.support.design.widget.TextInputLayout
+                android:layout_weight="1"
+                android:background="@color/colorBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+                <EditText
+                    android:id="@+id/tvCheckOutDate"
+                    android:layout_width="match_parent"
+                    android:focusable="false"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|start"
+                    android:hint="@string/check_out_date"
+                    android:maxLines="1"
+                    android:padding="5dp"
+                    android:textSize="15sp" />
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_weight="1"
+                android:background="@color/colorBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+                <EditText
+                    android:id="@+id/tvCheckOutTime"
+                    android:layout_width="match_parent"
+                    android:focusable="false"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|start"
+                    android:hint="@string/check_out_time"
+                    android:maxLines="1"
+                    android:padding="5dp"
+                    android:textSize="15sp" />
+            </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submit"
+                android:onClick="submitview1"
+                android:layout_gravity="center"/>
+    </LinearLayout>
+    </ScrollView>
+</LinearLayout>
