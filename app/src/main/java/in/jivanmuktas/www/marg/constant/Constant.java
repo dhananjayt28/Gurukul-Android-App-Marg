@@ -3,6 +3,8 @@ package in.jivanmuktas.www.marg.constant;
 
 public class Constant {
    public static final String BASE_URL = "http://jivanmuktas.tangenttechsolutions.com/Gurukul_App_Services.svc/";//Live
+   public static final String BASE_URL_API = "http://jivanmuktasapi.ttssupport.info/api/";//Testing
+   public static final String BASE_URL_NEW = "http://gurukulweb.tangenttechsolutions.com/api/";
    //public static final String BASE_URL = "http://testgurukul.tmlcsr.com/Gurukul_App_Services.svc/";//Testing
 
    public static final String LOGIN = BASE_URL + "user-login";
@@ -22,6 +24,7 @@ public class Constant {
    public static final String GET_SATSANG_CHAPTER = BASE_URL + "get-satsang-chapter-data?id=";
 
    public static final String GET_COUNTRY_LIST = BASE_URL + "get-country-list";
+   public static final String GET_CITY_LIST = BASE_URL + "get-city-data?id=";
 
    public static final String EVENT_REGISTRTION = BASE_URL + "event-registration";
    public static final String GET_SUBJECT = BASE_URL + "get-education-data?educationid=";
@@ -33,4 +36,11 @@ public class Constant {
    public static final String VOLUNTEER_EVENT_APPROVE = BASE_URL + "get-volunteer-event-approved-data?";
 
    public static final String VOLUNTEER_EVENT_CHECKINOUT_UPDATE = BASE_URL + "volunteer-event-checkinout-update?eid=";
+
+   public static final String NIVRITTI_REQUIRE_VOLUNTEER = BASE_URL_API + "get-nivritti-require-volunteer/";
+
+   public static final String GET_COACHING_DATA = BASE_URL_NEW +"get-coaching-detail-data";
+
+   public static final String GET_EVENT_CALENDAR_BREAKUP_DATA = BASE_URL_NEW + "get-event-calendar-breakup-data" + "?event_id=9";
+
 }

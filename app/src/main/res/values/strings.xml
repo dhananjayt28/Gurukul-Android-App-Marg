@@ -11,6 +11,9 @@
     <string name="signuppassword">Password</string>
     <string name="education">Education</string>
     <string name="male">Male</string>
+    <string name="help_in_other_activity">Help in any other Activity</string>
+    <string name="date">Date</string>
+    <string name="select_city">Select City</string>
     <string name="female">Female</string>
     <string name="email">Email</string>
     <string name="phone">Phone</string>
@@ -84,6 +87,7 @@
     <string name="enter_special_requirement_if_any">Enter special requirement if any</string>
     <string name="profile">Profile</string>
     <string name="notification">Notification</string>
+    <string name="no_notification">No Notification</string>
     <string name="home">Home</string>
     <string name="itienary">Itienary</string>
     <string name="volunteer">Volunteer</string>

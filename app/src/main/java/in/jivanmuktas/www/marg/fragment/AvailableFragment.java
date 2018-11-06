@@ -25,17 +25,20 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+
 import in.jivanmuktas.www.marg.R;
 import in.jivanmuktas.www.marg.activity.CreateScheduleActivity;
 import in.jivanmuktas.www.marg.constant.Constant;
 import in.jivanmuktas.www.marg.network.HttpGetHandler;
 import in.jivanmuktas.www.marg.utils.ExpandableHeightListView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.SimpleDateFormat;
+import static in.jivanmuktas.www.marg.activity.BaseActivity.AssetJSONFile;
 
 public class AvailableFragment extends Fragment {
     //***************************************************************************************
@@ -45,7 +48,8 @@ public class AvailableFragment extends Fragment {
     JSONObject jsonResponse;
     JSONArray responseArray;
     ProgressDialog prsDlg;
-    ExpandableHeightListView nivrityAvalList, workshopAvalList, gitaAvalList;
+    ExpandableHeightListView  workshopAvalList, gitaAvalList;
+    LinearLayout nivrityAvalList;
     ImageView serchNivrity, serchWorkshop;
     LinearLayout availableLayout;
     CardView nrivityGurukul, workshop, gitaDistribution;
@@ -80,13 +84,13 @@ public class AvailableFragment extends Fragment {
     //***************************************************************************************
     // Inflate the view for the fragment based on layout XML
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_available, container, false);
 
         availableLayout = (LinearLayout) view.findViewById(R.id.availableLayout);
         serchNivrity = (ImageView) view.findViewById(R.id.serchNivrity);
         serchWorkshop = (ImageView) view.findViewById(R.id.serchWorkshop);
-        nivrityAvalList = (ExpandableHeightListView) view.findViewById(R.id.nivrityAvalList);
+        nivrityAvalList = (LinearLayout) view.findViewById(R.id.nivrityAvalList);
         workshopAvalList = (ExpandableHeightListView) view.findViewById(R.id.workshopAvalList);
         gitaAvalList = (ExpandableHeightListView) view.findViewById(R.id.gitaAvalList);
 
@@ -139,7 +143,6 @@ public class AvailableFragment extends Fragment {
                     nivlayout.setVisibility(View.GONE);
                     x--;
                 }
-
             }
         });
         //***************************************************************************************
@@ -237,7 +240,7 @@ public class AvailableFragment extends Fragment {
             prsDlg.setCancelable(false);
             prsDlg.show();
 
-            nivrityAvalList.setAdapter(null);//Clear List View
+            nivrityAvalList.removeAllViews();//Clear List View
             workshopAvalList.setAdapter(null);
             gitaAvalList.setAdapter(null);
         }
@@ -272,8 +275,7 @@ public class AvailableFragment extends Fragment {
             }
             if (aBoolean) {
                 if (ckEvent.equals("1")) {//// Set Nivrity List
-                    NivrittyListAdapter Adapter = new NivrittyListAdapter();
-                    nivrityAvalList.setAdapter(Adapter);
+                    SetNivrittyList();
                 }
                 if (ckEvent.equals("2")) {//// Set WorkShop List
                     WorkshopListAdapter Adapter = new WorkshopListAdapter();
@@ -284,8 +286,7 @@ public class AvailableFragment extends Fragment {
                     gitaAvalList.setAdapter(Adapter);
                 }
                 if (ckSearch.equals("GURUKUL")) {///Search for Gurukul
-                    NivrittyListAdapter Adapter = new NivrittyListAdapter();
-                    nivrityAvalList.setAdapter(Adapter);
+                    SetNivrittyList();
                 }
                 if (ckSearch.equals("WORKSHOP")) {///Search for Workshop
                     WorkshopListAdapter Adapter = new WorkshopListAdapter();
@@ -293,15 +294,15 @@ public class AvailableFragment extends Fragment {
                 }
             } else {
                 NodataFound Adapter = new NodataFound();
-                if(ckEvent.equals("1")){
-                    nivrityAvalList.setAdapter(Adapter);
-                }else if(ckEvent.equals("2")){
+                if (ckEvent.equals("1")) {
+                    SetNoDataFound();
+                } else if (ckEvent.equals("2")) {
                     workshopAvalList.setAdapter(Adapter);// Set list view no data found
-                }else if(ckEvent.equals("3")) {
+                } else if (ckEvent.equals("3")) {
                     gitaAvalList.setAdapter(Adapter);
-                }else if(ckSearch.equals("GURUKUL")){
-                    nivrityAvalList.setAdapter(Adapter);
-                }else if(ckSearch.equals("WORKSHOP")){
+                } else if (ckSearch.equals("GURUKUL")) {
+                    SetNoDataFound();
+                } else if (ckSearch.equals("WORKSHOP")) {
                     workshopAvalList.setAdapter(Adapter);
                 }
             }
@@ -336,63 +337,104 @@ public class AvailableFragment extends Fragment {
     }
 
     //***************************************************************************************
-    public class NivrittyListAdapter extends BaseAdapter {
-        @Override
-        public int getCount() {
-            return responseArray.length();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View view, ViewGroup parent) {
-            final String startDate, endDate, female, male,event;
+    public void SetNivrittyList() {
             JSONObject object;
             try {
-                    object = responseArray.getJSONObject(position);
+                for (int i=0; i<responseArray.length();i++) {
+                    object = responseArray.getJSONObject(i);
+                    final String startDate, endDate, female, male, event;
                     startDate = object.getString("START_DATE");
                     endDate = object.getString("END_DATE");
                     female = object.getString("FEMALE");
                     male = object.getString("MALE");
                     event = object.getString("EVENT_ID");
                     LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-                    view = layoutInflater.inflate(R.layout.nivritylist, null);
+                    View view = layoutInflater.inflate(R.layout.nivritylist, null);
+
                     TextView dt = (TextView) view.findViewById(R.id.date);
-                    TextView f = (TextView) view.findViewById(R.id.female);
-                    TextView m = (TextView) view.findViewById(R.id.male);
-                    CardView cardView = (CardView) view.findViewById(R.id.card1);
+                    //TextView f = (TextView) view.findViewById(R.id.female);
+                    //TextView m = (TextView) view.findViewById(R.id.male);
+                    TextView register = (TextView) view.findViewById(R.id.register);
+                    final TextView requireVolunteers = (TextView) view.findViewById(R.id.requireVolunteers);
+                    requireVolunteers.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_down, 0);
+                    final LinearLayout report_header = (LinearLayout) view.findViewById(R.id.report_header);
+                    report_header.setVisibility(View.GONE);
+                    final LinearLayout report_view = (LinearLayout) view.findViewById(R.id.report_view);
+                    report_view.setVisibility(View.GONE);
 
-                    dt.setText(startDate + "   -   " + endDate);
-                    f.setText(female);
-                    m.setText(male);
-
-                    cardView.setOnClickListener(new View.OnClickListener() {
+                    //dt.setText(startDate + "   -   " + endDate);
+                    dt.setText("July 2018");
+                    //f.setText(female);
+                    // m.setText(male);
+                    register.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent(getActivity(), CreateScheduleActivity.class);
                             i.putExtra("PROJECT", "Nivritti Gurukul");
                             i.putExtra("START_DATE", startDate);
                             i.putExtra("END_DATE", endDate);
-                            i.putExtra("EVENT",event);
+                            i.putExtra("EVENT", event);
                             startActivity(i);
                         }
                     });
+                    requireVolunteers.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            requireVolunteers.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_up, 0);
+                            if (report_view.getVisibility() == View.GONE) {
+                                report_view.setVisibility(View.VISIBLE);
+                                report_header.setVisibility(View.VISIBLE);
+
+                                try {
+                                    String s = AssetJSONFile("req_report.json", getActivity());
+                                    JSONObject obj = new JSONObject(s);
+                                    JSONArray arr = obj.getJSONArray("response");
+                                    report_view.removeAllViews();
+                                    for (int i = 0; i < arr.length(); i++) {
+                                        JSONObject data = arr.getJSONObject(i);
+                                        View v = SetReportView(data.getString("DATE"), data.getString("MALE_VOLUNTEERS_REQUIRED"), data.getString("FEMALE_VOLUNTEERS_REQUIRED"));
+                                        report_view.addView(v);
+                                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                requireVolunteers.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_down, 0);
+                                report_view.setVisibility(View.GONE);
+                                report_header.setVisibility(View.GONE);
+                            }
+                        }
+                    });
+                    nivrityAvalList.addView(view);
+                }
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            return view;
+
         }
+
+        public void SetNoDataFound() {
+        nivrityAvalList.removeAllViews();
+                LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+                View view = layoutInflater.inflate(R.layout.nodatafound, null);
+                nivrityAvalList.addView(view);
     }
 
+    public View SetReportView(String dt, String m, String f) {
+        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+        View v = layoutInflater.inflate(R.layout.report, null);
+        TextView date = (TextView) v.findViewById(R.id.date);
+        TextView male = (TextView) v.findViewById(R.id.male);
+        TextView female = (TextView) v.findViewById(R.id.female);
+
+        date.setText(dt);
+        male.setText(m);
+        female.setText(f);
+        return v;
+    }
     //***************************************************************************************
     public class WorkshopListAdapter extends BaseAdapter {
         @Override
@@ -412,7 +454,7 @@ public class AvailableFragment extends Fragment {
 
         @Override
         public View getView(int position, View view, ViewGroup parent) {
-            final String startDate, endDate, holiDay,event;
+            final String startDate, endDate, holiDay, event;
             JSONObject object;
             try {
                 object = responseArray.getJSONObject(position);
@@ -465,7 +507,7 @@ public class AvailableFragment extends Fragment {
 
         @Override
         public View getView(int position, View view, ViewGroup parent) {
-            final String startDate, endDate, location, message,event;
+            final String startDate, endDate, location, message, event;
             JSONObject object;
             try {
                 object = responseArray.getJSONObject(position);
@@ -500,6 +542,7 @@ public class AvailableFragment extends Fragment {
             return view;
         }
     }
+
     //***************************************************************************************
     public class NodataFound extends BaseAdapter {
 

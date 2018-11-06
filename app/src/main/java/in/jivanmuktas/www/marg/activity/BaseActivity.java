@@ -138,7 +138,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
         super.onPause();
     }
-    //////////****************Get Current Date*******///////////
+    //////////*********Get Current Date*******///////////
     public String CurrentDate(){
         int crrYear;
         int crrMonth;
@@ -237,7 +237,6 @@ public void CustomToast(String text){
             Pattern pattern = Pattern.compile(EMAIL_REGEX);
             // non-static Matcher object because it's created from the input String
             Matcher matcher = pattern.matcher(emailId);
-
             return matcher.matches();
         }
 
@@ -259,5 +258,15 @@ public void CustomToast(String text){
         String imgString = Base64.encodeToString(byteFormat, Base64.DEFAULT);
         //String imgString = Base64.encodeBase64URLSafeString(byteFormat);
         return imgString;
+    }
+
+    public String GetCurrentDateTime(){
+        Calendar c = Calendar.getInstance();
+        System.out.println("Current time =&gt; "+c.getTime());
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
+        String formattedDate = df.format(c.getTime());
+        // Now formattedDate have current date/time
+        return formattedDate;
     }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import in.jivanmuktas.www.marg.R;
 
@@ -33,6 +34,7 @@ public class Project extends BaseActivity {
         nrivityGurukulProj=(LinearLayout) findViewById(R.id.nrivityGurukulProj);
         workshopProj=(LinearLayout)findViewById(R.id.workshopProj);
         gitaDistributionProj=(LinearLayout)findViewById(R.id.gitaDistributionProj);
+
 
         nrivityGurukulProj.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
+
     <android.support.v7.widget.CardView
         android:id="@+id/card1"
         android:layout_width="match_parent"
@@ -24,7 +25,7 @@
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/event_date" />
+                    android:src="@drawable/event_month" />
 
                 <TextView
                     android:id="@+id/date"
@@ -39,15 +40,107 @@
                     android:textSize="15sp" />
 
             </LinearLayout>
-<TextView
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/requireVolunteers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/customborder7"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Require Volunteer  "
+                    android:textColor="@color/blue"
+                    android:textSize="15sp"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/customborder6"
+                    android:fontFamily="sans-serif-condensed"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Register"
+                    android:textSize="15sp"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textSize="15sp"
-    android:textColor="@color/blue"
-    android:fontFamily="sans-serif-condensed"
-    android:text="Volunteers Require:"
-    android:layout_marginLeft="5dp"/>
+    android:orientation="vertical"
+    android:background="@color/orange"
+    android:layout_margin="5dp">
             <LinearLayout
+                android:id="@+id/report_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="5dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/date"
+                    android:textSize="18dp"
+                    android:textColor="@color/blue"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:src="@drawable/male" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:src="@drawable/female" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/report_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_margin ="5dp"
+                android:orientation="vertical">
+            </LinearLayout>
+            </LinearLayout>
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -91,20 +184,8 @@
                     android:textColor="@color/colorTextLabel"
                     android:textSize="15dp" />
 
-            </LinearLayout>
+            </LinearLayout>-->
 
-            <TextView
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:fontFamily="sans-serif-condensed"
-                android:layout_marginBottom="5dp"
-                android:layout_marginRight="5dp"
-                android:padding="5dp"
-                android:text="Register"
-                android:textSize="20sp"
-                android:background="@drawable/customborder6"/>
 
         </LinearLayout>
 

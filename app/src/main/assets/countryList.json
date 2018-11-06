@@ -1,0 +1,45 @@
+{
+  "status": true,
+  "response": [
+    {
+      "country_id": "0",
+      "country_name": "Please Select Country"
+    },
+    {
+      "country_id": "1",
+      "country_name": "Bahrain"
+    },
+    {
+      "country_id": "2",
+      "country_name": "Dubai"
+    },
+    {
+      "country_id": "3",
+      "country_name": "India - ex Mumbai"
+    },
+    {
+      "country_id": "4",
+      "country_name": "Indonesia"
+    },
+    {
+      "country_id": "5",
+      "country_name": "Mumbai"
+    },
+    {
+      "country_id": "6",
+      "country_name": "Muscat"
+    },
+    {
+      "country_id": "7",
+      "country_name": "Singapore"
+    },
+    {
+      "country_id": "8",
+      "country_name": "Thailand"
+    },
+    {
+      "country_id": "9",
+      "country_name": "USA"
+    }
+  ]
+}

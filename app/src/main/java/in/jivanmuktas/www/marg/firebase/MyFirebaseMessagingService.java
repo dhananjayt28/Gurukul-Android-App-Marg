@@ -99,7 +99,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         //.setSound(defaultSoundUri)
                         .setDefaults(NotificationCompat.DEFAULT_SOUND);
 
-
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0,notification.build());
     }

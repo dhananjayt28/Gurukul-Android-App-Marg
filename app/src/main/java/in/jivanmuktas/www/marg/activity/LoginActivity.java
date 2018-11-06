@@ -11,6 +11,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import in.jivanmuktas.www.marg.R;
 
 import org.json.JSONArray;
@@ -228,6 +232,22 @@ TextView forgetPassWord;
                                 app.setEmail(emailId);
                                 app.setCountry(country);
                                 app.setChapter(chapter);
+                                //Save To fire base
+                                final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                DatabaseReference user = database.getReference("User_Details/"+app.getUserId());
+
+                                user.child("USER_ID").setValue(app.getUserId());
+                                user.child("USER_NAME").setValue(app.getUserName());
+                                user.child("GENDER").setValue(app.getGender());
+                                user.child("DOB").setValue(app.getDob());
+                                user.child("Age").setValue(app.getAge());
+                                user.child("EDUCATION").setValue(app.getEducation());
+                                user.child("CONTACT").setValue(app.getContact());
+                                user.child("EMAIL").setValue(app.getEmail());
+                                user.child("COUNTRY").setValue(app.getCountry());
+                                user.child("CHAPTER").setValue(app.getChapter());
+                                user.child("FCM_TOKEN").setValue( FirebaseInstanceId.getInstance().getToken());
+                                //****************************************************
 
                                 CustomIntent(MainActivity.class);
                                 LoginActivity.this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

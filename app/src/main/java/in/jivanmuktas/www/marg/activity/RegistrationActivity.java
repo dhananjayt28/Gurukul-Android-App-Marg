@@ -18,6 +18,14 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
+
 import in.jivanmuktas.www.marg.R;
 
 import org.json.JSONArray;
@@ -31,14 +39,17 @@ import java.util.Locale;
 
 import in.jivanmuktas.www.marg.constant.Constant;
 import in.jivanmuktas.www.marg.database.JivanmuktasDB;
+import in.jivanmuktas.www.marg.model.City;
+import in.jivanmuktas.www.marg.model.Country;
 import in.jivanmuktas.www.marg.model.CountrySetGet;
 import in.jivanmuktas.www.marg.network.HttpClient;
 import in.jivanmuktas.www.marg.network.HttpGetHandler;
 
 public class RegistrationActivity extends BaseActivity {
-    EditText etFirstName,etLastName,etDob,etAge,etPass,etRePass,etEmail,etPhoneNumber;
+    EditText etFirstName,etLastName,etDob,etAge,etPass,etRePass,etEmail,etPhoneNumber,etHelpAnother;
     RadioGroup title,rgGender;
     Spinner spinner_satsang,spinner_edu,spinner_country;
+    SearchableSpinner spinner_city;
 
     private SimpleDateFormat dateFormatter;
     private DatePickerDialog datePickerDialog;
@@ -50,7 +61,9 @@ public class RegistrationActivity extends BaseActivity {
     JivanmuktasDB jivanmuktasDB;
     Cursor result;
     ArrayList<String> satsang;
-    ArrayList<CountrySetGet> country;
+    ArrayList<String> select;
+    ArrayList<Country> countries = new ArrayList<>();
+    ArrayList<City> cities = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +96,8 @@ public class RegistrationActivity extends BaseActivity {
         spinner_satsang = (Spinner) findViewById(R.id.spinner_satsang);
         spinner_edu = (Spinner) findViewById(R.id.spinner_edu);
         spinner_country = (Spinner) findViewById(R.id.spinner_country);
+        spinner_city = (SearchableSpinner) findViewById(R.id.spinner_city);
+        etHelpAnother = (EditText) findViewById(R.id.etHelpAnother);
         button_Sign_Up = (Button)findViewById(R.id.button_Sign_Up);
         /////////////////////************************///////////////////
         button_Sign_Up.setOnClickListener(new View.OnClickListener() {
@@ -118,20 +133,17 @@ public class RegistrationActivity extends BaseActivity {
 
         ////////// Spinner For Country
         //CustomSpinner(spinner_country, R.array.country);
-        new GetCountryList().execute();
+        SetCountrySpinner();
         //new GetSatsangChapter().execute();
         ////////// Spinner For Education
         CustomSpinner(spinner_edu, R.array.education);
-
 
         spinner_country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position!=0) {
-                    new GetSatsangChapter().execute("" + country.get(position-1).getCOUNTRY_ID());
-                    /// Set Country code
-                    String[] array= getResources().getStringArray(R.array.country_code);
-                    countryCode = array[position];
+                    new GetSatsangChapter().execute("" + position);
+                    SetCitySpinner(countries.get(position).getCountry_id());
                 }else {
                     /////// If Country selected position is 0
                     satsang = new ArrayList<>();
@@ -139,6 +151,12 @@ public class RegistrationActivity extends BaseActivity {
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(RegistrationActivity.this, android.R.layout.simple_spinner_item, satsang);
                     adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     spinner_satsang.setAdapter(adapter);
+                    /////// If Country selected position is 0
+                    select = new ArrayList<>();
+                    select.add("Select City");
+                    ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(RegistrationActivity.this, android.R.layout.simple_spinner_item, select);
+                    adapter2.setDropDownViewResource(R.layout.spinner_dropdown_item);
+                    spinner_city.setAdapter(adapter2);
                 }
             }
 
@@ -186,11 +204,18 @@ public class RegistrationActivity extends BaseActivity {
         }else if (spinner_country.getSelectedItemPosition() == 0) {
             SnackbarRed(R.id.reglayout,"Please Choose Country Name");
             flag = false;
+        }else if (spinner_city.getSelectedItemPosition() == 0) {
+            SnackbarRed(R.id.reglayout,"Please Choose City Name");
+            flag = false;
         }else if (spinner_satsang.getSelectedItemPosition() == 0) {
             SnackbarRed(R.id.reglayout,"Please Choose Satsang Chapter");
             flag = false;
         }else if (spinner_edu.getSelectedItemPosition() == 0) {
             SnackbarRed(R.id.reglayout,"Please Choose Education");
+            flag = false;
+        }else if (etHelpAnother.getText().toString().trim().length() == 0 ) {
+            etHelpAnother.setError("Please enter Other Activity");
+            editTextFocus(etHelpAnother);
             flag = false;
         }
         return flag;
@@ -205,6 +230,100 @@ public class RegistrationActivity extends BaseActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+    //******************************
+    public void SetCountrySpinner(){
+        String url = Constant.GET_COUNTRY_LIST;
+
+// prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url,null,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject object = response;
+                            if (object.getString("status").equals("true")){
+                                JSONArray jsonArray = object.getJSONArray("response");
+                                for (int i=0;i<jsonArray.length();i++){
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    Country country = new Country();
+                                    country.setCountry_id(jsonObject.getString("country_id"));
+                                    country.setCountry_name(jsonObject.getString("country_name"));
+                                    countries.add(country);
+                                }
+                                ArrayAdapter aa = new ArrayAdapter(RegistrationActivity.this,android.R.layout.simple_spinner_item,countries);
+                                aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spinner_country.setAdapter(aa);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        // display response
+                        Log.d("!!!!!Response", response.toString());
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        );
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+    /////***********************//////////////////
+    public void SetCitySpinner(String id){
+        String url =Constant.GET_CITY_LIST+id;
+
+// prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url,null,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject object = response;
+                            if (object.getString("status").equals("true")){
+                                JSONArray jsonArray = object.getJSONArray("response");
+                                for (int i=0;i<jsonArray.length();i++){
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    City city = new City();
+                                    city.setCity_id(jsonObject.getString("city_id"));
+                                    city.setCity_name(jsonObject.getString("city_name"));
+                                    cities.add(city);
+                                }
+                                ArrayAdapter arr=new ArrayAdapter(RegistrationActivity.this, R.layout.spinner_dropdown_item, cities);
+                                spinner_city.setTitle("Select City");
+                                spinner_city.setAdapter(arr);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        // display response
+                        Log.d("!!!!!Response", response.toString());
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        );
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
+    ///////***********************//////////////////
     /////***********************//////////////////
     public class SubmitRegistration extends AsyncTask<String, String, Boolean> {
 
@@ -230,9 +349,11 @@ public class RegistrationActivity extends BaseActivity {
                 reqObj.put("CONTACT", etPhoneNumber.getText().toString().trim());
                 reqObj.put("PASSWORD", etPass.getText().toString().trim());
                 reqObj.put("COUNTRY", String.valueOf(spinner_country.getSelectedItemPosition()));
-                reqObj.put("COUNTRY_CODE", countryCode);
+                reqObj.put("CITY", String.valueOf(spinner_city.getSelectedItemPosition()));
+                reqObj.put("COUNTRY_CODE", "+91");
                 reqObj.put("CHAPTER", spinner_satsang.getSelectedItem().toString());
                 reqObj.put("EDUCATION", String.valueOf(spinner_edu.getSelectedItemPosition()));
+                reqObj.put("ACTIVITY", etHelpAnother.getText().toString().trim());
 
                 reqArr.put(reqObj);
                 System.out.println("!!reqArr  " + reqArr);
@@ -379,7 +500,7 @@ public class RegistrationActivity extends BaseActivity {
         }
     }
 //************************#****************************#*************************#**************************#
-public class GetCountryList extends AsyncTask<String, String, Boolean> {
+/*public class GetCountryList extends AsyncTask<String, String, Boolean> {
     JSONObject jsonObject;
     JSONArray jsonArray;
     @Override
@@ -445,7 +566,7 @@ public class GetCountryList extends AsyncTask<String, String, Boolean> {
             CustomToast("Server Busy! \nPlease try again later.");
         }
     }
-}
+}*/
 
     //************************#****************************#*************************#**************************#
     ///////////// Hide Menu

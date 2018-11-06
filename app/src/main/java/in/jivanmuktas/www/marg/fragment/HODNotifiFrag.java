@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +20,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import in.jivanmuktas.www.marg.dataclass.HODNotiSetGet;
 import in.jivanmuktas.www.marg.activity.Notification;
 import in.jivanmuktas.www.marg.R;
 import in.jivanmuktas.www.marg.database.DataBase;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by developer on 03-Nov-17.
@@ -33,7 +45,7 @@ import java.util.ArrayList;
 public class HODNotifiFrag extends Fragment {
     ListView hodNotiList;
     DataBase dataBase;
-    TextView tip;
+    TextView no_notification;
     public ProgressDialog prsDlg;
     ArrayList<HODNotiSetGet> notificationData = new ArrayList<HODNotiSetGet>();
     @Override
@@ -44,18 +56,63 @@ public class HODNotifiFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.hodnotification, container, false);
+        no_notification = (TextView) view.findViewById(R.id.no_notification);
+        no_notification.setVisibility(View.GONE);
         hodNotiList = (ListView) view.findViewById(R.id.hodNotiList);
-        tip = (TextView)  view.findViewById(R.id.tiphod);
-        tip.setVisibility(View.GONE);
+        hodNotiList.setVisibility(View.GONE);
         return view;
     }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("NOTIFICATION");
+
+        ref.child("HOD").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.i("!!!!dataSnapshot",dataSnapshot+"");
+
+                    try {
+                        String value = dataSnapshot.getValue().toString();
+                        JSONObject object = new JSONObject(value);
+                        Iterator<String> iterator = object.keys();
+                        while (iterator.hasNext()) {
+                            String currentKey = iterator.next();
+                            JSONObject obj = object.getJSONObject(currentKey);
+                            HODNotiSetGet hodNotiSetGet = new HODNotiSetGet();
+                            hodNotiSetGet.setId(currentKey);
+                            hodNotiSetGet.setNotifcation(obj.getString("MESSAGE"));
+                            hodNotiSetGet.setDate(obj.getString("DATE"));
+                            hodNotiSetGet.setMobile(obj.getString("MOBILE"));
+                            hodNotiSetGet.setEmail(obj.getString("EMAIL"));
+                            notificationData.add(hodNotiSetGet);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    if (notificationData.size() != 0) {
+                        NotificationAdapter adapter = new NotificationAdapter();
+                        hodNotiList.setAdapter(adapter);
+                        no_notification.setVisibility(View.GONE);
+                        hodNotiList.setVisibility(View.VISIBLE);
+                    } else {
+                        no_notification.setVisibility(View.VISIBLE);
+                        hodNotiList.setVisibility(View.GONE);
+                    }
+                }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+
 
         dataBase = new DataBase(getActivity());
 
-        Cursor result = dataBase.displayHOD();////////*//**************(((((((( Get Value from Data base  )))))))*************//*////////////
+        /*Cursor result = dataBase.displayHOD();
         if (result.getCount() != 0) {
             result.moveToLast();///// Last to first data fetch
             do {
@@ -73,21 +130,13 @@ public class HODNotifiFrag extends Fragment {
                 hodNotiSetGet.setEmail(Email);
                 notificationData.add(hodNotiSetGet);
             } while (result.moveToPrevious());
-        }
+        }*/
 
-        if(notificationData.size() != 0) {
-            tip.setVisibility(View.VISIBLE);
-            NotificationAdapter adapter = new NotificationAdapter();
-            hodNotiList.setAdapter(adapter);
-            //hodNotiList.
-        }else {
-            Toast.makeText(getActivity(), "You have no Notification", Toast.LENGTH_SHORT).show();
-            tip.setVisibility(View.GONE);
-        }
+
 
 
         //Delete Item From List Start
-        hodNotiList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        /*hodNotiList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
@@ -117,7 +166,7 @@ public class HODNotifiFrag extends Fragment {
                         .show();
                 return false;
             }
-        });
+        });*/
         //Delete Item From List End
     }
 

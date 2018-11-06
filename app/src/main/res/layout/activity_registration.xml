@@ -497,7 +497,34 @@
                     android:textSize="20sp"/>
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="1dp"
+                    android:paddingEnd="2dp"
+                    android:paddingStart="2dp"
+                    android:paddingTop="5dp"
+                    android:text="@string/select_city"
+                    android:textColor="@color/colorPrimaryDeep"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-condensed" />
 
+                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                    android:id="@+id/spinner_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textSize="20sp"/>
+
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -558,7 +585,44 @@
                     android:padding="10dp"
                     android:textSize="20sp" />
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
 
+                <!--<TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorBackground"
+                    android:paddingBottom="1dp"
+                    android:paddingEnd="2dp"
+                    android:paddingStart="2dp"
+                    android:paddingTop="5dp"
+                    android:text="@string/phone"
+                    android:textColor="@color/colorPrimaryDeep"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />-->
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/etHelpAnother"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:gravity="bottom|start"
+                        android:hint="@string/help_in_other_activity"
+                        android:imeOptions="actionNext"
+                        android:padding="10dp"
+                        android:textSize="20sp"
+                        android:textColorHint="@color/colorEditText"/>
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
             <Button
                 android:id="@+id/button_Sign_Up"
                 android:layout_width="match_parent"

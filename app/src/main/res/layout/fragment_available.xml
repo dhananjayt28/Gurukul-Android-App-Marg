@@ -98,12 +98,12 @@
                         android:layout_height="40dp"
                         android:src="@drawable/search" />
                 </LinearLayout>
-                <in.jivanmuktas.www.marg.utils.ExpandableHeightListView
+                <LinearLayout
                     android:id="@+id/nivrityAvalList"
                     android:layout_width="match_parent"
-                    android:layout_height="fill_parent">
-
-                </in.jivanmuktas.www.marg.utils.ExpandableHeightListView>
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical">
+                </LinearLayout>
 
             </LinearLayout>
 
