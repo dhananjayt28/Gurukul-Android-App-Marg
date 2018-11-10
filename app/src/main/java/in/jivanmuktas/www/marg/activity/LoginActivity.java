@@ -1,6 +1,7 @@
 package in.jivanmuktas.www.marg.activity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,7 +29,7 @@ public class LoginActivity extends BaseActivity {
     JSONObject jsonResponse;
     EditText userId, userPass;
     Button button_Sign_In, button_Sign_Up;
-TextView forgetPassWord;
+    TextView forgetPassWord;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,8 +57,11 @@ TextView forgetPassWord;
                 if (isNetworkAvailable()) {
                     if (isValid()) {
                         new LoginAsynctask().execute();
+
                     }
                 }
+              // login();
+
             }
         });
 
@@ -80,7 +84,7 @@ TextView forgetPassWord;
                         } else if(appKey.getText().toString().equals("")) {
                             CustomToast("Please enter valid Key.");
                         }else{
-                            CustomToast("You entered a Worng Key.");
+                            CustomToast("You entered a Wrong Key.");
                         }
                         dialog.dismiss();
                     }
@@ -111,6 +115,10 @@ TextView forgetPassWord;
         return flag;
     }
 
+    /*public void login(){
+        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+        startActivity(intent);
+    }*/
     public class LoginAsynctask extends AsyncTask<Void, Void, Boolean> {
         @Override
         protected void onPreExecute() {
@@ -121,13 +129,13 @@ TextView forgetPassWord;
         @Override
         protected Boolean doInBackground(Void... voids) {
             try {
-                JSONArray reqArr = new JSONArray();
+        //        JSONArray reqArr = new JSONArray();
                 JSONObject reqObj = new JSONObject();
                 reqObj.put("USER_ID", userId.getText().toString().trim());
                 reqObj.put("PASSWORD", userPass.getText().toString());
 
-                reqArr.put(reqObj);
-                System.out.println("!!!reqArr  " + reqArr);
+        //        reqArr.put(reqObj);
+                System.out.println("!!!reqObj  " + reqObj);  //OBJECT reqObj USED INSTEAD IF ARRAY  reqArr
 
                 String response = HttpClient.SendHttpPost(Constant.LOGIN, reqObj.toString());
 
@@ -188,7 +196,7 @@ TextView forgetPassWord;
                     JSONArray array = jsonResponse.getJSONArray("response");
 
                     JSONObject object = array.getJSONObject(0);
-                    String id = object.getString("USERID");
+                    String id = object.getString("USER_ID");
                     String emailId = object.getString("EMAIL");
                     String username = object.getString("NAME");
                     String education = object.getString("EDUCATION");
@@ -196,13 +204,17 @@ TextView forgetPassWord;
                     String dateOfBirth = object.getString("DOB");
                     String gender = object.getString("GENDER");
                     String contactNo = object.getString("CONTACT_NO");
-                    String country = object.getString("COUNTRY");
                     String countryCode = object.getString("COUNTRY_CODE");
+                    String country = object.getString("COUNTRY");
                     ////////////////////
-                    String isActive = object.getString("ISACTIVE");
-                    String isApproved = object.getString("ISAPPROVED");
                     String isAccLock = object.getString("IS_ACC_LOCK");
+                    String initial_login = object.getString("INITIAL_LOGIN");
                     String loginAttempt = object.getString("LOGIN_ATTEMPT");
+                //    String isApproved = object.getString("ISAPPROVED");
+                    String isActive = object.getString("ISACTIVE");
+                    String Status = object.getString("STATUS");
+                    String Status_id = object.getString("STATUS_ID");
+                    //String user_account_status_id =object.getString("user_account_status_id");
 
                     //If ISACTIVE==0 Account is Blocked
                     //If IS_ACC_LOCK==1 Account is Locked
@@ -216,9 +228,10 @@ TextView forgetPassWord;
                         if (isAccLock.equals("1")) {
                             CustomToast("Your Account is Lock. Please reset your password.");
                         } else {
-                            if (isApproved.equals("0")) {
+                            //if (Status.equals("0")) {
+                            if (Status.equals("0")) {
                                 CustomToast("Your Account under verification process.");
-                            }else if(isApproved.equals("1")){
+                            } else if (Status_id.equals("18")) {
                                 CustomToast("Login Successful");
                                 app.setSession(true);
                                 app.setUserId(id);
@@ -234,7 +247,7 @@ TextView forgetPassWord;
                                 app.setChapter(chapter);
                                 //Save To fire base
                                 final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                DatabaseReference user = database.getReference("User_Details/"+app.getUserId());
+                                DatabaseReference user = database.getReference("User_Details/" + app.getUserId());
 
                                 user.child("USER_ID").setValue(app.getUserId());
                                 user.child("USER_NAME").setValue(app.getUserName());
@@ -246,15 +259,16 @@ TextView forgetPassWord;
                                 user.child("EMAIL").setValue(app.getEmail());
                                 user.child("COUNTRY").setValue(app.getCountry());
                                 user.child("CHAPTER").setValue(app.getChapter());
-                                user.child("FCM_TOKEN").setValue( FirebaseInstanceId.getInstance().getToken());
+                                user.child("FCM_TOKEN").setValue(FirebaseInstanceId.getInstance().getToken());
                                 //****************************************************
 
                                 CustomIntent(MainActivity.class);
                                 LoginActivity.this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                            }else if(isApproved.equals("2")){
+                            }/*else if (isApproved.equals("2")) {
                                 CustomToast("Please contact Support at appsupport@gurukul.com with a description of the issue faced by you.");
-                            }
+                            } */
                         }
+
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

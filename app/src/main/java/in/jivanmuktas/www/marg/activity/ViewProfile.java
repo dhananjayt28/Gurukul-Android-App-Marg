@@ -40,7 +40,7 @@ import in.jivanmuktas.www.marg.network.HttpPutHandler;
 
 public class ViewProfile extends BaseActivity {
     private static final String TAG = "ViewProfile";
-    TextView userName,userEdu,userDob,userAge,userGender,userContact,userEmail,userCountry,userChapter,userPin;
+    TextView userName,userEdu,userDob,userAge,userGender,userContact,userEmail,userCountry,userChapter,userPin,userCity;
     RadioGroup rgTitle,rgGender;
     RadioButton mr,mrs,miss,rbMale,rbFemale;
     EditText etName,etDob,etAge,etEmail,etPhoneNumber,etPostalCode;
@@ -90,6 +90,7 @@ public class ViewProfile extends BaseActivity {
         userEmail = (TextView) findViewById(R.id.userEmail);
         userCountry = (TextView) findViewById(R.id.userCountry);
         userChapter = (TextView) findViewById(R.id.userChapter);
+        userCity = (TextView) findViewById(R.id.userCity);
         userPin = (TextView) findViewById(R.id.userPin);
         btEdit = (Button) findViewById(R.id.btEdit);
         ////#########################################################////
@@ -265,7 +266,7 @@ if(isNetworkAvailable()){
                 int indexGen = rgGender.indexOfChild(rb);
                 reqObj.put("GENDER",String.valueOf(indexGen));// 0 = male, 1 = Female
                 reqObj.put("DOB", etDob.getText().toString().trim());
-                reqObj.put("COUNTRY_CODE", "+91");
+                reqObj.put("COUNTRY_CODE", " ");
                 reqObj.put("CONTACT", etPhoneNumber.getText().toString().trim());
                 reqObj.put("EMAIL", etEmail.getText().toString().trim());
                 reqObj.put("POSTAL_CODE", etPostalCode.getText().toString().trim());
@@ -277,6 +278,7 @@ if(isNetworkAvailable()){
                 System.out.println("!!reqArr  " + reqArr);
 
                 String response = HttpPutHandler.SendHttpPut(Constant.ProfileUpdate, reqObj.toString());
+
 
                 Log.d("!!!Response", response.toString());
                 jsonResponse = new JSONObject(response);
@@ -427,7 +429,9 @@ if(isNetworkAvailable()){
                 reqArr.put(reqObj);
                 System.out.println("!!!reqArr  " + reqArr);
 
-                String response = handler.makeServiceCall(Constant.ProfileView+"?id="+app.getUserId());
+            //    String response = handler.makeServiceCall(Constant.ProfileView+"?id="+app.getUserId());
+                String response = handler.makeServiceCall(Constant.ProfileView+"?user_id="+app.getUserId());
+             //   String response = handler.makeServiceCall(Constant.GET_USER_DATA+"?id="+app.getUserId());
 
                 Log.d("!!Response", response.toString());
                 jsonResponse = new JSONObject(response);
@@ -455,18 +459,21 @@ if(isNetworkAvailable()){
                     JSONArray array = jsonResponse.getJSONArray("response");
 
                     JSONObject object = array.getJSONObject(0);
-                    String title = object.getString("TITLE");
+                    String title = object.getString("TITLE"); //na
                     String username = object.getString("NAME");
-                    String gender = object.getString("GENDER");
-                    String dateOfBirth = object.getString("DOB");
-                    String countryCode = object.getString("COUNTRY_CODE");
-                    String contactNo = object.getString("MOBILE_NO");
+                    String gender = object.getString("GENDER"); // value
+                    String dateOfBirth = object.getString("DOB"); // proper formatting
+                //    String countryCode = object.getString("COUNTRY_CODE"); // country code
+                    String contactNo = object.getString("MOBILE_NO"); // only mobile no.
                     String emailId = object.getString("EMAIL_ID");
                     String country = object.getString("COUNTRY");
+                    String City  = object.getString("CITY");
+                 //   String status = object.getString("STATUS");
+                 //   String BusinessProfile = object.getString("ROLE");
                     chapter = object.getString("SATSANG_CHAPTER");
                     String education = object.getString("EDUCATION");
-                    //String postal_code = object.getString("POSTAL_CODE");
-                    String postal_code = "0";
+                 //   String help_in_other_activity = object.getString("HELP_IN_OTHER_ACTIVITY");
+                //    String postal_code = "0";
                     ////////////////////
                    /* title = "1";// Please Remove this line
                     gender="1";// Please Remove this line
@@ -476,13 +483,16 @@ if(isNetworkAvailable()){
                     userName.setText(UserData.getTitle(title)+" "+username);
                     userDob.setText(dateOfBirth);
                     userAge.setText(CalculateAge(dateOfBirth));
-                    userGender.setText(UserData.getGender(gender));
-                    userContact.setText(countryCode+" "+contactNo);
+                    userGender.setText(gender);
+                    userCity.setText(City);
+                    userContact.setText(contactNo);
                     userEmail.setText(emailId);
-                    userCountry.setText(UserData.getCountry(country));
+                    userCountry.setText(country);
                     userChapter.setText(chapter);
-                    userEdu.setText(UserData.getEducation(education));
-                    userPin.setText(postal_code);
+                    //userEdu.setText(status); //check
+                    userEdu.setText(education);
+                    //userPin.setText(help_in_other_activity); //check
+                    //userPin.setText(BusinessProfile);  //check
 
                     ///////////***********************
 
@@ -493,7 +503,7 @@ if(isNetworkAvailable()){
                     etDob.setText(dateOfBirth);
                     etEmail.setText(emailId);
                     etPhoneNumber.setText(contactNo);
-                    etPostalCode.setText(postal_code);
+                    //etPostalCode.setText(postal_code);
 
                     ////////// Spinner For Country
                     CustomSpinner(spinner_country, R.array.country);
@@ -501,9 +511,9 @@ if(isNetworkAvailable()){
                     spinner_country.setSelection(Integer.parseInt(country));
 
                     ////////// Spinner For Education
-                    CustomSpinner(spinner_edu, R.array.education);
+                //    CustomSpinner(spinner_edu, R.array.education);
 
-                    spinner_edu.setSelection(Integer.parseInt(education));
+                //    spinner_edu.setSelection(Integer.parseInt(education));
 
                 } catch (Exception e) {
                     e.printStackTrace();

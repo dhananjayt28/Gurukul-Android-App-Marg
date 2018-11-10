@@ -11,7 +11,9 @@ public class Constant {
 
    public static final String Registration = BASE_URL + "user-registration";
 
-   public static final String ProfileView = BASE_URL + "get-user-profile";
+   //public static final String ProfileView = BASE_URL + "get-user-profile";
+   public static final String ProfileView = BASE_URL_NEW + "get-user-data";
+   //public static final String GET_USER_DATA = BASE_URL_NEW + "get-user-data";
 
    public static final String ProfileUpdate = BASE_URL + "user-profile-update";
 
@@ -41,6 +43,6 @@ public class Constant {
 
    public static final String GET_COACHING_DATA = BASE_URL_NEW +"get-coaching-detail-data";
 
-   public static final String GET_EVENT_CALENDAR_BREAKUP_DATA = BASE_URL_NEW + "get-event-calendar-breakup-data" + "?event_id=9";
+   public static final String GET_EVENT_CALENDAR_BREAKUP_DATA = BASE_URL_NEW + "get-event-calendar-breakup-data?event_id=" ;
 
 }

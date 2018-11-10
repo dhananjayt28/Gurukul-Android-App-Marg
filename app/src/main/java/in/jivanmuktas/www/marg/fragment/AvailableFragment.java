@@ -25,6 +25,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,6 +41,7 @@ import in.jivanmuktas.www.marg.R;
 import in.jivanmuktas.www.marg.activity.CreateScheduleActivity;
 import in.jivanmuktas.www.marg.constant.Constant;
 import in.jivanmuktas.www.marg.network.HttpGetHandler;
+import in.jivanmuktas.www.marg.singleton.VolleySingleton;
 import in.jivanmuktas.www.marg.utils.ExpandableHeightListView;
 
 import static in.jivanmuktas.www.marg.activity.BaseActivity.AssetJSONFile;
@@ -188,6 +194,7 @@ public class AvailableFragment extends Fragment {
             }
         });
         //***************************************************************************************
+        //Search in the NivrittiGurukul Search column
         serchNivrity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -276,6 +283,7 @@ public class AvailableFragment extends Fragment {
             if (aBoolean) {
                 if (ckEvent.equals("1")) {//// Set Nivrity List
                     SetNivrittyList();
+                    //NivrittiList();
                 }
                 if (ckEvent.equals("2")) {//// Set WorkShop List
                     WorkshopListAdapter Adapter = new WorkshopListAdapter();
@@ -337,6 +345,10 @@ public class AvailableFragment extends Fragment {
     }
 
     //***************************************************************************************
+    public void NivrittiList(){
+        Toast.makeText(getContext(), "Nivritti List", Toast.LENGTH_SHORT).show();
+    }
+   
     public void SetNivrittyList() {
             JSONObject object;
             try {
@@ -345,8 +357,8 @@ public class AvailableFragment extends Fragment {
                     final String startDate, endDate, female, male, event;
                     startDate = object.getString("START_DATE");
                     endDate = object.getString("END_DATE");
-                    female = object.getString("FEMALE");
-                    male = object.getString("MALE");
+                 //   female = object.getString("FEMALE");
+                //    male = object.getString("MALE");
                     event = object.getString("EVENT_ID");
                     LayoutInflater layoutInflater = LayoutInflater.from(getContext());
                     View view = layoutInflater.inflate(R.layout.nivritylist, null);
@@ -362,8 +374,8 @@ public class AvailableFragment extends Fragment {
                     final LinearLayout report_view = (LinearLayout) view.findViewById(R.id.report_view);
                     report_view.setVisibility(View.GONE);
 
-                    //dt.setText(startDate + "   -   " + endDate);
-                    dt.setText("July 2018");
+                    dt.setText(startDate + "   -   " + endDate);
+                    //dt.setText("July 2018 ");
                     //f.setText(female);
                     // m.setText(male);
                     register.setOnClickListener(new View.OnClickListener() {
@@ -385,7 +397,36 @@ public class AvailableFragment extends Fragment {
                                 report_view.setVisibility(View.VISIBLE);
                                 report_header.setVisibility(View.VISIBLE);
 
-                                try {
+                                final String url = Constant.GET_EVENT_CALENDAR_BREAKUP_DATA + event;
+                                JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                                        new Response.Listener<JSONObject>() {
+                                            @Override
+                                            public void onResponse(JSONObject object) {
+                                                try {
+                                                    if(object.getString("status").equals("true")){
+                                                        Log.d("",object.toString());
+                                                        JSONArray arr = object.getJSONArray("response");
+                                                        report_view.removeAllViews();
+                                                        for (int i = 0; i < arr.length(); i++) {
+                                                            JSONObject data = arr.getJSONObject(i);
+                                                            View v = SetReportView(data.getString("DATE"), data.getString("EVENT_REQ_MALE"), data.getString("EVENT_REQ_FEMALE"));
+                                                            report_view.addView(v);
+                                                        }
+                                                    }
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+
+                                            }
+                                        }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+
+                                    }
+                                });
+                                VolleySingleton.getInstance(getContext()).addToRequestQueue(objectRequest);
+
+                                /*try {
                                     String s = AssetJSONFile("req_report.json", getActivity());
                                     JSONObject obj = new JSONObject(s);
                                     JSONArray arr = obj.getJSONArray("response");
@@ -399,7 +440,7 @@ public class AvailableFragment extends Fragment {
                                     e.printStackTrace();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
-                                }
+                                }*/
                             } else {
                                 requireVolunteers.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_down, 0);
                                 report_view.setVisibility(View.GONE);
