@@ -381,8 +381,9 @@ public class CreateScheduleActivity extends BaseActivity {
                 JSONArray reqArr = new JSONArray();
                 JSONObject reqObj = new JSONObject();
                 if(getIntent().getExtras().getString("PROJECT").equals("Nivritti Gurukul")){
-                    reqObj.put("EVENT_ID",getIntent().getExtras().getString("EVENT"));
+                    reqObj.put("EVENT_SYS_ID",getIntent().getExtras().getString("EVENT"));
                     reqObj.put("USER_ID",app.getUserId());
+                    reqObj.put("EVENT_TYPE","1");
                     reqObj.put("START_DATE", scheStartDate.getText().toString());
                     reqObj.put("END_DATE", scheEndDate.getText().toString());
                     reqObj.put("COMMENT",etComment.getText().toString());
@@ -398,8 +399,9 @@ public class CreateScheduleActivity extends BaseActivity {
                     }
                     reqObj.put("SUBJECTID",subIds);
                 }else if(getIntent().getExtras().getString("PROJECT").equals("Workshop")){
-                    reqObj.put("EVENT_ID",getIntent().getExtras().getString("EVENT"));
+                    reqObj.put("EVENT_SYS_ID",getIntent().getExtras().getString("EVENT"));
                     reqObj.put("USER_ID",app.getUserId());
+                    reqObj.put("EVENT_TYPE","2");
                     reqObj.put("START_DATE", scheStartDate.getText().toString());
                     reqObj.put("END_DATE", scheEndDate.getText().toString());
                     reqObj.put("COMMENT",etComment.getText().toString());
@@ -418,7 +420,8 @@ public class CreateScheduleActivity extends BaseActivity {
                     }
 
                 }else if (getIntent().getExtras().getString("PROJECT").equals("Gita Distribution")){
-                    reqObj.put("EVENT_ID",getIntent().getExtras().getString("EVENT") );
+                    reqObj.put("EVENT_SYS_ID",getIntent().getExtras().getString("EVENT") );
+                    reqObj.put("EVENT_TYPE","3");
                     reqObj.put("USER_ID",app.getUserId());
                 }
 

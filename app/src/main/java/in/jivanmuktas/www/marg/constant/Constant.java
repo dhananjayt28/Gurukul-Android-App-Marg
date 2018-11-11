@@ -28,7 +28,7 @@ public class Constant {
    public static final String GET_COUNTRY_LIST = BASE_URL + "get-country-list";
    public static final String GET_CITY_LIST = BASE_URL + "get-city-data?id=";
 
-   public static final String EVENT_REGISTRTION = BASE_URL + "event-registration";
+   public static final String EVENT_REGISTRTION = BASE_URL_NEW + "event-registration";
    public static final String GET_SUBJECT = BASE_URL + "get-education-data?educationid=";
 
    public static final String CANCEL_EVENT = BASE_URL + "event-registration-cancel";

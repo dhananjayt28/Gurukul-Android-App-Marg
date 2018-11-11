@@ -356,7 +356,7 @@ public class AvailableFragment extends Fragment {
                     object = responseArray.getJSONObject(i);
                     final String startDate, endDate, female, male, event;
                     startDate = object.getString("START_DATE");
-                    endDate = object.getString("END_DATE");
+                   // endDate = object.getString("END_DATE");
                  //   female = object.getString("FEMALE");
                 //    male = object.getString("MALE");
                     event = object.getString("EVENT_ID");
@@ -374,7 +374,8 @@ public class AvailableFragment extends Fragment {
                     final LinearLayout report_view = (LinearLayout) view.findViewById(R.id.report_view);
                     report_view.setVisibility(View.GONE);
 
-                    dt.setText(startDate + "   -   " + endDate);
+                   // dt.setText(startDate + "   -   " + endDate);
+                    dt.setText(startDate);
                     //dt.setText("July 2018 ");
                     //f.setText(female);
                     // m.setText(male);
@@ -384,7 +385,7 @@ public class AvailableFragment extends Fragment {
                             Intent i = new Intent(getActivity(), CreateScheduleActivity.class);
                             i.putExtra("PROJECT", "Nivritti Gurukul");
                             i.putExtra("START_DATE", startDate);
-                            i.putExtra("END_DATE", endDate);
+                            //i.putExtra("END_DATE", endDate);
                             i.putExtra("EVENT", event);
                             startActivity(i);
                         }
