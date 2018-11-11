@@ -18,15 +18,16 @@ public class Constant {
    public static final String ProfileUpdate = BASE_URL + "user-profile-update";
 
    public static final String AvailableEvent = BASE_URL + "get-event-data?eventid=";
-   public static final String ApprovedEvent = BASE_URL + "get-approved-event-data?id=";
-   public static final String RejectEvent = BASE_URL + "get-rejected-event-data?id=";
+   public static final String ApprovedEvent = BASE_URL_NEW + "get-approved-event-data?User_id=";
+   public static final String RejectEvent = BASE_URL_NEW + "get-rejected-event-data?User_id=";
 
    public static final String PASSWORD_RESET = BASE_URL + "password-reset";
    public static final String PASSWORD_UPDATE = BASE_URL + "password-update";
    public static final String GET_SATSANG_CHAPTER = BASE_URL + "get-satsang-chapter-data?id=";
 
-   public static final String GET_COUNTRY_LIST = BASE_URL + "get-country-list";
-   public static final String GET_CITY_LIST = BASE_URL + "get-city-data?id=";
+   public static final String GET_COUNTRY_LIST = BASE_URL_NEW + "get-master-data-list?category_name=MASTER COUNTRY";
+
+   public static final String GET_CITY_LIST = BASE_URL_NEW + "get-master-data-list?category_name=MASTER CITY";
 
    public static final String EVENT_REGISTRTION = BASE_URL_NEW + "event-registration";
    public static final String GET_SUBJECT = BASE_URL + "get-education-data?educationid=";
@@ -44,5 +45,7 @@ public class Constant {
    public static final String GET_COACHING_DATA = BASE_URL_NEW +"get-coaching-detail-data";
 
    public static final String GET_EVENT_CALENDAR_BREAKUP_DATA = BASE_URL_NEW + "get-event-calendar-breakup-data?event_id=" ;
+
+   public static final String GET_EDUCATION_LIST = BASE_URL_NEW + "get-master-data-list?category_name=MASTER EDUCATION";
 
 }

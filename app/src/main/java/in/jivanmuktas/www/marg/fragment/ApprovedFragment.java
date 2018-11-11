@@ -217,7 +217,7 @@ public class ApprovedFragment extends Fragment {
     }
 
     public class GetApproveEvent extends AsyncTask<String, String, Boolean> {
-    String id = MyApplication.getInstance().getUserId();
+    String User_id = MyApplication.getInstance().getUserId();
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -235,9 +235,9 @@ public class ApprovedFragment extends Fragment {
             HttpGetHandler handler = new HttpGetHandler();
             String response;
             try {
-                response = handler.makeServiceCall(Constant.ApprovedEvent + id);
+                response = handler.makeServiceCall(Constant.ApprovedEvent + User_id);
                 //response = AssetJSONFile("ApprovedEvent.json",getActivity());
-                Log.i("!!!RequestApproved", Constant.ApprovedEvent + id);
+                Log.i("!!!RequestApproved", Constant.ApprovedEvent + User_id);
                 jsonResponse = new JSONObject(response);
                 Log.i("!!!ResponseApproved", response);
                 if (jsonResponse.getBoolean("status")) {

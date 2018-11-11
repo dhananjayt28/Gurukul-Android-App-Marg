@@ -134,7 +134,6 @@ public class RegistrationActivity extends BaseActivity {
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
                 datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-
                 datePickerDialog.show();
             }
         });
@@ -147,8 +146,7 @@ public class RegistrationActivity extends BaseActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position != 0 ){
                     countryId = countries.get(position).getCountry_id();
-
-                    new GetSatsangChapter().execute("" + countries.get(position-1).getCountry_id());
+                    new GetSatsangChapter().execute("" + countries.get(position).getCountry_id());
                     /// Set Country code
                     String[] array = getResources().getStringArray(R.array.country_code);
                     }
@@ -160,12 +158,10 @@ public class RegistrationActivity extends BaseActivity {
                     adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     spinner_satsang.setAdapter(adapter);
                 }
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
@@ -176,9 +172,7 @@ public class RegistrationActivity extends BaseActivity {
                 if(position != 0){
                     CityId = cities.get(position).getCity_id();
                 }
-
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -193,13 +187,11 @@ public class RegistrationActivity extends BaseActivity {
                     EducationId = edu.get(position).getEducation_id();
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
-        new GetSatsangChapter().execute();
+
     }
 
 
@@ -372,7 +364,6 @@ public class RegistrationActivity extends BaseActivity {
                                     education.setEducation_name(jsonObject.getString("LOV_NAME"));
                                     edu.add(education);
                                 }
-
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -395,6 +386,69 @@ public class RegistrationActivity extends BaseActivity {
     }
 
     ///////***********************//////////////////
+    public class GetSatsangChapter extends AsyncTask<String, String, Boolean> {
+        JSONObject jsonObject1;
+        JSONArray jsonArray1;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDailog();
+        }
+        //?id=0&eventid=1
+        @Override
+        protected Boolean doInBackground(String... params) {
+            String s = params[0];
+            HttpGetHandler handler = new HttpGetHandler();
+            try {
+                Log.i("!!!!URL",Constant.GET_SATSANG_CHAPTER+s);
+                String response = handler.makeServiceCall(Constant.GET_SATSANG_CHAPTER+s);
+                //String response = handler.makeServiceCall(Constant.GET_SATSANG_CHAPTER);
+                // response = AssetJSONFile("SatsangChapter.json",RegistrationActivity.this);
+                Log.d("!!!Response", response.toString());
+                jsonObject1 = new JSONObject(response);
+
+                jsonArray1 = jsonObject1.getJSONArray("response");
+                Log.i("!!!Response",response);
+                if(jsonObject1.getBoolean("status"))
+                    return true;
+                else
+                    return false;
+
+            } catch (Exception e) {
+                System.out.println("!! Reach here error " + e.getMessage());
+                e.printStackTrace();
+            }
+
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean s) {
+            super.onPostExecute(s);
+            dismissProgressDialog();
+
+            if(s) {
+                ArrayList<String> satsang = new ArrayList<>();
+                satsang.add("Select Chapter");
+                try {
+                    for (int i = 0; i < jsonArray1.length(); i++) {
+                        JSONObject object = jsonArray1.getJSONObject(i);
+                        satsang.add(object.getString("CHAPTER_NAME"));
+
+                    }
+                    ////////// Spinner For satsang
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(RegistrationActivity.this, android.R.layout.simple_spinner_item, satsang);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner_satsang.setAdapter(adapter);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }else {
+                CustomToast("No Data Found.");
+            }
+        }
+    }
     /////***********************//////////////////
     public class SubmitRegistration extends AsyncTask<String, String, Boolean> {
 
@@ -464,6 +518,15 @@ public class RegistrationActivity extends BaseActivity {
     }
 
 
+
+    ///////////// Hide Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        /* Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);*/
+        return false;
+    }
+
     /////////////////***********////************//////////////////
    /* public class GetSatsangChapter extends AsyncTask<String, String, Boolean> {
 
@@ -508,68 +571,7 @@ public class RegistrationActivity extends BaseActivity {
         }
     }*/
 
-    public class GetSatsangChapter extends AsyncTask<String, String, Boolean> {
-        JSONObject jsonObject1;
-        JSONArray jsonArray1;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showProgressDailog();
-        }
-        //?id=0&eventid=1
-        @Override
-        protected Boolean doInBackground(String... params) {
-            String s = params[0];
-            HttpGetHandler handler = new HttpGetHandler();
-            try {
-                String response = handler.makeServiceCall(Constant.GET_SATSANG_CHAPTER+s);
-                //String response = handler.makeServiceCall(Constant.GET_SATSANG_CHAPTER);
-               // response = AssetJSONFile("SatsangChapter.json",RegistrationActivity.this);
-                Log.d("!!!Response", response.toString());
-                jsonObject1 = new JSONObject(response);
 
-                jsonArray1 = jsonObject1.getJSONArray("response");
-                Log.i("!!!Response",response);
-                if(jsonObject1.getBoolean("status"))
-                    return true;
-                else
-                    return false;
-
-            } catch (Exception e) {
-                System.out.println("!! Reach here error " + e.getMessage());
-                e.printStackTrace();
-            }
-
-            return false;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean s) {
-            super.onPostExecute(s);
-            dismissProgressDialog();
-
-            if(s) {
-                ArrayList<String> satsang = new ArrayList<>();
-                satsang.add("Select Chapter");
-                try {
-                    for (int i = 0; i < jsonArray1.length(); i++) {
-                        JSONObject object = jsonArray1.getJSONObject(i);
-                        satsang.add(object.getString("CHAPTER_NAME"));
-
-                    }
-                    ////////// Spinner For satsang
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(RegistrationActivity.this, android.R.layout.simple_spinner_item, satsang);
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spinner_satsang.setAdapter(adapter);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }else {
-                CustomToast("Server Busy! \nPlease try again later.");
-            }
-        }
-    }
 //************************#****************************#*************************#**************************#
 /*public class GetCountryList extends AsyncTask<String, String, Boolean> {
     JSONObject jsonObject;
@@ -640,11 +642,5 @@ public class RegistrationActivity extends BaseActivity {
 }*/
 
     //************************#****************************#*************************#**************************#
-    ///////////// Hide Menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        /* Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);*/
-        return false;
-    }
+
 }

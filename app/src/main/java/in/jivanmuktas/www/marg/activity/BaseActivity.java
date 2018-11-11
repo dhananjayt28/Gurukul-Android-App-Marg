@@ -50,6 +50,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         Display display = getWindowManager().getDefaultDisplay();
         height = display.getHeight();
         width = display.getWidth();
+        prsDlg = new ProgressDialog(this);
     }
 
     @Override
@@ -58,12 +59,14 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void showProgressDailog() {
-        prsDlg = new ProgressDialog(this);
-        prsDlg.setMessage("Please wait...");
-        prsDlg.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        prsDlg.setIndeterminate(true);
-        prsDlg.setCancelable(false);
-        prsDlg.show();
+        if (!prsDlg.isShowing()) {
+            prsDlg.setMessage("Please wait...");
+            prsDlg.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            prsDlg.setIndeterminate(true);
+            prsDlg.setCancelable(false);
+            prsDlg.show();
+        }
+
     }
 
     public void dismissProgressDialog() {
