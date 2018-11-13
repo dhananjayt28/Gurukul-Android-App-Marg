@@ -197,10 +197,10 @@ public class LoginActivity extends BaseActivity {
 
                     JSONObject object = array.getJSONObject(0);
                     String id = object.getString("USER_ID");
-                    String emailId = object.getString("EMAIL");
+                    String emailId = object.getString("EMAIL_ID");
                     String username = object.getString("NAME");
                     String education = object.getString("EDUCATION");
-                    String chapter = object.getString("CHAPTER");
+                    String chapter = object.getString("SATSANG_CHAPTER");
                     String dateOfBirth = object.getString("DOB");
                     String gender = object.getString("GENDER");
                     String contactNo = object.getString("CONTACT_NO");
@@ -214,6 +214,7 @@ public class LoginActivity extends BaseActivity {
                     String isActive = object.getString("ISACTIVE");
                     String Status = object.getString("STATUS");
                     String Status_id = object.getString("STATUS_ID");
+                    String Role_id = object.getString("ROLE_ID");
                     //String user_account_status_id =object.getString("user_account_status_id");
 
                     //If ISACTIVE==0 Account is Blocked

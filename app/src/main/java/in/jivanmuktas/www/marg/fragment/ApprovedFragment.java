@@ -466,7 +466,7 @@ public class ApprovedFragment extends Fragment {
 
             try {
                 reqObj.put("USER_ID",USER_ID);
-                reqObj.put("EVENT_ID",EVENT_ID);
+                reqObj.put("EVENT_REG_ID",EVENT_ID);
                 response = HttpPutHandler.SendHttpPut(Constant.CANCEL_EVENT,reqObj.toString());//Using Put Method
 
                 json = new JSONObject(response);

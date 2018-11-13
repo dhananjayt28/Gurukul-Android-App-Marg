@@ -29,6 +29,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,8 +44,10 @@ import java.io.File;
 import java.io.IOException;
 
 import in.jivanmuktas.www.marg.R;
+import in.jivanmuktas.www.marg.constant.Constant;
 import in.jivanmuktas.www.marg.network.HttpClient;
 import in.jivanmuktas.www.marg.network.HttpGetHandler;
+import in.jivanmuktas.www.marg.singleton.VolleySingleton;
 
 public class GitaDistribution extends BaseActivity {
     String EVENT_ID;
@@ -135,7 +144,8 @@ public class GitaDistribution extends BaseActivity {
 
             }
         });
-        new GetAllData().execute();
+        //new GetAllData().execute();
+        GetAllData();
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -249,6 +259,35 @@ public class GitaDistribution extends BaseActivity {
         }
     }
     //***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#
+    public void GetAllData(){
+        final String url = Constant.ProfileUpdate +"?user_id="+ app.getUserId();
+        JsonObjectRequest getrequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject object) {
+                        try {
+                            if(object.getString("status").equals("true")){
+                                JSONArray jsonArray = object.getJSONArray("response");
+                                JSONObject jsonObject = jsonArray.getJSONObject(0);
+                                tvName.setText(jsonObject.getString("NAME"));
+                                tvDob.setText(jsonObject.getString("DOB"));
+                                tvGender.setText(jsonObject.getString("GENDER"));
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Error.Response", error.toString());
+            }
+        });
+        VolleySingleton.getInstance(this).addToRequestQueue(getrequest);
+    }
+
+
 
     public class GetAllData extends AsyncTask<String, String, Boolean> {
         JSONObject jsonResponse;

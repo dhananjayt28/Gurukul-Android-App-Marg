@@ -7,7 +7,7 @@ public class Constant {
    public static final String BASE_URL_NEW = "http://gurukulweb.tangenttechsolutions.com/api/";
    //public static final String BASE_URL = "http://testgurukul.tmlcsr.com/Gurukul_App_Services.svc/";//Testing
 
-   public static final String LOGIN = BASE_URL + "user-login";
+   public static final String LOGIN = BASE_URL_NEW + "user-login";
 
    public static final String Registration = BASE_URL + "user-registration";
 
@@ -32,7 +32,7 @@ public class Constant {
    public static final String EVENT_REGISTRTION = BASE_URL_NEW + "event-registration";
    public static final String GET_SUBJECT = BASE_URL + "get-education-data?educationid=";
 
-   public static final String CANCEL_EVENT = BASE_URL + "event-registration-cancel";
+   public static final String CANCEL_EVENT = BASE_URL_NEW + "event-registration-cancel";
 
    public static final String EVENT_MODIFICATION = BASE_URL + "event-registration-modification";
 
