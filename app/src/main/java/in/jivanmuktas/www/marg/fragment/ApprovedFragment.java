@@ -292,7 +292,7 @@ public class ApprovedFragment extends Fragment {
 
             @Override
             public View getView(int position, View view, ViewGroup parent) {
-                final String EVENT_NAME, START_DATE, END_DATE, TODAY, EVENT_TYPE, EVENT_REG_ID, EVENT_CALNDER_ID, EVENT_MASTER_ID;
+                final String EVENT_NAME, START_DATE, END_DATE, TODAY, EVENT_TYPE, EVENT_REG_ID, EVENT_CALNDER_ID, EVENT_MASTER_ID,MESSAGE;
                 JSONObject object;
                 try {
                     object = responseArray.getJSONObject(position);
@@ -304,6 +304,7 @@ public class ApprovedFragment extends Fragment {
                     EVENT_REG_ID = object.getString("EVENT_REG_ID");
                     EVENT_CALNDER_ID = object.getString("EVENT_CALNDER_ID");
                     EVENT_MASTER_ID = object.getString("EVENT_MASTER_ID");
+                    MESSAGE = object.getString("MESSAGE");
 
                     LayoutInflater layoutInflater = LayoutInflater.from(getContext());
                     view = layoutInflater.inflate(R.layout.approvedlist, null);
@@ -319,7 +320,7 @@ public class ApprovedFragment extends Fragment {
 
                     tvEvent.setText(EVENT_NAME);
                     tvDate.setText(START_DATE+" - "+END_DATE);
-                    message.setText(TODAY);
+                    message.setText(MESSAGE);
 
                     cancel.setOnClickListener(new View.OnClickListener() {
                         @Override
