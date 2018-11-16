@@ -22,10 +22,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import in.jivanmuktas.www.marg.R;
 import in.jivanmuktas.www.marg.activity.GitaDistribution;
 import in.jivanmuktas.www.marg.activity.MyApplication;
 import in.jivanmuktas.www.marg.activity.Nivritti;
+import in.jivanmuktas.www.marg.activity.View1;
+import in.jivanmuktas.www.marg.activity.View3;
 import in.jivanmuktas.www.marg.activity.Workshop;
 import in.jivanmuktas.www.marg.constant.Constant;
 import in.jivanmuktas.www.marg.network.HttpGetHandler;
@@ -54,6 +57,7 @@ public class ApprovedFragment extends Fragment {
     LinearLayout approvedLayout;
     ExpandableHeightListView approveList;
     SwipeRefreshLayout swipeApprove;
+    CardView cardView3;
 
     // newInstance constructor for creating fragment with arguments
     public static ApprovedFragment newInstance(int page, String title) {
@@ -82,6 +86,7 @@ public class ApprovedFragment extends Fragment {
         approvedLayout = (LinearLayout) view.findViewById(R.id.approvedLayout);
         swipeApprove = (SwipeRefreshLayout) view.findViewById(R.id.swipeApprove);
         approveList = (ExpandableHeightListView) view.findViewById(R.id.approveList);
+        //cardView3 = (CardView) view.findViewById(R.id.card3);
 
 
         swipeApprove.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -92,7 +97,7 @@ public class ApprovedFragment extends Fragment {
                 }
             }
         });
-        /*cardView1.setOnClickListener(new View.OnClickListener() {
+       /* cardView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), View1.class);
@@ -100,9 +105,9 @@ public class ApprovedFragment extends Fragment {
                 startActivity(intent);
                 //getActivity().finish();
             }
-        });
+        });*/
 
-        cardView2.setOnClickListener(new View.OnClickListener() {
+        /*cardView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), View2.class);
@@ -110,9 +115,9 @@ public class ApprovedFragment extends Fragment {
                 startActivity(intent);
                 //getActivity().finish();
             }
-        });
+        });*/
 
-        cardView3.setOnClickListener(new View.OnClickListener() {
+        /*cardView3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), View3.class);
@@ -120,8 +125,8 @@ public class ApprovedFragment extends Fragment {
                 startActivity(intent);
                 //getActivity().finish();
             }
-        });
-        cardView4.setOnClickListener(new View.OnClickListener() {
+        });*/
+        /*cardView4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), View4.class);
@@ -331,14 +336,14 @@ public class ApprovedFragment extends Fragment {
                     modify.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            /*Intent intent=new Intent(getActivity(), View1.class);
+                            Intent intent=new Intent(getActivity(), View1.class);
                             intent.putExtra("KEY", "MODIFY");
                             intent.putExtra("EVENT_ID",EVENT_REG_ID);
-                            startActivity(intent);*/
-                            Snackbar snackbar = Snackbar.make(approvedLayout, "Work-in-Progress", Snackbar.LENGTH_LONG);
+                            startActivity(intent);
+                            /*Snackbar snackbar = Snackbar.make(approvedLayout, "Work-in-Progress", Snackbar.LENGTH_LONG);
                             View sbView = snackbar.getView();
                             sbView.setBackgroundColor(getResources().getColor(R.color.Red));
-                            snackbar.show();
+                            snackbar.show();*/
                         }
                     });
 
