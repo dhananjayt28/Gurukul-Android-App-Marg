@@ -315,9 +315,11 @@ public class ApprovedFragment extends Fragment {
                     Button cancel = (Button) view.findViewById(R.id.cancel);
                     Button modify = (Button) view.findViewById(R.id.modify);
                     CardView card = (CardView) view.findViewById(R.id.card);
+                    TextView message = view.findViewById(R.id.message_show);
 
                     tvEvent.setText(EVENT_NAME);
                     tvDate.setText(START_DATE+" - "+END_DATE);
+                    message.setText(TODAY);
 
                     cancel.setOnClickListener(new View.OnClickListener() {
                         @Override

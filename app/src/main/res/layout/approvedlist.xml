@@ -72,6 +72,26 @@
 
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:paddingLeft="15dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="Message:"
+                    android:textSize="15dp"/>
+                <TextView
+                    android:id="@+id/message_show"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6"
+                    android:paddingLeft="3dp"
+                    android:textSize="15dp"
+                    android:text="this is message"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/btView"

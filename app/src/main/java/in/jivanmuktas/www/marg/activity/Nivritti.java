@@ -116,10 +116,10 @@ public class Nivritti extends BaseActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-        //        if (isValid()) {
+                if (isValid()) {
                     //new SubmitData().execute();
                     SubmitData();
-         //       }
+                }
             }
         });
 
