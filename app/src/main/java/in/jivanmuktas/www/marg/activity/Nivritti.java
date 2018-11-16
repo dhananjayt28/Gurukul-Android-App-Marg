@@ -22,6 +22,16 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonObject;
+
 import in.jivanmuktas.www.marg.R;
 
 import org.json.JSONArray;
@@ -29,6 +39,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -105,9 +116,10 @@ public class Nivritti extends BaseActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isValid()) {
-                    new SubmitData().execute();
-                }
+        //        if (isValid()) {
+                    //new SubmitData().execute();
+                    SubmitData();
+         //       }
             }
         });
 
@@ -214,6 +226,11 @@ public class Nivritti extends BaseActivity {
     }
     //***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#
 
+    public void GetAlldata(){
+        final String url = Constant.VOLUNTEER_EVENT_APPROVE +"event_id="+EVENT_ID;
+
+    }
+
     public class GetAllData extends AsyncTask<String, String, Boolean>{
         JSONObject jsonResponse;
         @Override
@@ -226,7 +243,7 @@ public class Nivritti extends BaseActivity {
             String response;
             HttpGetHandler handler = new HttpGetHandler();
             try {
-                response = handler.makeServiceCall(Constant.VOLUNTEER_EVENT_APPROVE+"id="+app.getUserId()+"&eventid="+EVENT_ID);
+                response = handler.makeServiceCall(Constant.VOLUNTEER_EVENT_APPROVE+/*"id="+app.getUserId()+"&eventid="+EVENT_ID*/"event_id="+EVENT_ID);
                 //Log.i("!!!Request",Constant.VOLUNTEER_EVENT_APPROVE+"id="+app.getUserId()+"&eventid="+EVENT_ID );
                 //response = AssetJSONFile("nivrittieventview.json",Nivritti.this);
                 jsonResponse = new JSONObject(response);
@@ -270,6 +287,7 @@ public class Nivritti extends BaseActivity {
                         dateTimeView.setVisibility(View.GONE);
                         topicView.setVisibility(View.VISIBLE);
                     JSONObject subject = object.getJSONObject("SUBJECT");
+
                         if (subject.length()==0){
                         TextView tv = new TextView(Nivritti.this);
                         tv.setText("No topic allocated yet");
@@ -294,7 +312,6 @@ public class Nivritti extends BaseActivity {
                             String SUBJECT_ID = topic.getString("SUBJECT_ID");
                             String NAME = topic.getString("NAME");
                             final String SOURCE = topic.getString("SOURCE");
-
                             //#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
                             LayoutInflater inflater = getLayoutInflater();
                             final View v = inflater.inflate(R.layout.topic, null);
@@ -392,6 +409,59 @@ public class Nivritti extends BaseActivity {
     }
 //@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%
 
+    public void SubmitData(){
+        final String url = Constant.VOLUNTEER_EVENT_CHECKINOUT_UPDATE;
+
+        JSONArray jsonArray =  new JSONArray();
+        JSONObject reqObj = new JSONObject();
+        try {
+            reqObj.put("USER_ID", app.getUserId());
+            reqObj.put("STATUS","26");
+            reqObj.put("CHECKIN_DATE", etCheckInDate.getText().toString().trim());
+            reqObj.put("CHECKOUT_DATE", etCheckOutDate.getText().toString().trim());
+            reqObj.put("CHECKIN_TIME", etCheckInTime.getText().toString().trim());
+            reqObj.put("CHECKOUT_TIME", etCheckOutTime.getText().toString().trim());
+            reqObj.put("EVENT_REG_ID",getIntent().getExtras().getString("EVENT_ID"));
+            reqObj.put("MESSAGE","80");
+            jsonArray.put(reqObj);
+            final String requestBody = jsonArray.toString();
+            Log.i("!!!req",jsonArray.toString());
+            StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("!!!Response->", response);
+                            Toast.makeText(Nivritti.this, "Updated Sucessfully", Toast.LENGTH_SHORT).show();
+                            Nivritti.this.finish();
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("!!!response",error.toString());
+
+                }
+            })
+            {
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        Log.i("!!!Request", url+"    "+requestBody.getBytes("utf-8"));
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+            RequestQueue queue = Volley.newRequestQueue(this);
+            // add it to the RequestQueue
+            queue.add(postRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public class SubmitData extends AsyncTask<String,String,Boolean> {
         @Override
         protected void onPreExecute() {
@@ -400,19 +470,26 @@ public class Nivritti extends BaseActivity {
         @Override
         protected Boolean doInBackground(String... strings) {
             try {
+                JSONArray jsonArray = new JSONArray();
                 JSONObject reqObj = new JSONObject();
-                reqObj.put("USER_ID", app.getUserId());
-                if (!status.equals("1")) {
+
+                if (!status.equals("1"))
+                 {
+                     reqObj.put("USER_ID", app.getUserId());
+                    reqObj.put("STATUS","26");
                     reqObj.put("CHECKIN_DATE", etCheckInDate.getText().toString().trim());
                     reqObj.put("CHECKOUT_DATE", etCheckOutDate.getText().toString().trim());
                     reqObj.put("CHECKIN_TIME", etCheckInTime.getText().toString().trim());
                     reqObj.put("CHECKOUT_TIME", etCheckOutTime.getText().toString().trim());
+                 //   reqObj.put("EVENT_ID","8");
+                 //   reqObj.put("MESSAGE","80");
+                    jsonArray.put(reqObj);
                 } else if (status.equals("2")) {
                     reqObj.put("COMMENT_FOR_HOD", commentForHod.getText().toString().trim());
                 }
                 Log.d("!!!Request", reqObj.toString());
-                //String response = HttpClient.SendHttpPost(Constant.VOLUNTEER_EVENT_CHECKINOUT_UPDATE+EVENT_ID, reqObj.toString());
-                String response = HttpPutHandler.SendHttpPut(Constant.VOLUNTEER_EVENT_CHECKINOUT_UPDATE + EVENT_ID, reqObj.toString());
+                String response = HttpClient.SendHttpPost(Constant.VOLUNTEER_EVENT_CHECKINOUT_UPDATE, reqObj.toString());
+            //    String response = HttpPutHandler.SendHttpPut(Constant.VOLUNTEER_EVENT_CHECKINOUT_UPDATE , reqObj.toString());
                 //String response = AssetJSONFile("submit.json",Nivritti.this);
                 Log.d("!!!Response", response.toString( ));
                 jsonResponse = new JSONObject(response);

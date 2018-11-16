@@ -272,6 +272,7 @@ public class GitaDistribution extends BaseActivity {
                                 tvName.setText(jsonObject.getString("NAME"));
                                 tvDob.setText(jsonObject.getString("DOB"));
                                 tvGender.setText(jsonObject.getString("GENDER"));
+                                idpprofSpinner.getSelectedItem().toString();
 
                             }
                         } catch (JSONException e) {

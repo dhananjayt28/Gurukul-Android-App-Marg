@@ -140,10 +140,11 @@ public class MainActivity extends BaseActivity{
             finish();
         }
         if (id == R.id.logout) {
-            app.setSession(false);
-            CustomIntent(LoginActivity.class);
+     //       app.setSession(false);
+     //      CustomIntent(LoginActivity.class);
+            MainActivity.this.finish();
         }
-        resideMenu.closeMenu();
+    //    resideMenu.closeMenu();
     }
 
     private ResideMenu.OnMenuListener menuListener = new ResideMenu.OnMenuListener() {

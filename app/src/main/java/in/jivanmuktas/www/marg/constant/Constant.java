@@ -17,9 +17,10 @@ public class Constant {
 
    public static final String ProfileUpdate = BASE_URL + "user-profile-update";
 
-   public static final String AvailableEvent = BASE_URL + "get-event-data?eventid=";
-   public static final String ApprovedEvent = BASE_URL_NEW + "get-approved-event-data?User_id=";
-   public static final String RejectEvent = BASE_URL_NEW + "get-rejected-event-data?User_id=";
+   public static final String AvailableEvent = BASE_URL_NEW + "get-event-data?event_type=";
+   public static final String ApprovedEvent = BASE_URL_NEW + "get-approved-event-data?user_id=";
+   public static final String ViewApprovedEvent = BASE_URL_NEW + "get-approved-event-data?user_id=";
+   public static final String RejectEvent = BASE_URL_NEW + "get-rejected-event-data?user_id=";
 
    public static final String PASSWORD_RESET = BASE_URL + "password-reset";
    public static final String PASSWORD_UPDATE = BASE_URL + "password-update";
@@ -36,9 +37,10 @@ public class Constant {
 
    public static final String EVENT_MODIFICATION = BASE_URL + "event-registration-modification";
 
-   public static final String VOLUNTEER_EVENT_APPROVE = BASE_URL + "get-volunteer-event-approved-data?";
+   //public static final String VOLUNTEER_EVENT_APPROVE = BASE_URL + "get-volunteer-event-approved-data?";
+   public static final String VOLUNTEER_EVENT_APPROVE = BASE_URL_NEW + "get-registered-event-data?";
 
-   public static final String VOLUNTEER_EVENT_CHECKINOUT_UPDATE = BASE_URL + "volunteer-event-checkinout-update?eid=";
+   public static final String VOLUNTEER_EVENT_CHECKINOUT_UPDATE = BASE_URL_NEW + "volunteer-event-checkinout-update";
 
    public static final String NIVRITTI_REQUIRE_VOLUNTEER = BASE_URL_API + "get-nivritti-require-volunteer/";
 

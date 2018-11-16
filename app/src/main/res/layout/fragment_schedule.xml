@@ -12,29 +12,32 @@
         android:id="@+id/swipeApprove"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:scrollbars="vertical">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:scrollbars="vertical">
 
-            <in.jivanmuktas.www.marg.utils.ExpandableHeightListView
-                android:id="@+id/approveList"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent"></in.jivanmuktas.www.marg.utils.ExpandableHeightListView>
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp" />
+                <in.jivanmuktas.www.marg.utils.ExpandableHeightListView
+                    android:id="@+id/approveList"
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent">
 
-        </LinearLayout>
+                </in.jivanmuktas.www.marg.utils.ExpandableHeightListView>
 
-    </ScrollView>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
+            </LinearLayout>
+
+        </ScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

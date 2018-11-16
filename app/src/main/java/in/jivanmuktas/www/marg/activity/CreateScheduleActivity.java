@@ -135,6 +135,7 @@ public class CreateScheduleActivity extends BaseActivity {
             classTxt.setVisibility(View.GONE);
             classes.setVisibility(View.GONE);
             subjectLayout.setVisibility(View.GONE);
+         //   comtoaprov.setVisibility(View.GONE);
             personLayout.setVisibility(View.VISIBLE);
             addPerson.setVisibility(View.VISIBLE);
             projName.setImageDrawable(getResources().getDrawable(R.drawable.workshop));
@@ -422,6 +423,8 @@ public class CreateScheduleActivity extends BaseActivity {
                 }else if (getIntent().getExtras().getString("PROJECT").equals("Gita Distribution")){
                     reqObj.put("EVENT_SYS_ID",getIntent().getExtras().getString("EVENT") );
                     reqObj.put("EVENT_TYPE","3");
+            //        reqObj.put("START_DATE",scheStartDate.getText().toString());
+            //        reqObj.put("END_DATE",scheEndDate.getText().toString());
                     reqObj.put("USER_ID",app.getUserId());
                 }
 

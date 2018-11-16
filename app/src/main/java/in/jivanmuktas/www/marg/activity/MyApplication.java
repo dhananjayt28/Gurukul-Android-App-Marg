@@ -38,6 +38,7 @@ public class MyApplication extends Application{
     public String getUserId() {
         return pref.getString(UserData.USER_ID.name(), this.userId);
     }
+
     public void setUserId(String userId) {
         this.userId = userId;
         Editor edit = pref.edit();
