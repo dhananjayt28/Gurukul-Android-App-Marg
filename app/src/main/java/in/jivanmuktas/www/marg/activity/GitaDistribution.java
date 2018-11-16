@@ -260,7 +260,7 @@ public class GitaDistribution extends BaseActivity {
     }
     //***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#
     public void GetAllData(){
-        final String url = Constant.ProfileUpdate +"?user_id="+ app.getUserId();
+        final String url = Constant.ProfileView +"?user_id="+ app.getUserId();
         JsonObjectRequest getrequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
