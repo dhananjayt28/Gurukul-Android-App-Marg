@@ -35,9 +35,12 @@ public class DashboardActivity extends BaseActivity {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(1);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
+        viewPager.setCurrentItem(tabLayout.getSelectedTabPosition());
     }
 
 /*
@@ -93,17 +96,24 @@ public class DashboardActivity extends BaseActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
+                 //   return ApprovedFragment.newInstance(1, "APPROVED");
                     return AvailableFragment.newInstance(0, "AVAILABLE");
                 case 1:
                     return ApprovedFragment.newInstance(1, "APPROVED");
+
+
                 /*case 2:
                     return AppliedFragment.newInstance(2, "APPLIED");*/
+                //    return AvailableFragment.newInstance(0, "AVAILABLE");
                 case 2:
                     return RejectedFragment.newInstance(2, "REJECTED");
                 default:
                     return null;
+
+
             }
         }
+
 
         // Returns the page title for the top indicator
         @Override
@@ -116,6 +126,9 @@ public class DashboardActivity extends BaseActivity {
                 return "APPLIED";*/
             else
                 return "REJECTED";
+           /* if(position == 0 ) return "APPROVED";
+            else if (position == 1) return  "AVAILABLE";
+            else  return "REJECTED";*/
         }
 
     }
