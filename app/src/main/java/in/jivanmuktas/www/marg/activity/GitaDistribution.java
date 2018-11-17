@@ -20,6 +20,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -42,9 +43,12 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import in.jivanmuktas.www.marg.R;
 import in.jivanmuktas.www.marg.constant.Constant;
+import in.jivanmuktas.www.marg.model.Country;
+import in.jivanmuktas.www.marg.model.IdCard;
 import in.jivanmuktas.www.marg.network.HttpClient;
 import in.jivanmuktas.www.marg.network.HttpGetHandler;
 import in.jivanmuktas.www.marg.singleton.VolleySingleton;
@@ -63,6 +67,8 @@ public class GitaDistribution extends BaseActivity {
     CheckBox cbTransportArran,cbAccomodation;
     String img64code="";
     Button submit;
+    ArrayList<IdCard> idCards = new ArrayList<>();
+    String id_card = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,9 +103,9 @@ public class GitaDistribution extends BaseActivity {
         cbAccomodation = (CheckBox) findViewById(R.id.cbAccomodation);
         submit = (Button) findViewById(R.id.submit);
 
-        ArrayAdapter<CharSequence> adapterPresonNo = ArrayAdapter.createFromResource(GitaDistribution.this,R.array.itiesidpinner, R.layout.spinner_item);
+        /*ArrayAdapter<CharSequence> adapterPresonNo = ArrayAdapter.createFromResource(GitaDistribution.this,R.array.itiesidpinner, R.layout.spinner_item);
         adapterPresonNo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        idpprofSpinner.setAdapter(adapterPresonNo);
+        idpprofSpinner.setAdapter(adapterPresonNo);*/
 
         int permissionCheck = ContextCompat.checkSelfPermission(GitaDistribution.this, Manifest.permission.CAMERA);
         if(permissionCheck == PackageManager.PERMISSION_DENIED) {
@@ -160,6 +166,20 @@ public class GitaDistribution extends BaseActivity {
                 }*/
             }
         });
+        GetSpinner();
+        idpprofSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position != 0){
+                    id_card = idCards.get(position).getId_name();
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
     }
     //**************#******************#*****************#*******************#******************#
     public boolean isValid(){
@@ -272,7 +292,7 @@ public class GitaDistribution extends BaseActivity {
                                 tvName.setText(jsonObject.getString("NAME"));
                                 tvDob.setText(jsonObject.getString("DOB"));
                                 tvGender.setText(jsonObject.getString("GENDER"));
-                                idpprofSpinner.getSelectedItem().toString();
+                            //    idpprofSpinner.getSelectedItem().toString();
 
                             }
                         } catch (JSONException e) {
@@ -286,6 +306,44 @@ public class GitaDistribution extends BaseActivity {
             }
         });
         VolleySingleton.getInstance(this).addToRequestQueue(getrequest);
+    }
+    public void GetSpinner(){
+        final String url = Constant.GET_ID_CARD_SPINNER ;
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject object = response;
+                            if(object.getString("status").equals("true")){
+                                Log.i("!!!Request",object.toString());
+                                JSONArray jsonArray = object.getJSONArray("response");
+                                Log.d("!!!response",response.toString());
+                                for(int i = 0;i < jsonArray.length();i++){
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    IdCard idCard = new IdCard();
+                                    idCard.setId(jsonObject.getInt("LOV_ID"));
+                                    idCard.setId_name(jsonObject.getString("LOV_NAME"));
+                                    idCards.add(idCard);
+                                    Log.d("!!!Data Entered",idCards.toString());
+
+                                }
+                                ArrayAdapter<IdCard> idcard = new ArrayAdapter<IdCard>(GitaDistribution.this,android.R.layout.simple_list_item_1,idCards);
+                                idcard.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                idpprofSpinner.setAdapter(idcard);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Error.Response", error.toString());
+            }
+        });
+        VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
     }
 
 
