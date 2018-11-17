@@ -45,6 +45,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import static android.content.Context.INPUT_METHOD_SERVICE;
 import static in.jivanmuktas.www.marg.activity.BaseActivity.AssetJSONFile;
 
 public class ApprovedFragment extends Fragment {
@@ -292,7 +293,7 @@ public class ApprovedFragment extends Fragment {
 
             @Override
             public View getView(int position, View view, ViewGroup parent) {
-                final String EVENT_NAME, START_DATE, END_DATE, TODAY, EVENT_TYPE, EVENT_REG_ID, EVENT_CALNDER_ID, EVENT_MASTER_ID,MESSAGE;
+                final String EVENT_NAME, START_DATE, END_DATE, TODAY, EVENT_TYPE, EVENT_REG_ID, EVENT_CALNDER_ID, EVENT_MASTER_ID,MESSAGE,NOTES,STATUS;
                 JSONObject object;
                 try {
                     object = responseArray.getJSONObject(position);
@@ -305,6 +306,8 @@ public class ApprovedFragment extends Fragment {
                     EVENT_CALNDER_ID = object.getString("EVENT_CALNDER_ID");
                     EVENT_MASTER_ID = object.getString("EVENT_MASTER_ID");
                     MESSAGE = object.getString("MESSAGE");
+                    NOTES = object.getString("NOTES");
+                    STATUS = object.getString("STATUS");
 
                     LayoutInflater layoutInflater = LayoutInflater.from(getContext());
                     view = layoutInflater.inflate(R.layout.approvedlist, null);
@@ -375,6 +378,12 @@ public class ApprovedFragment extends Fragment {
                             }else if (EVENT_TYPE.equals("3")){
                                 intent=new Intent(getActivity(), GitaDistribution.class);//Change line later
                                 intent.putExtra("EVENT_ID", EVENT_REG_ID);
+                                intent.putExtra("EVENT_NAME",EVENT_NAME);
+                                intent.putExtra("START_DATE",START_DATE);
+                                intent.putExtra("END_DATE",END_DATE);
+                                intent.putExtra("NOTES",NOTES);
+                                intent.putExtra("MESSAGE",MESSAGE);
+                                intent.putExtra("STATUS",STATUS);
                                 startActivity(intent);
                             }
 

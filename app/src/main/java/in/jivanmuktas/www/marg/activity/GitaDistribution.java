@@ -30,10 +30,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -43,6 +48,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import in.jivanmuktas.www.marg.R;
@@ -56,19 +62,20 @@ import in.jivanmuktas.www.marg.singleton.VolleySingleton;
 public class GitaDistribution extends BaseActivity {
     String EVENT_ID;
     Spinner idpprofSpinner;
-    LinearLayout gitadisLayout;
+    LinearLayout gitadisLayout,layout_button;
     ImageView picImg;
     private String userChoosenTask;
     File file;
     Uri uri;
     Intent CamIntent,GalIntent,CropIntent;
     final int RequestPermissionCode=1;
-    TextView tvEventDate,tvNote,tvName,tvDob,tvGender;
+    TextView tvEventDate,tvNote,tvName,tvDob,tvGender,gitaDistribution,tvMessage,tvbookingContinue;
     CheckBox cbTransportArran,cbAccomodation;
     String img64code="";
     Button submit;
     ArrayList<IdCard> idCards = new ArrayList<>();
     String id_card = "";
+    String Status = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +109,11 @@ public class GitaDistribution extends BaseActivity {
         cbTransportArran = (CheckBox) findViewById(R.id.cbTransportArran);
         cbAccomodation = (CheckBox) findViewById(R.id.cbAccomodation);
         submit = (Button) findViewById(R.id.submit);
+        gitaDistribution = (TextView) findViewById(R.id.gitaDistribution);
+        tvMessage = (TextView) findViewById(R.id.tvMessage);
+        tvbookingContinue = (TextView)findViewById(R.id.tvbookingContinue);
+        layout_button = (LinearLayout) findViewById(R.id.layout_button);
+
 
         /*ArrayAdapter<CharSequence> adapterPresonNo = ArrayAdapter.createFromResource(GitaDistribution.this,R.array.itiesidpinner, R.layout.spinner_item);
         adapterPresonNo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -155,15 +167,17 @@ public class GitaDistribution extends BaseActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar snackbar = Snackbar
+                /*Snackbar snackbar = Snackbar
                         .make(gitadisLayout, "Information Saved Successfully!", Snackbar.LENGTH_LONG);
                 View sbView = snackbar.getView();
                 sbView.setBackgroundColor(getResources().getColor(R.color.colorTextLabel));
-                snackbar.show();
+                snackbar.show();*/
 
                 /*if (isValid()){
                     new SubmitData().execute();
                 }*/
+               // new SubmitData().execute();
+                SubmitData();
             }
         });
         GetSpinner();
@@ -171,7 +185,7 @@ public class GitaDistribution extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position != 0){
-                    id_card = idCards.get(position).getId_name();
+                    id_card = idCards.get(position).getId();
                 }
             }
             @Override
@@ -179,6 +193,8 @@ public class GitaDistribution extends BaseActivity {
 
             }
         });
+        GetOtherData();
+
 
     }
     //**************#******************#*****************#*******************#******************#
@@ -198,8 +214,6 @@ public class GitaDistribution extends BaseActivity {
             ActivityCompat.requestPermissions(GitaDistribution.this,new String[]{Manifest.permission.CAMERA},RequestPermissionCode);
         }
     }
-
-
 
     private void GalleryOpen() {
         GalIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -279,6 +293,7 @@ public class GitaDistribution extends BaseActivity {
         }
     }
     //***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#
+    //This Method contains the Name ,DOB,GENDER
     public void GetAllData(){
         final String url = Constant.ProfileView +"?user_id="+ app.getUserId();
         JsonObjectRequest getrequest = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -307,6 +322,7 @@ public class GitaDistribution extends BaseActivity {
         });
         VolleySingleton.getInstance(this).addToRequestQueue(getrequest);
     }
+    //This Method contains the ID spinner
     public void GetSpinner(){
         final String url = Constant.GET_ID_CARD_SPINNER ;
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -322,7 +338,7 @@ public class GitaDistribution extends BaseActivity {
                                 for(int i = 0;i < jsonArray.length();i++){
                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                                     IdCard idCard = new IdCard();
-                                    idCard.setId(jsonObject.getInt("LOV_ID"));
+                                    idCard.setId(jsonObject.getString("LOV_ID"));
                                     idCard.setId_name(jsonObject.getString("LOV_NAME"));
                                     idCards.add(idCard);
                                     Log.d("!!!Data Entered",idCards.toString());
@@ -345,10 +361,87 @@ public class GitaDistribution extends BaseActivity {
         });
         VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
     }
+    //This Method contans EventName,StartDate,EndDate,Notes,Message
+    public void GetOtherData(){
+        gitaDistribution.setText(getIntent().getStringExtra("EVENT_NAME"));
+        tvEventDate.setText(getIntent().getStringExtra("START_DATE") + "to" + getIntent().getStringExtra("END_DATE"));
+        tvNote.setText(getIntent().getStringExtra("NOTES"));
+        tvMessage.setText(getIntent().getStringExtra("MESSAGE"));
+        Status = getIntent().getStringExtra("STATUS");
+        if(Status == "27" || Status == "28" ){
+            DisableOnSubmission();
+        }
+
+    }
+    //This Method contains submission of ID_CARD,TRANSPORT AND ACCOMODATION ARRANGEMENT,EVENT_REG_ID
+    public void SubmitData(){
+        final String url = Constant.GITADISTRIBUTION_ITERARY_CONFIRMATION_UPDATE;
+        JSONArray jsonArray =  new JSONArray();
+        JSONObject JsonBody = new JSONObject();
+        try {
+            JsonBody.put("ID_CARD_TYPE",id_card);
+            JsonBody.put("TRANSPORTAION_ARRANGEMENT",(cbTransportArran.isChecked()?"Y":"N"));
+            JsonBody.put("ACCOMODATION_ARRANGEMENT",(cbAccomodation.isChecked()?"Y":"N"));
+            JsonBody.put("EVENT_REG_ID",getIntent().getStringExtra("EVENT_ID"));
+            JsonBody.put("USER_ID",app.getUserId());
+            jsonArray.put(JsonBody);
+            final String requestBody = jsonArray.toString();
+            Log.i("!!!!! Update Activity", url + "  " + requestBody);
+            StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("!!!Response->", response);
+                            Toast.makeText(GitaDistribution.this, "Updated Sucessfully", Toast.LENGTH_SHORT).show();
+                                                   }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.i("!!!!Error.Response", error.toString());
+                }
+            }) {
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        Log.i("!!!Request", url + "    " + requestBody.getBytes("utf-8"));
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+            RequestQueue queue = Volley.newRequestQueue(this);
+            // add it to the RequestQueue
+            queue.add(postRequest);;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void DisableOnSubmission(){
+        // EventRegistrationConfirmed = 27 | BookingConfirmationShared = 28
+        //String Status = getIntent().getStringExtra("STATUS");
+        //if(Status == "27" || Status == "28" ){
+            tvbookingContinue.setVisibility(View.GONE);
+            layout_button.setVisibility(View.GONE);
+            idpprofSpinner.setEnabled(false);
+            picImg.setEnabled(false);
+            if(cbAccomodation.isChecked()){
+                cbAccomodation.setChecked(true);
+            }else{
+                cbAccomodation.setChecked(false);
+            }
+            if (cbTransportArran.isChecked()){
+                cbTransportArran.setChecked(true);
+            }else {
+                cbTransportArran.setChecked(false);
+            }
+
+        }
 
 
-
-    public class GetAllData extends AsyncTask<String, String, Boolean> {
+    /*public class GetAllData extends AsyncTask<String, String, Boolean> {
         JSONObject jsonResponse;
         @Override
         protected void onPreExecute() {
@@ -388,19 +481,25 @@ public class GitaDistribution extends BaseActivity {
                 try {
                     JSONArray array = jsonResponse.getJSONArray("response");
                     JSONObject object = array.getJSONObject(0);
-                    String projectName = object.getString("PROJECT_NAME");
-                    String startDate = object.getString("START_DATE");
-                    String endDate = object.getString("END_DATE");
-                    String note = object.getString("NOTE");
-                    String name = object.getString("NAME");
-                    String dob = object.getString("DOB");
-                    String gender = object.getString("GENDER");
+                //    String projectName = object.getString("PROJECT_NAME");
+                //    String startDate = object.getString("START_DATE");
+                //    String endDate = object.getString("END_DATE");
+                    String projectName = getIntent().getStringExtra("EVENT_NAME");
+                    String startDate = getIntent().getStringExtra("START_DATE");
+                    String endDate = getIntent().getStringExtra("END_DATE");
+                    String notes = getIntent().getStringExtra("NOTES");
+
+
+                 //   String note = object.getString("NOTE");
+                //    String name = object.getString("NAME");
+                //    String dob = object.getString("DOB");
+                //    String gender = object.getString("GENDER");
 
                     tvEventDate.setText(startDate+" To "+endDate);
-                    tvNote.setText(note);
-                    tvName.setText(name);
-                    tvDob.setText(dob);
-                    tvGender.setText(gender);
+                    tvNote.setText(notes);
+                 //   tvName.setText(name);
+                 //   tvDob.setText(dob);
+                 //   tvGender.setText(gender);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -410,11 +509,11 @@ public class GitaDistribution extends BaseActivity {
             }
 
         }
-    }
+    }*/
 
     //***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#
-    public class SubmitData extends AsyncTask<String, String, Boolean> {
-        JSONObject jsonResponse;
+    /*public class SubmitData extends AsyncTask<String, String, Boolean> {
+    //    JSONObject jsonResponse;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -425,25 +524,31 @@ public class GitaDistribution extends BaseActivity {
         protected Boolean doInBackground(String... strings) {
 
             try {
+                JSONArray reqarr = new JSONArray();
                 JSONObject reqObj = new JSONObject();
 
-                reqObj.put("IMAGE",img64code);
-                reqObj.put("ID_PROOF",idpprofSpinner.getSelectedItem().toString());
-                reqObj.put("TRANSPORT_ARRANGEMENT",(cbTransportArran.isChecked()?"Y":"N"));
-                reqObj.put("ACCOMMODATION",(cbAccomodation.isChecked()?"Y":"N"));
-                String response = HttpClient.SendHttpPost("", reqObj.toString());
-                response = AssetJSONFile("gitaventview.json",GitaDistribution.this);
-                jsonResponse = new JSONObject(response);
+            //    reqObj.put("IMAGE",img64code);
+             //   reqObj.put("ID_PROOF",idpprofSpinner.getSelectedItem().toString());
+            //    reqObj.put("TRANSPORT_ARRANGEMENT",(cbTransportArran.isChecked()?"Y":"N"));
+            //    reqObj.put("ACCOMMODATION",(cbAccomodation.isChecked()?"Y":"N"));
+                reqObj.put("ID_CARD_TYPE",id_card);
+                reqObj.put("TRANSPORTAION_ARRANGEMENT",(cbTransportArran.isChecked()?"Y":"N"));
+                reqObj.put("ACCOMODATION_ARRANGEMENT",(cbAccomodation.isChecked()?"Y":"N"));
+                reqObj.put("EVENT_REG_ID",getIntent().getStringExtra("EVENT_ID"));
+                reqarr.put(reqObj);
+                String response = HttpClient.SendHttpPost(Constant.GITADISTRIBUTION_ITERARY_CONFIRMATION_UPDATE, reqarr.toString());
+            //    response = AssetJSONFile("gitaventview.json",GitaDistribution.this);
+            //    jsonResponse = new JSONObject(response);
                 Log.i("!!!Response", response);
-                if (jsonResponse.getBoolean("status")) {
+                if (reqarr.getBoolean(Integer.parseInt("status"))) {
                     return true;
                 } else
                     return false;
             } catch (JSONException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
+            } *//*catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*//*
             return false;
         }
 
@@ -455,13 +560,12 @@ public class GitaDistribution extends BaseActivity {
             }
 
             if (aBoolean){
-
-
+                Toast.makeText(GitaDistribution.this, "Updated Sucessfully", Toast.LENGTH_SHORT).show(); 
             }else {
-
+                Toast.makeText(GitaDistribution.this, "Update Unsucessful", Toast.LENGTH_SHORT).show();
             }
 
         }
-    }
+    }*/
     //***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#
 }

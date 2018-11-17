@@ -13,6 +13,7 @@ public class Constant {
 
    //public static final String ProfileView = BASE_URL + "get-user-profile";
    public static final String ProfileView = BASE_URL_NEW + "get-user-data";
+   public static final String GITADISTRIBUTION_ITERARY_CONFIRMATION_UPDATE = BASE_URL_NEW + "itinary-confirmation-update";
    //public static final String GET_USER_DATA = BASE_URL_NEW + "get-user-data";
 
    public static final String ProfileUpdate = BASE_URL + "user-profile-update";
@@ -26,9 +27,10 @@ public class Constant {
    public static final String PASSWORD_UPDATE = BASE_URL + "password-update";
    public static final String GET_SATSANG_CHAPTER = BASE_URL + "get-satsang-chapter-data?id=";
 
-   public static final String GET_COUNTRY_LIST = BASE_URL_NEW + "get-master-data-list?category_name=MASTER COUNTRY";
+   public static final String GET_COUNTRY_LIST = BASE_URL_NEW + "get-master-data-list?category_name=MASTER_COUNTRY";
 
-   public static final String GET_CITY_LIST = BASE_URL_NEW + "get-master-data-list?category_name=MASTER CITY";
+   public static final String GET_CITY_LIST = BASE_URL_NEW + "get-master-data-list?category_name=MASTER_CITY";
+   public static final String GET_ID_CARD_SPINNER = BASE_URL_NEW + "get-master-data-list?category_name=ID_Card_Type";
 
    public static final String EVENT_REGISTRTION = BASE_URL_NEW + "event-registration";
    public static final String GET_SUBJECT = BASE_URL + "get-education-data?educationid=";
@@ -48,6 +50,6 @@ public class Constant {
 
    public static final String GET_EVENT_CALENDAR_BREAKUP_DATA = BASE_URL_NEW + "get-event-calendar-breakup-data?event_id=" ;
 
-   public static final String GET_EDUCATION_LIST = BASE_URL_NEW + "get-master-data-list?category_name=MASTER EDUCATION";
+   public static final String GET_EDUCATION_LIST = BASE_URL_NEW + "get-master-data-list?category_name=MASTER_EDUCATION";
 
 }
