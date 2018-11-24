@@ -278,7 +278,8 @@ public class Nivritti extends BaseActivity {
                     String checkInTime = object.getString("CHECK_IN_TIME");
                     String checkOutTime = object.getString("CHECK_OUT_TIME");
                     String commentForHod = object.getString("COMMENT_FOR_HOD");
-                    status = object.getString("STATUS");//Status for stage 1 or 2
+                    //status = object.getString("STATUS");//Status for stage 1 or 2
+                    status = "1";
 
                     if (status.equals("1")) {
                         tvCkInTime.setText(checkInTime);

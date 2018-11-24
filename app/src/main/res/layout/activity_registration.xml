@@ -115,6 +115,37 @@
                         android:text="Miss."/>
 
                 </RadioGroup>
+                <!--<LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@android:color/white"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="1dp"
+                        android:paddingEnd="2dp"
+                        android:paddingStart="2dp"
+                        android:paddingTop="5dp"
+                        android:text="Select Country"
+                        android:textColor="@color/colorPrimaryDeep"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-condensed" />
+
+                    <Spinner
+                        android:id="@+id/spinner_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:padding="10dp"
+                        android:textSize="20sp"/>
+
+                </LinearLayout>-->
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -250,6 +281,12 @@
                         android:text="Female"
                         android:textSize="13sp" />
                 </RadioGroup>
+                <!--<Spinner
+                    android:id="@+id/spinner_gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:padding="10dp"
+                    android:textSize="20sp" />-->
             </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

@@ -293,7 +293,7 @@ public class ApprovedFragment extends Fragment {
 
             @Override
             public View getView(int position, View view, ViewGroup parent) {
-                final String EVENT_NAME, START_DATE, END_DATE, TODAY, EVENT_TYPE, EVENT_REG_ID, EVENT_CALNDER_ID, EVENT_MASTER_ID,MESSAGE,NOTES,STATUS;
+                final String EVENT_NAME, START_DATE, END_DATE, TODAY, EVENT_TYPE, EVENT_REG_ID, EVENT_CALNDER_ID, EVENT_MASTER_ID,MESSAGE,NOTES,STATUS,TRANSPORTAION_ARRANGEMENT,ACCOMODATION_ARRANGEMENT,CARD_TYPE;
                 JSONObject object;
                 try {
                     object = responseArray.getJSONObject(position);
@@ -308,6 +308,9 @@ public class ApprovedFragment extends Fragment {
                     MESSAGE = object.getString("MESSAGE");
                     NOTES = object.getString("NOTES");
                     STATUS = object.getString("STATUS");
+                    TRANSPORTAION_ARRANGEMENT = object.getString("TRANSPORTAION_ARRANGEMENT");
+                    ACCOMODATION_ARRANGEMENT = object.getString("ACCOMODATION_ARRANGEMENT");
+                    CARD_TYPE = object.getString("CARD_TYPE");
 
                     LayoutInflater layoutInflater = LayoutInflater.from(getContext());
                     view = layoutInflater.inflate(R.layout.approvedlist, null);
@@ -384,6 +387,9 @@ public class ApprovedFragment extends Fragment {
                                 intent.putExtra("NOTES",NOTES);
                                 intent.putExtra("MESSAGE",MESSAGE);
                                 intent.putExtra("STATUS",STATUS);
+                                intent.putExtra("TRANSPORTAION_ARRANGEMENT",TRANSPORTAION_ARRANGEMENT);
+                                intent.putExtra("ACCOMODATION_ARRANGEMENT",ACCOMODATION_ARRANGEMENT);
+                                intent.putExtra("CARD_TYPE",CARD_TYPE);
                                 startActivity(intent);
                             }
 

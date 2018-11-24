@@ -45,6 +45,7 @@ import in.jivanmuktas.www.marg.model.City;
 import in.jivanmuktas.www.marg.model.Country;
 import in.jivanmuktas.www.marg.model.CountrySetGet;
 import in.jivanmuktas.www.marg.model.Education;
+import in.jivanmuktas.www.marg.model.Title;
 import in.jivanmuktas.www.marg.network.HttpClient;
 import in.jivanmuktas.www.marg.network.HttpGetHandler;
 import in.jivanmuktas.www.marg.singleton.VolleySingleton;
@@ -68,9 +69,12 @@ public class RegistrationActivity extends BaseActivity {
     ArrayList<Country> countries = new ArrayList<>();
     ArrayList<City> cities = new ArrayList<>();
     ArrayList<Education> edu = new ArrayList<>();
+    ArrayList<Title> titles = new ArrayList<>();
     String countryId="";
     String CityId="";
     String EducationId="";
+    String TitleId = "";
+   // String[] gender = {"MALE","FEMALE"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -191,6 +195,31 @@ public class RegistrationActivity extends BaseActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
+        /*gender.setOnItemSelectedListener(new AdapterView.OnItemClickListener(){
+            ArrayAdapter aa = new ArrayAdapter(RegistrationActivity.this,android.R.layout.simple_spinner_item,gender);
+            aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            //Setting the ArrayAdapter data on the Spinner
+             spin.setAdapter(aa);
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });*/
+
+        /*SetTitle();
+        spinner_title.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position != 0){
+                    TitleId = titles.get(position).getTitle_id();
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });*/
 
     }
 
@@ -385,6 +414,47 @@ public class RegistrationActivity extends BaseActivity {
         VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
     }
 
+    public void SetTitle(){
+        String url =Constant.GET_TITLE_LIST;
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url,null,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject object = response;
+                            if (object.getString("status").equals("true")){
+                                JSONArray jsonArray = object.getJSONArray("response");
+                                for (int i=0;i<jsonArray.length();i++){
+                                    Log.d("!!!!Title",response.toString());
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    Education education = new Education();
+                                    education.setEducation_id(jsonObject.getString("LOV_ID"));
+                                    education.setEducation_name(jsonObject.getString("LOV_NAME"));
+                                    edu.add(education);
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        ArrayAdapter educate=new ArrayAdapter(RegistrationActivity.this, R.layout.spinner_dropdown_item, edu);
+                        educate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_edu.setAdapter(educate);
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        );
+
+        VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
+    }
+
     ///////***********************//////////////////
     public class GetSatsangChapter extends AsyncTask<String, String, Boolean> {
         JSONObject jsonObject1;
@@ -465,6 +535,7 @@ public class RegistrationActivity extends BaseActivity {
                 RadioButton rbTitle = (RadioButton) findViewById(title.getCheckedRadioButtonId());
                 int indexTitle = title.indexOfChild(rbTitle)+1;
                 reqObj.put("TITLE",String.valueOf(indexTitle));// 1 = Mr., 2 = Mrs., 3 = Miss.
+            //    reqObj.put("TITLE",TitleId);
                 reqObj.put("NAME",etFirstName.getText().toString().trim()+" "+etLastName.getText().toString().trim());
                 RadioButton rb = (RadioButton) findViewById(rgGender.getCheckedRadioButtonId());
                 int indexGen = rgGender.indexOfChild(rb);
