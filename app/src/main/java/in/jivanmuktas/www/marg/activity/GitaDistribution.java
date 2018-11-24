@@ -6,6 +6,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -27,6 +28,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,13 +71,17 @@ public class GitaDistribution extends BaseActivity {
     Uri uri;
     Intent CamIntent,GalIntent,CropIntent;
     final int RequestPermissionCode=1;
-    TextView tvEventDate,tvNote,tvName,tvDob,tvGender,gitaDistribution,tvMessage,tvbookingContinue;
+    TextView tvEventDate,tvNote,tvName,tvDob,tvGender,gitaDistribution,tvMessage,tvbookingContinue,status_show,accomodation,transport,set_id;
     CheckBox cbTransportArran,cbAccomodation;
     String img64code="";
     Button submit;
     ArrayList<IdCard> idCards = new ArrayList<>();
     String id_card = "";
     String Status = "";
+    String Message = "";
+    String Transportation_arrangement = "";
+    String Accomadation_arrangement = "";
+    String card_type="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,12 +113,20 @@ public class GitaDistribution extends BaseActivity {
         tvDob = (TextView) findViewById(R.id.tvDob);
         tvGender = (TextView) findViewById(R.id.tvGender);
         cbTransportArran = (CheckBox) findViewById(R.id.cbTransportArran);
+        cbTransportArran.setVisibility(View.INVISIBLE);
         cbAccomodation = (CheckBox) findViewById(R.id.cbAccomodation);
+        cbAccomodation.setVisibility(View.INVISIBLE);
         submit = (Button) findViewById(R.id.submit);
         gitaDistribution = (TextView) findViewById(R.id.gitaDistribution);
         tvMessage = (TextView) findViewById(R.id.tvMessage);
         tvbookingContinue = (TextView)findViewById(R.id.tvbookingContinue);
+        tvbookingContinue.setVisibility(View.VISIBLE);
         layout_button = (LinearLayout) findViewById(R.id.layout_button);
+        layout_button.setVisibility(View.INVISIBLE);
+        status_show = findViewById(R.id.Status_show);
+        accomodation = findViewById(R.id.accomodation_arrangement);
+        transport = findViewById(R.id.transport_arrangement);
+        set_id = findViewById(R.id.set_id);
 
 
         /*ArrayAdapter<CharSequence> adapterPresonNo = ArrayAdapter.createFromResource(GitaDistribution.this,R.array.itiesidpinner, R.layout.spinner_item);
@@ -123,78 +137,151 @@ public class GitaDistribution extends BaseActivity {
         if(permissionCheck == PackageManager.PERMISSION_DENIED) {
             RequestRuntimePermission();
         }
+
         picImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //////////////////////////////////////////
-                final Dialog dialog = new Dialog(GitaDistribution.this);
-                dialog.setContentView(R.layout.imgpickerlayout);
-                dialog.setTitle("Select Option");
+            //    if (Status.equals(Integer.parseInt("18"))) {
+                    final Dialog dialog = new Dialog(GitaDistribution.this);
+                    dialog.setContentView(R.layout.imgpickerlayout);
+                    dialog.setTitle("Select Option");
 
 // set the custom dialog components - text, image and button
-                CardView takepic = (CardView) dialog.findViewById(R.id.card1);
-                CardView choose = (CardView) dialog.findViewById(R.id.card2);
-                CardView cancel = (CardView) dialog.findViewById(R.id.card3);
+                    CardView takepic = (CardView) dialog.findViewById(R.id.card1);
+                    CardView choose = (CardView) dialog.findViewById(R.id.card2);
+                    CardView cancel = (CardView) dialog.findViewById(R.id.card3);
 // if button is clicked, close the custom dialog
-                takepic.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        userChoosenTask="Take Photo";
-                        CameraOpen();
-                        dialog.dismiss();
-                    }
-                });
-                choose.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        userChoosenTask="Choose from Library";
-                        GalleryOpen();
-                        dialog.dismiss();
-                    }
-                });
-                cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show();
+                    takepic.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            userChoosenTask = "Take Photo";
+                            CameraOpen();
+                            dialog.dismiss();
+                        }
+                    });
+                    choose.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            userChoosenTask = "Choose from Library";
+                            GalleryOpen();
+                            dialog.dismiss();
+                        }
+                    });
+                    cancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+                    //the image icon set to false
+                } /*else if (Status.equals(Integer.parseInt("28")) || Status.equals(Integer.parseInt("27"))) {
+                    picImg.setVisibility(View.INVISIBLE);
 
-            }
+                }*/
+        //    }
         });
         //new GetAllData().execute();
+        GetOtherData();
+        Log.d("!!!This is",Status.toString());
+
+        switch(Status){
+            case "28":
+                layout_button.setVisibility(View.INVISIBLE);
+                tvbookingContinue.setVisibility(View.INVISIBLE);
+             //   idpprofSpinner.setVisibility(View.INVISIBLE);
+                card_type = getIntent().getStringExtra("CARD_TYPE");
+                set_id.setText(card_type);
+                picImg.setVisibility(View.INVISIBLE);
+                cbAccomodation.setVisibility(View.INVISIBLE);
+                cbTransportArran.setVisibility(View.INVISIBLE);
+                Accomadation_arrangement = getIntent().getStringExtra("TRANSPORTAION_ARRANGEMENT");
+                Transportation_arrangement = getIntent().getStringExtra("ACCOMODATION_ARRANGEMENT");
+
+                if ( Accomadation_arrangement.toString().equalsIgnoreCase("Y"))
+                {
+                    accomodation.setText("You requested for accomadation arrangement.");
+                }
+                else {
+                   accomodation.setText("No request for accomadation arrangement.");
+                }
+                if ( Transportation_arrangement.toString().equalsIgnoreCase("Y"))
+                {
+                    transport.setText("You requested for transportation arrangement.");
+                } else {
+                    transport.setText("No request for transportation arrangement.");
+                }
+
+                break;
+            case "18":
+                layout_button.setVisibility(View.VISIBLE);
+                tvbookingContinue.setVisibility(View.VISIBLE);
+                picImg.setVisibility(View.INVISIBLE);
+                GetSpinner();
+                idpprofSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        if (position != 0) {
+                            id_card = idCards.get(position).getId();
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+                break;
+                default:
+
+        }
+
+
+
+
+        //the status set to 28 or 27
+        /*if (Status.equals(Integer.parseInt("28")) || Status.equals(Integer.parseInt("27"))) {
+            tvbookingContinue.setVisibility(View.GONE);
+            idpprofSpinner.setVisibility(View.INVISIBLE);
+            layout_button.setVisibility(View.INVISIBLE);
+            picImg.setVisibility(View.INVISIBLE);
+            status_show.setText(Status);
+            GetAllData();
+            }else if(Status.equals(Integer.parseInt("18"))){
+        */
         GetAllData();
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
                 /*Snackbar snackbar = Snackbar
                         .make(gitadisLayout, "Information Saved Successfully!", Snackbar.LENGTH_LONG);
                 View sbView = snackbar.getView();
                 sbView.setBackgroundColor(getResources().getColor(R.color.colorTextLabel));
                 snackbar.show();*/
 
-                /*if (isValid()){
+               /* if (isValid()){
                     new SubmitData().execute();
-                }*/
-               // new SubmitData().execute();
-                SubmitData();
-            }
-        });
-        GetSpinner();
-        idpprofSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position != 0){
-                    id_card = idCards.get(position).getId();
                 }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+                  */  // new SubmitData().execute();
+                    SubmitData();
 
-            }
-        });
-        GetOtherData();
+                }
+            });
+         //   GetSpinner();
+            /*idpprofSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    if (position != 0) {
+                        id_card = idCards.get(position).getId();
+                    }
+                }
 
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });*/
 
     }
     //**************#******************#*****************#*******************#******************#
@@ -367,10 +454,13 @@ public class GitaDistribution extends BaseActivity {
         tvEventDate.setText(getIntent().getStringExtra("START_DATE") + "to" + getIntent().getStringExtra("END_DATE"));
         tvNote.setText(getIntent().getStringExtra("NOTES"));
         tvMessage.setText(getIntent().getStringExtra("MESSAGE"));
+        Message = getIntent().getStringExtra("MESSAGE");
         Status = getIntent().getStringExtra("STATUS");
-        if(Status == "27" || Status == "28" ){
-            DisableOnSubmission();
-        }
+        Log.d("!!!!Status incomming", Status.toString());
+        Log.d("!!!!Status message", getIntent().getStringExtra("MESSAGE"));
+
+    //        DisableOnSubmission();
+
 
     }
     //This Method contains submission of ID_CARD,TRANSPORT AND ACCOMODATION ARRANGEMENT,EVENT_REG_ID
@@ -413,19 +503,32 @@ public class GitaDistribution extends BaseActivity {
             };
             RequestQueue queue = Volley.newRequestQueue(this);
             // add it to the RequestQueue
-            queue.add(postRequest);;
+            queue.add(postRequest);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    public void DisableOnSubmission(){
+    /*public void DisableOnSubmission(){
         // EventRegistrationConfirmed = 27 | BookingConfirmationShared = 28
         //String Status = getIntent().getStringExtra("STATUS");
         //if(Status == "27" || Status == "28" ){
-            tvbookingContinue.setVisibility(View.GONE);
-            layout_button.setVisibility(View.GONE);
-            idpprofSpinner.setEnabled(false);
+            //tvbookingContinue.setVisibility(View.GONE);
+            //layout_button.setVisibility(View.GONE);
+           // idpprofSpinner.setEnabled(false);
+
+        Log.d("!!!!disable section", Status.toString());
+        Log.d("!!!disable Message",Message.toString());
+            //############################
+     //       if (Status.toString() == "28") {
+           if(Message.toString() == "Travel confirmation shared"){
+
+            Log.d("!!!!disable section", Status.toString());
+                tvbookingContinue.setVisibility(View.GONE);
+                idpprofSpinner.setVisibility(View.INVISIBLE);
+                layout_button.setVisibility(View.INVISIBLE);
+               picImg.setVisibility(View.INVISIBLE);
+                status_show.setText(Status);
             picImg.setEnabled(false);
             if(cbAccomodation.isChecked()){
                 cbAccomodation.setChecked(true);
@@ -437,9 +540,11 @@ public class GitaDistribution extends BaseActivity {
             }else {
                 cbTransportArran.setChecked(false);
             }
-
+            GetAllData();
         }
-
+        //###############################
+    }
+*/
 
     /*public class GetAllData extends AsyncTask<String, String, Boolean> {
         JSONObject jsonResponse;
