@@ -253,28 +253,32 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:src="@drawable/id_proof"/>
-
-                    <Spinner
-                        android:id="@+id/idpprofSpinner"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="10dp"
-                        android:gravity="left" />
+                        android:layout_height="wrap_content">
+                        <Spinner
+                            android:id="@+id/idpprofSpinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="10dp"
+                            android:gravity="left" />
+                        <TextView
+                            android:id="@+id/set_id"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:text="ID Card"
+                            android:textColor="@color/colorPrimaryDeep"
+                            android:textSize="15sp"
+                            android:layout_marginLeft="15dp"
+                            android:fontFamily="sans-serif-condensed"/>
 
+                    </RelativeLayout>
 
                 </LinearLayout>
-                <TextView
-                    android:id="@+id/set_id"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="ID Card"
-                    android:textColor="@color/colorPrimaryDeep"
-                    android:textSize="15sp"
-                    android:fontFamily="sans-serif-condensed"/>
+
 
             </LinearLayout>
 

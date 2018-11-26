@@ -105,6 +105,7 @@ public class GitaDistribution extends BaseActivity {
         });
 
         idpprofSpinner = (Spinner) findViewById(R.id.idpprofSpinner);
+        idpprofSpinner.setVisibility(View.INVISIBLE);
         gitadisLayout = (LinearLayout) findViewById(R.id.gitadisLayout);
         picImg = (ImageView) findViewById(R.id.picImg);
         tvEventDate = (TextView) findViewById(R.id.tvEventDate);
@@ -127,6 +128,7 @@ public class GitaDistribution extends BaseActivity {
         accomodation = findViewById(R.id.accomodation_arrangement);
         transport = findViewById(R.id.transport_arrangement);
         set_id = findViewById(R.id.set_id);
+        set_id.setVisibility(View.INVISIBLE);
 
 
         /*ArrayAdapter<CharSequence> adapterPresonNo = ArrayAdapter.createFromResource(GitaDistribution.this,R.array.itiesidpinner, R.layout.spinner_item);
@@ -190,9 +192,10 @@ public class GitaDistribution extends BaseActivity {
             case "28":
                 layout_button.setVisibility(View.INVISIBLE);
                 tvbookingContinue.setVisibility(View.INVISIBLE);
-             //   idpprofSpinner.setVisibility(View.INVISIBLE);
+                idpprofSpinner.setVisibility(View.INVISIBLE);
                 card_type = getIntent().getStringExtra("CARD_TYPE");
                 set_id.setText(card_type);
+                set_id.setVisibility(View.VISIBLE);
                 picImg.setVisibility(View.INVISIBLE);
                 cbAccomodation.setVisibility(View.INVISIBLE);
                 cbTransportArran.setVisibility(View.INVISIBLE);
@@ -218,6 +221,8 @@ public class GitaDistribution extends BaseActivity {
                 layout_button.setVisibility(View.VISIBLE);
                 tvbookingContinue.setVisibility(View.VISIBLE);
                 picImg.setVisibility(View.INVISIBLE);
+                idpprofSpinner.setVisibility(View.VISIBLE);
+                set_id.setVisibility(View.INVISIBLE);
                 GetSpinner();
                 idpprofSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
