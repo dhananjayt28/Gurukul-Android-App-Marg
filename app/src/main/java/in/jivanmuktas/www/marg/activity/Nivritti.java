@@ -28,6 +28,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonObject;
@@ -50,17 +51,20 @@ import in.jivanmuktas.www.marg.constant.Constant;
 import in.jivanmuktas.www.marg.network.HttpClient;
 import in.jivanmuktas.www.marg.network.HttpGetHandler;
 import in.jivanmuktas.www.marg.network.HttpPutHandler;
+import in.jivanmuktas.www.marg.singleton.VolleySingleton;
 
 public class Nivritti extends BaseActivity {
     private SimpleDateFormat dateFormatter;
     private DatePickerDialog datePickerDialog;
-    String EVENT_ID,status;
-    TextView calendar,alottedSubject,commentToApprover,tvCkInTime,tvCkOutTime;
+    String EVENT_ID,status="",Status;
+    TextView calendar,alottedSubject,commentToApprover,tvCkInTime,tvCkOutTime,alloted_subject,comment_toApprover;
     EditText etCheckInDate,etCheckOutDate,etCheckInTime,etCheckOutTime,commentForHod;
     LinearLayout timeView,subjectLayout,dateTimeView,topicView,layoutNivritti;
     TextInputLayout commentForHodLayout;
+    ImageView tvcheckinTime_image,tvcheckoutTime_image;
     Button submit;
     JSONObject jsonResponse;
+    String checkin_date="",checkout_date="",checkin_time="",checkout_time="";
     ArrayList<Spinner> actionList = new ArrayList<Spinner>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +86,8 @@ public class Nivritti extends BaseActivity {
 
         try {
         EVENT_ID = getIntent().getExtras().getString("EVENT_ID");
+        Status = getIntent().getExtras().getString("STATUS");
+        Log.i("!!! status",Status.toString());
         } catch (Exception e) {
 
         }
@@ -91,33 +97,100 @@ public class Nivritti extends BaseActivity {
         tvCkInTime = (TextView) findViewById(R.id.tvCkInTime);
         tvCkOutTime = (TextView) findViewById(R.id.tvCkOutTime);
         alottedSubject = (TextView) findViewById(R.id.alottedSubject);
+        alottedSubject.setVisibility(View.GONE);
+        alloted_subject = (TextView) findViewById(R.id.alotted_Subject);
+        alloted_subject.setVisibility(View.GONE);
         commentToApprover = (TextView) findViewById(R.id.tvcommentToApprover);
+        commentToApprover.setVisibility(View.GONE);
+        comment_toApprover = findViewById(R.id.tvcomment_ToApprover);
+        comment_toApprover.setVisibility(View.GONE);
         dateTimeView  = (LinearLayout) findViewById(R.id.dateTimeView);
         etCheckInDate = (EditText) findViewById(R.id.etCheckInDate);
+        etCheckInDate.setVisibility(View.GONE);
         etCheckOutDate = (EditText) findViewById(R.id.etCheckOutDate);
+        etCheckOutDate.setVisibility(View.GONE);
         etCheckInTime = (EditText) findViewById(R.id.etCheckInTime);
+        etCheckInTime.setVisibility(View.GONE);
         etCheckOutTime = (EditText) findViewById(R.id.etCheckOutTime);
+        etCheckOutTime.setVisibility(View.GONE);
         topicView = (LinearLayout) findViewById(R.id.topicView);
         subjectLayout = (LinearLayout) findViewById(R.id.subjectLayout);
         commentForHod = (EditText) findViewById(R.id.commentForHod);
         commentForHodLayout = (TextInputLayout) findViewById(R.id.commentForHodLayout);
         submit = (Button) findViewById(R.id.submit);
+        submit.setVisibility(View.GONE);
         layoutNivritti = (LinearLayout) findViewById(R.id.layoutNivritti);
-
         timeView.setVisibility(View.GONE);
         commentForHodLayout.setVisibility(View.GONE);
         topicView.setVisibility(View.GONE);
+        tvcheckinTime_image = (ImageView) findViewById(R.id.tvCkInTime_image);
+//        tvcheckoutTime_image.setVisibility(View.GONE);
+        tvcheckoutTime_image = (ImageView) findViewById(R.id.tvCkOutTime_image);
+//        tvcheckoutTime_image.setVisibility(View.GONE);
         if (isNetworkAvailable()) {
-            new GetAllData().execute();
+        //    new GetAllData().execute();
         }else {
             finish();
+        }
+        RegisteredEventData();
+        Log.d("!!! find ",checkin_time.toString());
+
+        switch(Status){
+            case "18":
+                alottedSubject.setVisibility(View.VISIBLE);
+                alloted_subject.setVisibility(View.VISIBLE);
+                commentToApprover.setVisibility(View.VISIBLE);
+                comment_toApprover.setVisibility(View.VISIBLE);
+                etCheckInDate.setVisibility(View.VISIBLE);
+                etCheckOutDate.setVisibility(View.VISIBLE);
+                etCheckInTime.setVisibility(View.VISIBLE);
+                etCheckOutTime.setVisibility(View.VISIBLE);
+                submit.setVisibility(View.VISIBLE);
+                tvcheckoutTime_image.setVisibility(View.GONE);
+                tvcheckinTime_image.setVisibility(View.GONE);
+                tvCkInTime.setVisibility(View.GONE);
+                tvCkOutTime.setVisibility(View.GONE);
+
+                break;
+            case "26":
+                alloted_subject.setVisibility(View.GONE);
+                alottedSubject.setVisibility(View.GONE);
+                commentToApprover.setVisibility(View.GONE);
+                comment_toApprover.setVisibility(View.GONE);
+                etCheckInDate.setVisibility(View.GONE);
+                etCheckOutDate.setVisibility(View.GONE);
+                etCheckInTime.setVisibility(View.GONE);
+                etCheckOutTime.setVisibility(View.GONE);
+                submit.setVisibility(View.GONE);
+                timeView.setVisibility(View.VISIBLE);
+
+            //    tvCkInTime.setText(checkin_date);
+            //    tvCkOutTime.setText(checkout_time);
+
+        //        tvcheckoutTime_image.setVisibility(View.VISIBLE);
+        //        tvcheckinTime_image.setVisibility(View.VISIBLE);
+        //        tvCkInTime.setVisibility(View.VISIBLE);
+        //        tvCkOutTime.setVisibility(View.VISIBLE);
+
+                break;
+            case "24":
+                timeView.setVisibility(View.VISIBLE);
+                alottedSubject.setVisibility(View.VISIBLE);
+                alloted_subject.setVisibility(View.VISIBLE);
+                commentToApprover.setVisibility(View.VISIBLE);
+                comment_toApprover.setVisibility(View.VISIBLE);
+                topicView.setVisibility(View.VISIBLE);
+                commentForHodLayout.setVisibility(View.VISIBLE);
+                break;
+            default:
+
         }
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (isValid()) {
-                    //new SubmitData().execute();
+            //        new SubmitData().execute();
                     SubmitData();
                 }
             }
@@ -223,13 +296,10 @@ public class Nivritti extends BaseActivity {
                 mTimePicker.show();
             }
         });
+
     }
     //***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#
 
-    public void GetAlldata(){
-        final String url = Constant.VOLUNTEER_EVENT_APPROVE +"event_id="+EVENT_ID;
-
-    }
 
     public class GetAllData extends AsyncTask<String, String, Boolean>{
         JSONObject jsonResponse;
@@ -278,10 +348,10 @@ public class Nivritti extends BaseActivity {
                     String checkInTime = object.getString("CHECK_IN_TIME");
                     String checkOutTime = object.getString("CHECK_OUT_TIME");
                     String commentForHod = object.getString("COMMENT_FOR_HOD");
-                    //status = object.getString("STATUS");//Status for stage 1 or 2
-                    status = "1";
+                 //   status = object.getString("STATUS");//Status for stage 1 or 2
+                //    status = "18";               //manually changed to 26
 
-                    if (status.equals("1")) {
+                    if (status.equals("1")) {        //manually changed to 26
                         tvCkInTime.setText(checkInTime);
                         tvCkOutTime.setText(checkOutTime);
                         timeView.setVisibility(View.VISIBLE);
@@ -375,38 +445,39 @@ public class Nivritti extends BaseActivity {
     }
 //@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%
    public boolean isValid(){
-        if(!status.equals("1")){//State 1 validation check
-        if (etCheckInDate.length()==0){
-            editTextFocus(etCheckInDate);
-            SnackbarRed(R.id.layoutNivritti,"Please choose Check In Date");
-            return false;
-        }else if (etCheckInTime.length()==0){
-            editTextFocus(etCheckInTime);
-            SnackbarRed(R.id.layoutNivritti,"Please choose Check In Time");
-            return false;
-        }else if (etCheckOutDate.length()==0){
-            editTextFocus(etCheckOutDate);
-            SnackbarRed(R.id.layoutNivritti,"Please choose Check Out Date");
-            return false;
-        }else if (etCheckOutTime.length()==0){
-            editTextFocus(etCheckOutTime);
-            SnackbarRed(R.id.layoutNivritti,"Please choose Check Out Time");
-            return false;
-        }
-        }else if(status.equals("2")){//State 2 validation check
-            for (Spinner spinner:actionList){
-                if (spinner.getSelectedItemPosition()==0){
-                    Toast.makeText(Nivritti.this,"Please select action.",Toast.LENGTH_LONG).show();
+        if(status == "1") {//State 1 validation check   //manually changed to 26
+            if (etCheckInDate.length() == 0) {
+                editTextFocus(etCheckInDate);
+                SnackbarRed(R.id.layoutNivritti, "Please choose Check In Date");
+                return false;
+            } else if (etCheckInTime.length() == 0) {
+                editTextFocus(etCheckInTime);
+                SnackbarRed(R.id.layoutNivritti, "Please choose Check In Time");
+                return false;
+            } else if (etCheckOutDate.length() == 0) {
+                editTextFocus(etCheckOutDate);
+                SnackbarRed(R.id.layoutNivritti, "Please choose Check Out Date");
+                return false;
+            } else if (etCheckOutTime.length() == 0) {
+                editTextFocus(etCheckOutTime);
+                SnackbarRed(R.id.layoutNivritti, "Please choose Check Out Time");
+                return false;
+            }
+            } else if (status.equals("2")) {//State 2 validation check
+                for (Spinner spinner : actionList) {
+                    if (spinner.getSelectedItemPosition() == 0) {
+                        Toast.makeText(Nivritti.this, "Please select action.", Toast.LENGTH_LONG).show();
+                        return false;
+                    }
+                }
+                if (commentForHod.length() == 0) {
+                    editTextFocus(commentForHod);
+                    commentForHod.setError("Please fill this field");
                     return false;
                 }
             }
-            if (commentForHod.length()==0){
-                editTextFocus(commentForHod);
-                commentForHod.setError("Please fill this field");
-                return false;
-            }
-        }
-        return true;
+            return true;
+
     }
 //@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%
 
@@ -463,6 +534,65 @@ public class Nivritti extends BaseActivity {
 
     }
 
+    public void RegisteredEventData(){
+        String url = Constant.GET_REGISTERED_EVENT_DATA + "?event_id=" + EVENT_ID;
+        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject object) {
+                        try {
+                            if (object.getString("status").equals("true")){
+                                Log.d("!!!Response",object.toString());
+                                JSONArray jsonArray = object.getJSONArray("response");
+                                JSONObject jsonObject = jsonArray.getJSONObject(0);
+                            //    checkin_date = jsonObject.getString("CHECKIN_DATE");
+                                tvCkInTime.setText(jsonObject.getString("CHECKIN_DATE") + " " + jsonObject.getString("CHECKIN_TIME"));
+                                tvCkOutTime.setText(jsonObject.getString("CHECKOUT_DATE") + " " + jsonObject.getString("CHECKOUT_TIME"));
+                                calendar.setText(jsonObject.getString("CHECKIN_DATE") + " - " + jsonObject.getString("CHECKOUT_DATE"));
+
+                            //    checkout_date = jsonObject.getString("CHECKOUT_DATE");
+                            //    checkin_time = jsonObject.getString("CHECKIN_TIME");
+                            //    checkout_time = jsonObject.getString("CHECKOUT_TIME");
+                                jsonArray.put(jsonObject);
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+        VolleySingleton.getInstance(this).addToRequestQueue(objectRequest);
+
+    }
+
+    public void SubjectAlloted(){
+        String url = Constant.GET_CONTENT_DATA + "?event_reg_id=" + EVENT_ID;
+        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject object) {
+                        try {
+                            if(object.getString("status").equals("true"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+        VolleySingleton.getInstance(this).addToRequestQueue(objectRequest);
+    }
+
     public class SubmitData extends AsyncTask<String,String,Boolean> {
         @Override
         protected void onPreExecute() {
@@ -482,6 +612,7 @@ public class Nivritti extends BaseActivity {
                     reqObj.put("CHECKOUT_DATE", etCheckOutDate.getText().toString().trim());
                     reqObj.put("CHECKIN_TIME", etCheckInTime.getText().toString().trim());
                     reqObj.put("CHECKOUT_TIME", etCheckOutTime.getText().toString().trim());
+                     reqObj.put("MESSAGE","80");
                  //   reqObj.put("EVENT_ID","8");
                  //   reqObj.put("MESSAGE","80");
                     jsonArray.put(reqObj);

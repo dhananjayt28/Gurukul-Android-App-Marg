@@ -53,7 +53,7 @@ import in.jivanmuktas.www.marg.singleton.VolleySingleton;
 public class RegistrationActivity extends BaseActivity {
     EditText etFirstName,etLastName,etDob,etAge,etPass,etRePass,etEmail,etPhoneNumber,etHelpAnother;
     RadioGroup title,rgGender;
-    Spinner spinner_satsang,spinner_edu,spinner_country;
+    Spinner spinner_satsang,spinner_edu,spinner_country,spinner_title,spinner_gender;
     SearchableSpinner spinner_city;
 
     private SimpleDateFormat dateFormatter;
@@ -74,7 +74,8 @@ public class RegistrationActivity extends BaseActivity {
     String CityId="";
     String EducationId="";
     String TitleId = "";
-   // String[] gender = {"MALE","FEMALE"};
+    String[] Gender = {"Select","MALE","FEMALE"};
+    String GenderId = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +110,8 @@ public class RegistrationActivity extends BaseActivity {
         spinner_edu = (Spinner) findViewById(R.id.spinner_edu);  //education
         spinner_country = (Spinner) findViewById(R.id.spinner_country);
         spinner_city = (SearchableSpinner) findViewById(R.id.spinner_city);
+        spinner_title = (Spinner)findViewById(R.id.spinner_title);
+        spinner_gender = (Spinner)findViewById(R.id.spinner_gender);
         etHelpAnother = (EditText) findViewById(R.id.etHelpAnother);
         button_Sign_Up = (Button)findViewById(R.id.button_Sign_Up);
         /////////////////////************************///////////////////
@@ -196,19 +199,7 @@ public class RegistrationActivity extends BaseActivity {
             }
         });
 
-        /*gender.setOnItemSelectedListener(new AdapterView.OnItemClickListener(){
-            ArrayAdapter aa = new ArrayAdapter(RegistrationActivity.this,android.R.layout.simple_spinner_item,gender);
-            aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            //Setting the ArrayAdapter data on the Spinner
-             spin.setAdapter(aa);
-
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-            }
-        });*/
-
-        /*SetTitle();
+        SetTitle();
         spinner_title.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -219,7 +210,24 @@ public class RegistrationActivity extends BaseActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
-        });*/
+        });
+
+        getGender();
+
+        spinner_gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position != 0){
+                    GenderId = Gender[position];
+
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+
+        });
 
     }
 
@@ -267,7 +275,13 @@ public class RegistrationActivity extends BaseActivity {
         }else if (spinner_satsang.getSelectedItemPosition() == 0) {
             SnackbarRed(R.id.reglayout,"Please Choose Satsang Chapter");
             flag = false;
-        }else if (spinner_edu.getSelectedItemPosition() == 0) {
+        }else if (spinner_title.getSelectedItemPosition() == 0) {
+            SnackbarRed(R.id.reglayout,"Please Choose Title");
+            flag = false;
+        } else if (spinner_gender.getSelectedItemPosition() == 0) {
+            SnackbarRed(R.id.reglayout,"Please Choose gender");
+            flag = false;
+        } else if (spinner_edu.getSelectedItemPosition() == 0) {
             SnackbarRed(R.id.reglayout,"Please Choose Education");
             flag = false;
         }else if (etHelpAnother.getText().toString().trim().length() == 0 ) {
@@ -429,18 +443,18 @@ public class RegistrationActivity extends BaseActivity {
                                 for (int i=0;i<jsonArray.length();i++){
                                     Log.d("!!!!Title",response.toString());
                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                    Education education = new Education();
-                                    education.setEducation_id(jsonObject.getString("LOV_ID"));
-                                    education.setEducation_name(jsonObject.getString("LOV_NAME"));
-                                    edu.add(education);
+                                    Title title = new Title();
+                                    title.setTitle_id(jsonObject.getString("LOV_ID"));
+                                    title.setTitle_name(jsonObject.getString("LOV_NAME"));
+                                    titles.add(title);
                                 }
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        ArrayAdapter educate=new ArrayAdapter(RegistrationActivity.this, R.layout.spinner_dropdown_item, edu);
-                        educate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        spinner_edu.setAdapter(educate);
+                        ArrayAdapter title=new ArrayAdapter(RegistrationActivity.this, R.layout.spinner_dropdown_item, titles);
+                        title.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_title.setAdapter(title);
                     }
                 },
                 new Response.ErrorListener()
@@ -453,6 +467,11 @@ public class RegistrationActivity extends BaseActivity {
         );
 
         VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
+    }
+    public void getGender(){
+        ArrayAdapter gender = new ArrayAdapter(RegistrationActivity.this,R.layout.spinner_dropdown_item,Gender);
+        gender.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_gender.setAdapter(gender);
     }
 
     ///////***********************//////////////////
@@ -532,14 +551,15 @@ public class RegistrationActivity extends BaseActivity {
             try {
                 JSONArray reqArr = new JSONArray();
                 JSONObject reqObj = new JSONObject();
-                RadioButton rbTitle = (RadioButton) findViewById(title.getCheckedRadioButtonId());
-                int indexTitle = title.indexOfChild(rbTitle)+1;
-                reqObj.put("TITLE",String.valueOf(indexTitle));// 1 = Mr., 2 = Mrs., 3 = Miss.
-            //    reqObj.put("TITLE",TitleId);
+            //    RadioButton rbTitle = (RadioButton) findViewById(title.getCheckedRadioButtonId());
+            //    int indexTitle = title.indexOfChild(rbTitle)+1;
+            //    reqObj.put("TITLE",String.valueOf(indexTitle));// 1 = Mr., 2 = Mrs., 3 = Miss.
+                reqObj.put("TITLE",TitleId);
                 reqObj.put("NAME",etFirstName.getText().toString().trim()+" "+etLastName.getText().toString().trim());
-                RadioButton rb = (RadioButton) findViewById(rgGender.getCheckedRadioButtonId());
-                int indexGen = rgGender.indexOfChild(rb);
-                reqObj.put("GENDER",String.valueOf(indexGen));// 0 = male, 1 = Female
+            //    RadioButton rb = (RadioButton) findViewById(rgGender.getCheckedRadioButtonId());
+            //    int indexGen = rgGender.indexOfChild(rb);
+            //    reqObj.put("GENDER",String.valueOf(indexGen));// 0 = male, 1 = Female
+                reqObj.put("GENDER",GenderId);
                 reqObj.put("DOB", etDob.getText().toString().trim());
                 reqObj.put("EMAIL", etEmail.getText().toString().trim());
                 reqObj.put("CONTACT", etPhoneNumber.getText().toString().trim());
@@ -587,8 +607,6 @@ public class RegistrationActivity extends BaseActivity {
             }
         }
     }
-
-
 
     ///////////// Hide Menu
     @Override
