@@ -54,4 +54,10 @@ public class Constant {
 
    public static final String GET_TITLE_LIST = BASE_URL_NEW + "get-master-data-list?category_name=MASTER_TITLE";
 
+   public static final String GET_REGISTERED_EVENT_DATA = BASE_URL_NEW + "get-registered-event-data";
+
+   public static final String GET_CONTENT_DATA = BASE_URL_NEW + "get-content-data";
+
+   public static final String TOPIC_STATUS_UPDATE = BASE_URL_NEW + "topic-status-update";
+
 }
