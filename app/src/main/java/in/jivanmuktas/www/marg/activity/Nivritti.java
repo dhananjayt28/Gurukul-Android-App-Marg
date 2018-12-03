@@ -59,7 +59,7 @@ public class Nivritti extends BaseActivity {
     String EVENT_ID,status="",Status,SUBJECT_ID,TOPIC_ID;
     TextView calendar,alottedSubject,commentToApprover,tvCkInTime,tvCkOutTime,alloted_subject,comment_toApprover;
     EditText etCheckInDate,etCheckOutDate,etCheckInTime,etCheckOutTime,commentForHod;
-    LinearLayout timeView,subjectLayout,dateTimeView,topicView,layoutNivritti;
+    LinearLayout timeView,subjectLayout,dateTimeView,topicView,layoutNivritti,subjectStatusLayout;
     TextInputLayout commentForHodLayout;
     ImageView tvcheckinTime_image,tvcheckoutTime_image;
     Button submit,update;
@@ -115,6 +115,9 @@ public class Nivritti extends BaseActivity {
         etCheckOutTime.setVisibility(View.GONE);
         topicView = (LinearLayout) findViewById(R.id.topicView);
         subjectLayout = (LinearLayout) findViewById(R.id.subjectLayout);
+        subjectLayout.setVisibility(View.GONE);
+        subjectStatusLayout = (LinearLayout) findViewById(R.id.subjectStatusLayout);
+        subjectStatusLayout.setVisibility(View.GONE);
         commentForHod = (EditText) findViewById(R.id.commentForHod);
         commentForHodLayout = (TextInputLayout) findViewById(R.id.commentForHodLayout);
         submit = (Button) findViewById(R.id.submit);
@@ -132,7 +135,7 @@ public class Nivritti extends BaseActivity {
         if (isNetworkAvailable()) {
         //    new GetAllData().execute();
             SubjectAlloted();
-
+            SubjectFetched();
         }else {
             finish();
         }
@@ -168,6 +171,7 @@ public class Nivritti extends BaseActivity {
                 submit.setVisibility(View.GONE);
                 timeView.setVisibility(View.VISIBLE);
 
+
             //    tvCkInTime.setText(checkin_date);
             //    tvCkOutTime.setText(checkout_time);
 
@@ -177,7 +181,7 @@ public class Nivritti extends BaseActivity {
         //        tvCkOutTime.setVisibility(View.VISIBLE);
 
                 break;
-            case "24":
+            case "29":
                 timeView.setVisibility(View.VISIBLE);
                 alottedSubject.setVisibility(View.VISIBLE);
                 alloted_subject.setVisibility(View.VISIBLE);
@@ -187,7 +191,18 @@ public class Nivritti extends BaseActivity {
                 commentForHodLayout.setVisibility(View.VISIBLE);
                 update.setVisibility(View.VISIBLE);
                 submit.setVisibility(View.GONE);
+                subjectLayout.setVisibility(View.VISIBLE);
+                subjectStatusLayout.setVisibility(View.GONE);
                 break;
+            case "30":
+                timeView.setVisibility(View.VISIBLE);
+                alottedSubject.setVisibility(View.VISIBLE);
+                alloted_subject.setVisibility(View.VISIBLE);
+                commentToApprover.setVisibility(View.VISIBLE);
+                comment_toApprover.setVisibility(View.VISIBLE);
+                topicView.setVisibility(View.VISIBLE);
+                subjectStatusLayout.setVisibility(View.VISIBLE);
+
             default:
 
         }
@@ -585,7 +600,7 @@ public class Nivritti extends BaseActivity {
         JSONObject reqObj = new JSONObject();
         try {
             reqObj.put("TOPIC_ID",TOPIC_ID);
-            reqObj.put("STATUS_ID",Status);
+            reqObj.put("STATUS_ID","30");
             reqObj.put("EVENT_REG_ID", EVENT_ID);
             reqObj.put("HOD_COMMENT", commentForHod.getText().toString().trim());
             jsonArray.put(reqObj);
@@ -713,8 +728,65 @@ public class Nivritti extends BaseActivity {
         VolleySingleton.getInstance(this).addToRequestQueue(objectRequest);
     }
 
+    public void SubjectFetched(){
+        String url = Constant.GET_CONTENT_DATA + "?event_reg_id=" + EVENT_ID;
+        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject object) {
+                        try {
+                            if(object.getString("status").equals("true"));
+                            Log.d("!!!Response",object.toString());
+                            JSONArray jsonArray = object.getJSONArray("response");
+                            for (int i=0;i<jsonArray.length();i++){
+                                Log.d("!!! subject",object.toString());
+                                JSONObject subject = jsonArray.getJSONObject(i);
+                                final String SOURCE = subject.getString("CONTENT_SOURCE");
+                                String SUBJECT = subject.getString("SUBJECT");
+                                String TOPIC = subject.getString("TOPIC");
+                                SUBJECT_ID = subject.getString("SUBJECT_ID");
+                                TOPIC_ID = subject.getString("TOPIC_ID");
+                                //    jsonArray.put(subject);
+                                //=======================================================================================//
+                               /* if (subject.length()==0){
+                                    TextView tv = new TextView(Nivritti.this);
+                                    tv.setText("No topic allocated yet");
+                                    tv.setTextSize(20);
+                                    subjectLayout.addView(tv);
+                                    submit.setVisibility(View.GONE);
+                                }*/
 
-    public class SubmitData extends AsyncTask<String,String,Boolean> {
+                                //#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+
+                                alottedSubject.setText(SUBJECT + " ");
+
+                                LayoutInflater inflater = getLayoutInflater();
+                                final View v = inflater.inflate(R.layout.topic_status, null);
+                                TextView subjects = v.findViewById(R.id.topic_Name);
+                                TextView status = v.findViewById(R.id.status);
+                                subjects.setText(SUBJECT);
+                                status.setText(TOPIC);
+
+                                subjectStatusLayout.addView(v);
+                                //#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+        VolleySingleton.getInstance(this).addToRequestQueue(objectRequest);
+    }
+    }
+
+
+   /* public class SubmitData extends AsyncTask<String,String,Boolean> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -766,4 +838,4 @@ public class Nivritti extends BaseActivity {
                 CustomToast("Submit Failed!");
             }
         }
-    }}
+    }*/
