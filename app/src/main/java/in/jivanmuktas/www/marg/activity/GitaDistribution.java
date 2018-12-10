@@ -121,7 +121,7 @@ public class GitaDistribution extends BaseActivity {
         gitaDistribution = (TextView) findViewById(R.id.gitaDistribution);
         tvMessage = (TextView) findViewById(R.id.tvMessage);
         tvbookingContinue = (TextView)findViewById(R.id.tvbookingContinue);
-        tvbookingContinue.setVisibility(View.VISIBLE);
+        tvbookingContinue.setVisibility(View.INVISIBLE);
         layout_button = (LinearLayout) findViewById(R.id.layout_button);
         layout_button.setVisibility(View.INVISIBLE);
         status_show = findViewById(R.id.Status_show);
@@ -189,7 +189,7 @@ public class GitaDistribution extends BaseActivity {
         Log.d("!!!This is",Status.toString());
 
         switch(Status){
-            case "28":
+            case "27":
                 layout_button.setVisibility(View.INVISIBLE);
                 tvbookingContinue.setVisibility(View.INVISIBLE);
                 idpprofSpinner.setVisibility(View.INVISIBLE);
@@ -223,6 +223,10 @@ public class GitaDistribution extends BaseActivity {
                 picImg.setVisibility(View.INVISIBLE);
                 idpprofSpinner.setVisibility(View.VISIBLE);
                 set_id.setVisibility(View.INVISIBLE);
+                cbAccomodation.setVisibility(View.VISIBLE);
+                cbTransportArran.setVisibility(View.VISIBLE);
+                accomodation.setVisibility(View.INVISIBLE);
+                transport.setVisibility(View.GONE);
                 GetSpinner();
                 idpprofSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override

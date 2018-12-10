@@ -49,16 +49,16 @@ public class IASCoaching extends BaseActivity {
         Log.i("!!!Activity:", TAG);
         Toolbar toolbar = (Toolbar) findViewById(R.id.top_toolbar);
         setSupportActionBar(toolbar);
-        /* title = getIntent().getExtras().getString("TITLE");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        /*title = getIntent().getExtras().getString("TITLE");
         setTitle(title);*/
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-
-
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
 
             }
         });

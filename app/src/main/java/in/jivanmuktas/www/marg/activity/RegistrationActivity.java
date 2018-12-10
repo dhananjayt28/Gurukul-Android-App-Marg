@@ -284,7 +284,7 @@ public class RegistrationActivity extends BaseActivity {
         } else if (spinner_edu.getSelectedItemPosition() == 0) {
             SnackbarRed(R.id.reglayout,"Please Choose Education");
             flag = false;
-        }else if (etHelpAnother.getText().toString().trim().length() == 0 ) {
+        } else if (etHelpAnother.getText().toString().trim().length() == 0 ) {
             etHelpAnother.setError("Please enter Other Activity");
             editTextFocus(etHelpAnother);
             flag = false;
@@ -569,6 +569,7 @@ public class RegistrationActivity extends BaseActivity {
                 reqObj.put("COUNTRY_CODE", "+91");
                 reqObj.put("CHAPTER", spinner_satsang.getSelectedItem().toString());
                 reqObj.put("EDUCATION", EducationId);
+            //    reqObj.put("EDUCATION",spinner_edu.getSelectedItem().toString());
                 reqObj.put("ACTIVITY", etHelpAnother.getText().toString().trim());
 
                 reqArr.put(reqObj);
