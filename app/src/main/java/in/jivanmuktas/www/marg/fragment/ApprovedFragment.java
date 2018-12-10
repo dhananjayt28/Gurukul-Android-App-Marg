@@ -378,6 +378,7 @@ public class ApprovedFragment extends Fragment {
                             }else if (EVENT_TYPE.equals("2")){
                                 intent=new Intent(getActivity(), Workshop.class);//Change line later
                                 intent.putExtra("EVENT_ID", EVENT_REG_ID);
+                                intent.putExtra("STATUS",STATUS);
                                 startActivity(intent);
                             }else if (EVENT_TYPE.equals("3")){
                                 intent=new Intent(getActivity(), GitaDistribution.class);//Change line later

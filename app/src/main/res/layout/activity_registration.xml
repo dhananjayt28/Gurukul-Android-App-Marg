@@ -141,8 +141,8 @@
                         android:id="@+id/spinner_title"
                         android:layout_width="match_parent"
                         android:layout_height="54dp"
-                        android:padding="10dp"
-                        android:textSize="20sp"/>
+                        android:paddingLeft="10dp"
+                        android:textSize="20sp" />
 
                 </LinearLayout>
 
@@ -285,7 +285,7 @@
                     android:id="@+id/spinner_gender"
                     android:layout_width="match_parent"
                     android:layout_height="54dp"
-                    android:padding="10dp"
+                    android:paddingLeft="10dp"
                     android:textSize="20sp" />
             </LinearLayout>
         <LinearLayout
@@ -619,7 +619,7 @@
                     android:id="@+id/spinner_edu"
                     android:layout_width="match_parent"
                     android:layout_height="54dp"
-                    android:padding="10dp"
+                    android:paddingLeft="10dp"
                     android:textSize="20sp" />
             </LinearLayout>
             <LinearLayout

@@ -14,21 +14,33 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
 import in.jivanmuktas.www.marg.R;
+import in.jivanmuktas.www.marg.constant.Constant;
 import in.jivanmuktas.www.marg.network.HttpGetHandler;
 
 public class Workshop extends BaseActivity {
-    String EVENT_ID,status;
+    String EVENT_ID,status,Status;
     private SimpleDateFormat dateFormatter;
     private DatePickerDialog datePickerDialog;
     TextView tvCalendar,tvalottedDistrict,tvorigin, tvend, tvairport, tvrailway, tvcommentToApprover,tvCheckin,tvCheckOut;
@@ -56,6 +68,7 @@ public class Workshop extends BaseActivity {
 
         try {
             EVENT_ID = getIntent().getExtras().getString("EVENT_ID");
+            Status = getIntent().getExtras().getString("STATUS");
         } catch (Exception e) {
 
         }
@@ -162,7 +175,8 @@ public class Workshop extends BaseActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new SubmitData().execute();
+            //    new SubmitData().execute();
+                SubmitData();
             }
         });
     }
@@ -192,7 +206,7 @@ public class Workshop extends BaseActivity {
             String response;
             HttpGetHandler handler = new HttpGetHandler();
             try {
-                //response = handler.makeServiceCall(Constant.VOLUNTEER_EVENT_APPROVE+"id="+app.getUserId()+"&eventid="+EVENT_ID);
+            //    response = handler.makeServiceCall(Constant.VOLUNTEER_EVENT_APPROVE+"id="+app.getUserId()+"&eventid="+EVENT_ID);
                 response = AssetJSONFile("workshopeventview.json",Workshop.this);
                 jsonResponse = new JSONObject(response);
                 Log.i("!!!Response", response);
@@ -262,6 +276,58 @@ public class Workshop extends BaseActivity {
         }
     }
     //@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%
+    public void SubmitData(){
+        final String url = Constant.VOLUNTEER_EVENT_CHECKINOUT_UPDATE;
+
+        JSONArray jsonArray =  new JSONArray();
+        JSONObject reqObj = new JSONObject();
+        try {
+            reqObj.put("USER_ID", app.getUserId());
+            reqObj.put("STATUS","26");
+            reqObj.put("CHECKIN_DATE", arrivalDate.getText().toString().trim());
+            reqObj.put("CHECKOUT_DATE", arrivalTime.getText().toString().trim());
+            reqObj.put("CHECKIN_TIME", departureDate.getText().toString().trim());
+            reqObj.put("CHECKOUT_TIME", departureTime.getText().toString().trim());
+            reqObj.put("EVENT_REG_ID",getIntent().getExtras().getString("EVENT_ID"));
+            reqObj.put("MESSAGE","80");
+            jsonArray.put(reqObj);
+            final String requestBody = jsonArray.toString();
+            Log.i("!!!req",jsonArray.toString());
+            StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("!!!Response->", response);
+                            Toast.makeText(Workshop.this, "Updated Sucessfully", Toast.LENGTH_SHORT).show();
+                            Workshop.this.finish();
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("!!!response",error.toString());
+
+                }
+            })
+            {
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        Log.i("!!!Request", url+"    "+requestBody.getBytes("utf-8"));
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+            RequestQueue queue = Volley.newRequestQueue(this);
+            // add it to the RequestQueue
+            queue.add(postRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public class SubmitData extends AsyncTask<String,String,Boolean>{
         JSONObject jsonResponse;
@@ -285,6 +351,7 @@ public class Workshop extends BaseActivity {
                     reqObj.put("ITIENARY", itienaryAction);
                 }
                 Log.d("!!!Request", reqObj.toString());
+
                 //String response = HttpClient.SendHttpPost(Constant., reqObj.toString());
                 String response = AssetJSONFile("submit.json",Workshop.this);
                 Log.d("!!!Response", response.toString());
