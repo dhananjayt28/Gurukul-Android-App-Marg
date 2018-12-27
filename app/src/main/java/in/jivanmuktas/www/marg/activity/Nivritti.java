@@ -31,6 +31,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import android.widget.ArrayAdapter;
 import com.google.gson.JsonObject;
 
 import in.jivanmuktas.www.marg.R;
@@ -48,6 +49,8 @@ import java.util.Iterator;
 import java.util.Locale;
 
 import in.jivanmuktas.www.marg.constant.Constant;
+import in.jivanmuktas.www.marg.model.Title;
+import in.jivanmuktas.www.marg.model.TopicCompletionStatus;
 import in.jivanmuktas.www.marg.network.HttpClient;
 import in.jivanmuktas.www.marg.network.HttpGetHandler;
 import in.jivanmuktas.www.marg.network.HttpPutHandler;
@@ -66,6 +69,8 @@ public class Nivritti extends BaseActivity {
     JSONObject jsonResponse;
     String checkin_date="",checkout_date="",checkin_time="",checkout_time="";
     ArrayList<Spinner> actionList = new ArrayList<Spinner>();
+    final ArrayList<TopicCompletionStatus> statuses = new ArrayList<>();
+    String stat="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,6 +141,7 @@ public class Nivritti extends BaseActivity {
         //    new GetAllData().execute();
             SubjectAlloted();
             SubjectFetched();
+        //    TopicCompletionStatus();
         }else {
             finish();
         }
@@ -427,7 +433,7 @@ public class Nivritti extends BaseActivity {
                                     startActivity(i);
                                 }
                             });
-                            CustomSpinner(action, R.array.action);
+                         //   CustomSpinner(action, R.array.action);
                             action.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                 @Override
                                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -595,14 +601,15 @@ public class Nivritti extends BaseActivity {
 
     public void UpdateData(){
         final String url = Constant.TOPIC_STATUS_UPDATE;
-
+        Log.d("!!!url",url);
         JSONArray jsonArray =  new JSONArray();
         JSONObject reqObj = new JSONObject();
         try {
             reqObj.put("TOPIC_ID",TOPIC_ID);
-            reqObj.put("STATUS_ID","30");
-            reqObj.put("EVENT_REG_ID", EVENT_ID);
-            reqObj.put("HOD_COMMENT", commentForHod.getText().toString().trim());
+            reqObj.put("STATUS","30");
+            reqObj.put("TOPIC_STATUS",stat);
+            reqObj.put("EVENT_REG_SYS_ID", EVENT_ID);
+            reqObj.put("COMMENT_FOR_HOD", commentForHod.getText().toString().trim());
             jsonArray.put(reqObj);
             final String requestBody = jsonArray.toString();
             Log.i("!!!req",jsonArray.toString());
@@ -643,6 +650,7 @@ public class Nivritti extends BaseActivity {
 
     public void SubjectAlloted(){
         String url = Constant.GET_CONTENT_DATA + "?event_reg_id=" + EVENT_ID;
+
         JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -679,6 +687,7 @@ public class Nivritti extends BaseActivity {
                                 TextView topicName = (TextView) v.findViewById(R.id.topicName);
                                 ImageView meterial = (ImageView) v.findViewById(R.id.meterial);
                                 Spinner action = (Spinner) v.findViewById(R.id.action);
+                            //    Spinner action = (Spinner) v.findViewById(R.id.action);
                                 final TextInputLayout reasonLayout = (TextInputLayout) v.findViewById(R.id.reasonLayout);
                                 EditText reason = (EditText) v.findViewById(R.id.reason);
                                 topicName.setText(SUBJECT);
@@ -690,13 +699,21 @@ public class Nivritti extends BaseActivity {
                                     }
                                 });
                                 CustomSpinner(action, R.array.action);
+                               // CustomSpin(action,statuses);
+                                /*TopicCompletionStatus();
+                                ArrayAdapter<TopicCompletionStatus> completStatus =new ArrayAdapter<TopicCompletionStatus>(Nivritti.this, R.layout.spinner_dropdown_item, statuses);
+                                completStatus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                action.setAdapter(completStatus);*/
                                 action.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                     @Override
                                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                         if (position == 1) {
+                                        //    Toast.makeText(Nivritti.this, "position 1", Toast.LENGTH_SHORT).show();
+                                            stat = "97";
                                             statusIco.setImageResource(R.drawable.check_icon);
                                             reasonLayout.setVisibility(View.GONE);
                                         } else if (position == 2) {
+                                            stat = "98";
                                             statusIco.setImageResource(R.drawable.bullet);
                                             reasonLayout.setVisibility(View.VISIBLE);
                                         } else {
@@ -711,6 +728,7 @@ public class Nivritti extends BaseActivity {
                                     }
                                 });
                                 actionList.add(action);
+                            //    statuses.add();
                                 subjectLayout.addView(v);
                                 //#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
                             }
@@ -782,6 +800,50 @@ public class Nivritti extends BaseActivity {
             }
         });
         VolleySingleton.getInstance(this).addToRequestQueue(objectRequest);
+    }
+    public void TopicCompletionStatus(){
+        String url =Constant.TOPIC_COMPLETION_STATUS;
+        Log.d("url",url);
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url,null,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject object = response;
+                            if (object.getString("status").equals("true")){
+                                JSONArray jsonArray = object.getJSONArray("response");
+                                for (int i=0;i<jsonArray.length();i++){
+                                    Log.d("!!!!CompletionStatus",response.toString());
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    TopicCompletionStatus completionStatus = new TopicCompletionStatus();
+                                    completionStatus.setStatus_id(jsonObject.getString("LOV_ID"));
+                                    completionStatus.setStatus_name(jsonObject.getString("LOV_NAME"));
+                                    statuses.add(completionStatus);
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        /*ArrayAdapter completStatus =new ArrayAdapter(Nivritti.this, R.layout.spinner_dropdown_item, statuses);
+                        completStatus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        action.setAdapter(completStatus);*/
+
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        );
+
+        VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
+
     }
     }
 

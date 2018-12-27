@@ -192,6 +192,7 @@ public class RegistrationActivity extends BaseActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position != 0){
                     EducationId = edu.get(position).getEducation_id();
+                //    Toast.makeText(RegistrationActivity.this, "edu.get(position).getEducation_id()", Toast.LENGTH_SHORT).show();
                 }
             }
             @Override

@@ -27,11 +27,13 @@ import android.widget.Toast;
 
 
 import in.jivanmuktas.www.marg.R;
+import in.jivanmuktas.www.marg.model.TopicCompletionStatus;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -227,6 +229,11 @@ public void CustomToast(String text){
 
     }
     /////////////////////***********************Custom Spinner***********///////////
+    /*public void CustomSpin(Spinner spinner, ArrayList<TopicCompletionStatus> arrayList){
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),arrayList, R.layout.spinner_item);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+    }*/
     public void CustomSpinner(Spinner spinner,int arratList){
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),arratList, R.layout.spinner_item);
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
