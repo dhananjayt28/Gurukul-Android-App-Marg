@@ -9,7 +9,7 @@ public class Constant {
 
    public static final String LOGIN = BASE_URL_NEW + "user-login";
 
-   public static final String Registration = BASE_URL_NEW + "user-registration";
+   public static final String Registration = BASE_URL_NEW + "user-registration"; 
 
    //public static final String ProfileView = BASE_URL + "get-user-profile";
    public static final String ProfileView = BASE_URL_NEW + "get-user-data";
