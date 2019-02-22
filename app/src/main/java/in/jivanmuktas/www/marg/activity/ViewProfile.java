@@ -81,6 +81,8 @@ public class ViewProfile extends BaseActivity {
         view1.setVisibility(View.GONE);
         view2.setVisibility(View.GONE);
 
+        //View 1
+
         userName = (TextView) findViewById(R.id.userName);
         userEdu = (TextView) findViewById(R.id.userEdu);
         userDob = (TextView) findViewById(R.id.userDob);
@@ -94,6 +96,8 @@ public class ViewProfile extends BaseActivity {
         userPin = (TextView) findViewById(R.id.userPin);
         btEdit = (Button) findViewById(R.id.btEdit);
         ////#########################################################////
+
+        //View 2
 
         rgTitle = (RadioGroup) findViewById(R.id.title);
         rgGender = (RadioGroup) findViewById(R.id.rgGender);

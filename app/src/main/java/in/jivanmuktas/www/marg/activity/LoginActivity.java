@@ -2,6 +2,7 @@ package in.jivanmuktas.www.marg.activity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,6 +51,8 @@ public class LoginActivity extends BaseActivity {
         button_Sign_In = (Button) findViewById(R.id.button_Sign_In);
         button_Sign_Up = (Button) findViewById(R.id.button_Sign_Up);
         forgetPassWord = (TextView) findViewById(R.id.forgetPassWord);
+        //Done as per doc in 310ct in drive pointNo. 7
+        forgetPassWord.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
 
         button_Sign_In.setOnClickListener(new View.OnClickListener() {
             @Override

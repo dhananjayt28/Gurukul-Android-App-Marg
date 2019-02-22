@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -93,6 +94,20 @@ public class Workshop extends BaseActivity {
         itienaryView.setVisibility(View.GONE);
         submit = (Button) findViewById(R.id.submit);
 
+        CustomSpinner(itienaryAction,R.array.itiespinner);
+
+        itienaryAction.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
         arrivalDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,8 +190,8 @@ public class Workshop extends BaseActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            //    new SubmitData().execute();
-                SubmitData();
+                new SubmitData().execute();
+            //    SubmitData();
             }
         });
     }
@@ -257,7 +272,7 @@ public class Workshop extends BaseActivity {
                     tvrailway.setText(railway_station);
                     tvcommentToApprover.setText(comment);
 
-                    if (status.equals("2")) {
+                    if (Status.equals("24")) {
                         edDateTimeView.setVisibility(View.GONE);
                         tvDateTimeView.setVisibility(View.VISIBLE);
                         itienaryView.setVisibility(View.VISIBLE);
