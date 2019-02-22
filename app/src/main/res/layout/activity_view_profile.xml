@@ -577,6 +577,7 @@
                             android:inputType="textCapSentences"
                             android:padding="10dp"
                             android:textSize="20sp"
+                            android:textColor="#6C7A89"
                             android:textColorHint="@color/colorEditText"/>
                     </android.support.design.widget.TextInputLayout>
                     <android.support.design.widget.TextInputLayout
