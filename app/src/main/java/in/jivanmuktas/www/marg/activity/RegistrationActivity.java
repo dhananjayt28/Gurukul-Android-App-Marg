@@ -4,7 +4,9 @@ import android.app.DatePickerDialog;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +19,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -55,6 +58,8 @@ public class RegistrationActivity extends BaseActivity {
     RadioGroup title,rgGender;
     Spinner spinner_satsang,spinner_edu,spinner_country,spinner_title,spinner_gender;
     SearchableSpinner spinner_city;
+
+
 
     private SimpleDateFormat dateFormatter;
     private DatePickerDialog datePickerDialog;
@@ -98,9 +103,12 @@ public class RegistrationActivity extends BaseActivity {
 
         title = (RadioGroup) findViewById(R.id.title);
         etFirstName =(EditText) findViewById(R.id.etFirstName);
+    //    etFirstName.setHint(Html.fromHtml(getString(R.string.first_name)));
         etLastName = (EditText) findViewById(R.id.etLastName);
+    //    etLastName.setHint(Html.fromHtml(getString(R.string.last_name)));
         rgGender = (RadioGroup) findViewById(R.id.rgGender);
         etDob = (EditText) findViewById(R.id.etDob);
+    //    etDob.setHint(Html.fromHtml(getString(R.string.enterdob)));
         etAge = (EditText) findViewById(R.id.etAge);
         etPass = (EditText) findViewById(R.id.etPass);
         etRePass = (EditText) findViewById(R.id.etRePass);
