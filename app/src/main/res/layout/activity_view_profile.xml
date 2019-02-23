@@ -618,7 +618,7 @@
                         android:paddingEnd="2dp"
                         android:paddingStart="2dp"
                         android:paddingTop="5dp"
-                        android:text="Select Country"
+                        android:text="@string/country"
                         android:textColor="@color/colorPrimaryDeep"
                         android:textSize="14sp"
                         android:textStyle="bold"

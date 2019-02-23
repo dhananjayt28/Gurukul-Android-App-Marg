@@ -2,14 +2,14 @@ package in.jivanmuktas.www.marg.constant;
 
 
 public class Constant {
-   public static final String BASE_URL = "http://jivanmuktas.tangenttechsolutions.com/Gurukul_App_Services.svc/";//Live
+   //public static final String BASE_URL = "http://jivanmuktas.tangenttechsolutions.com/Gurukul_App_Services.svc/";//Live
    public static final String BASE_URL_API = "http://jivanmuktasapi.ttssupport.info/api/";//Testing
    public static final String BASE_URL_NEW = "http://gurukulweb.tangenttechsolutions.com/api/";
-   //public static final String BASE_URL = "http://testgurukul.tmlcsr.com/Gurukul_App_Services.svc/";//Testing
+   public static final String BASE_URL = "http://testgurukul.tmlcsr.com/Gurukul_App_Services.svc/";//Testing
 
    public static final String LOGIN = BASE_URL_NEW + "user-login";
 
-   public static final String Registration = BASE_URL_NEW + "user-registration"; 
+   public static final String Registration = BASE_URL_NEW + "user-registration";
 
    //public static final String ProfileView = BASE_URL + "get-user-profile";
    public static final String ProfileView = BASE_URL_NEW + "get-user-data";

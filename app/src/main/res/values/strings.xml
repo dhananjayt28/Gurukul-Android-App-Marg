@@ -153,7 +153,7 @@
     <string name="username">Email Id/Mobile No. *</string>
     <string name="password">Password *</string>
     <string name="reset_password">Reset Password</string>
-    <string name="phone_number">Phone Number</string>
+    <string name="phone_number">Phone Number *</string>
     <string name="enter_valid_mobile_number">Valid Mobile Number *</string>
     <string name="enter_name">Name</string>
     <string name="enter_first_name">Enter First Name</string>
@@ -164,7 +164,7 @@
     <string name="age">Age</string>
     <string name="enter_middle_name">Enter Middle Name</string>
     <string name="enter_last_name">Enter Last Name</string>
-    <string name="email_id">Email Id</string>
+    <string name="email_id">Email Id *</string>
     <string name="enter_valid_email_id">Valid Email Id *</string>
     <!--<string name="enter_valid_email_id"><![CDATA[Enter Valid Email Id<font color=\'#cc0029\'>  *</font>]]></string>-->
     <string name="area">Satsang Chapter *</string>
@@ -173,8 +173,10 @@
     <string name="postel_code">Postal Code</string>
     <string name="enter_your_phone_number">Enter Your Phone Number</string>
     <string name="select_date">Select Date</string>
-    <string name="date_of_birth">Date of Birth</string>
+    <string name="date_of_birth">Date of Birth *</string>
     <string name="chapter">Chapter</string>
+    <string name="country">Country *</string>
+    <string name="selectcountry">Select Country *</string>
     <string name="enter_the_year_you_join">Enter The Year You Join</string>
     <string name="comment">Comment To Approver</string>
 
@@ -445,7 +447,7 @@ basis.\n
         <item>BA History</item>
     </string-array>
     <string name="note">Note   :</string>
-    <string name="name">Name</string>
+    <string name="name">Name *</string>
 
     <string-array name="country">
         <item>Select Country</item>
