@@ -4,8 +4,10 @@ package in.jivanmuktas.www.marg.constant;
 public class Constant {
    //public static final String BASE_URL = "http://jivanmuktas.tangenttechsolutions.com/Gurukul_App_Services.svc/";//Live
    public static final String BASE_URL_API = "http://jivanmuktasapi.ttssupport.info/api/";//Testing
-   public static final String BASE_URL_NEW = "http://gurukulweb.tangenttechsolutions.com/api/";
-   public static final String BASE_URL = "http://testgurukul.tmlcsr.com/Gurukul_App_Services.svc/";//Testing
+   //public static final String BASE_URL_NEW = "http://gurukulweb.tangenttechsolutions.com/api/";
+   //public static final String BASE_URL = "http://testgurukul.tmlcsr.com/Gurukul_App_Services.svc/";//Testing
+   public static final String BASE_URL_NEW = "http://uatappweb.jivanmuktas.org/api/";
+   public static final String BASE_URL = "http://uatappwebapi.jivanmuktas.org/Gurukul_App_Services.svc/";
 
    public static final String LOGIN = BASE_URL_NEW + "user-login";
 
