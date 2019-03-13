@@ -54,7 +54,7 @@ public class Workshop extends BaseActivity {
     EditText arrivalDate,arrivalTime,departureDate,departureTime;
     LinearLayout edDateTimeView,tvDateTimeView,itienaryView;
     Spinner itienaryAction;
-    Button submit;
+    Button submit,Update;
     ImageView ImgItie,ItenaryUpload;
     TextInputLayout Moditext;
     @Override
@@ -101,10 +101,13 @@ public class Workshop extends BaseActivity {
         tvDateTimeView.setVisibility(View.GONE);
         itienaryView.setVisibility(View.GONE);
         submit = (Button) findViewById(R.id.submit);
+        submit.setVisibility(View.GONE);
         ImgItie = (ImageView) findViewById(R.id.imgItie);
         ItenaryUpload = (ImageView) findViewById(R.id.ItenaryUpload);
         Moditext = (TextInputLayout) findViewById(R.id.modiReasonItie);
         Moditext.setVisibility(View.GONE);
+        Update = (Button) findViewById(R.id.Update);
+        Update.setVisibility(View.GONE);
 
         CustomSpinner(itienaryAction,R.array.itiespinner);
 
@@ -113,13 +116,13 @@ public class Workshop extends BaseActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position == 1){
                     ImgItie.setImageResource(R.drawable.check_icon);
-                    Moditext.setVisibility(View.GONE);
+        //            Moditext.setVisibility(View.GONE);
                 }else if(position == 2){
                     ImgItie.setImageResource(R.drawable.bullet);
-                    Moditext.setVisibility(View.VISIBLE);
+        //            Moditext.setVisibility(View.VISIBLE);
                 }else {
                     ImgItie.setImageResource(R.drawable.bullet);
-                    Moditext.setVisibility(View.GONE);
+        //            Moditext.setVisibility(View.GONE);
                 }
             }
 
@@ -222,8 +225,14 @@ public class Workshop extends BaseActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new SubmitData().execute();
-            //    SubmitData();
+            //    new SubmitData().execute();
+                SubmitData();
+            }
+        });
+        Update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SubmitDataItenary();
             }
         });
     }
@@ -304,12 +313,27 @@ public class Workshop extends BaseActivity {
                     tvrailway.setText(railway_station);
                     tvcommentToApprover.setText(comment);
 
+                    if(Status.equals("26") || Status.equals("18")){
+                        submit.setVisibility(View.VISIBLE);
+                        Update.setVisibility(View.GONE);
+
+                    }
+
+                    /*if(Status.equals("18")){
+                        submit.setVisibility(View.VISIBLE);
+                        Update.setVisibility(View.GONE);
+
+                    }*/
+
                     if (Status.equals("24")) {
                         edDateTimeView.setVisibility(View.GONE);
                         tvDateTimeView.setVisibility(View.VISIBLE);
                         itienaryView.setVisibility(View.VISIBLE);
+                        Update.setVisibility(View.VISIBLE);
+                        submit.setVisibility(View.GONE);
                         tvCheckin.setText(arrivalDate+", "+arrivalTime);
                         tvCheckOut.setText(departureDate+", "+departureTime);
+
                     }
 
                 } catch (JSONException e) {
@@ -390,10 +414,18 @@ public class Workshop extends BaseActivity {
                 reqObj.put("USER_ID",app.getUserId());
                 reqObj.put("EVENT_ID",EVENT_ID);
                 if (status.equals("1")) {
-                    reqObj.put("ARRIVAL_DATE", arrivalDate.getText().toString().trim());
+                    /*reqObj.put("ARRIVAL_DATE", arrivalDate.getText().toString().trim());
                     reqObj.put("ARRIVAL_TIME", arrivalTime.getText().toString().trim());
                     reqObj.put("DEPARTURE_DATE", departureDate.getText().toString().trim());
-                    reqObj.put("DEPARTURE_TIME", departureTime.getText().toString().trim());
+                    reqObj.put("DEPARTURE_TIME", departureTime.getText().toString().trim());*/
+                    reqObj.put("USER_ID", app.getUserId());
+                    reqObj.put("STATUS","26");
+                    reqObj.put("CHECKIN_DATE", arrivalDate.getText().toString().trim());
+                    reqObj.put("CHECKOUT_DATE", arrivalTime.getText().toString().trim());
+                    reqObj.put("CHECKIN_TIME", departureDate.getText().toString().trim());
+                    reqObj.put("CHECKOUT_TIME", departureTime.getText().toString().trim());
+                    reqObj.put("EVENT_REG_ID",getIntent().getExtras().getString("EVENT_ID"));
+                    reqObj.put("MESSAGE","80");
                 }else if(status.equals("2")){
                     reqObj.put("ITIENARY", itienaryAction);
                 }
@@ -423,5 +455,59 @@ public class Workshop extends BaseActivity {
                 CustomToast("Submit Failed!");
             }
         }
+    }
+
+    public void SubmitDataItenary(){
+        final String url = Constant.VOLUNTEER_EVENT_CHECKINOUT_UPDATE;
+
+        JSONArray jsonArray =  new JSONArray();
+        JSONObject reqObj = new JSONObject();
+        try {
+            /*reqObj.put("USER_ID", app.getUserId());
+            reqObj.put("STATUS","26");
+            reqObj.put("CHECKIN_DATE", arrivalDate.getText().toString().trim());
+            reqObj.put("CHECKOUT_DATE", arrivalTime.getText().toString().trim());
+            reqObj.put("CHECKIN_TIME", departureDate.getText().toString().trim());
+            reqObj.put("CHECKOUT_TIME", departureTime.getText().toString().trim());
+            reqObj.put("EVENT_REG_ID",getIntent().getExtras().getString("EVENT_ID"));
+            reqObj.put("MESSAGE","80");*/
+            reqObj.put("ITIENARY", itienaryAction);
+            jsonArray.put(reqObj);
+            final String requestBody = jsonArray.toString();
+            Log.i("!!!req",jsonArray.toString());
+            StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("!!!Response->", response);
+                            Toast.makeText(Workshop.this, "Updated Sucessfully", Toast.LENGTH_SHORT).show();
+                            Workshop.this.finish();
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("!!!response",error.toString());
+
+                }
+            })
+            {
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        Log.i("!!!Request", url+"    "+requestBody.getBytes("utf-8"));
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+            RequestQueue queue = Volley.newRequestQueue(this);
+            // add it to the RequestQueue
+            queue.add(postRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 }
