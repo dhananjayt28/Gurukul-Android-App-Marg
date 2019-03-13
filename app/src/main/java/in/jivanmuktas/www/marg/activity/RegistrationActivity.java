@@ -84,6 +84,7 @@ public class RegistrationActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_registration);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarTop);
         setSupportActionBar(toolbar);
@@ -161,6 +162,7 @@ public class RegistrationActivity extends BaseActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position != 0 ){
                     countryId = countries.get(position).getCountry_id();
+                    Log.d("!!!countries",countryId.toString());
                     new GetSatsangChapter().execute("" + countries.get(position).getCountry_id());
                     /// Set Country code
                     String[] array = getResources().getStringArray(R.array.country_code);
@@ -229,7 +231,6 @@ public class RegistrationActivity extends BaseActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position != 0){
                     GenderId = Gender[position];
-
                 }
             }
             @Override

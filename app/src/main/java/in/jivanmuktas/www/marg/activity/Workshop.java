@@ -2,8 +2,11 @@ package in.jivanmuktas.www.marg.activity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -40,6 +44,8 @@ import in.jivanmuktas.www.marg.R;
 import in.jivanmuktas.www.marg.constant.Constant;
 import in.jivanmuktas.www.marg.network.HttpGetHandler;
 
+import static com.google.firebase.analytics.FirebaseAnalytics.Param.SOURCE;
+
 public class Workshop extends BaseActivity {
     String EVENT_ID,status,Status;
     private SimpleDateFormat dateFormatter;
@@ -49,6 +55,8 @@ public class Workshop extends BaseActivity {
     LinearLayout edDateTimeView,tvDateTimeView,itienaryView;
     Spinner itienaryAction;
     Button submit;
+    ImageView ImgItie,ItenaryUpload;
+    TextInputLayout Moditext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,18 +101,42 @@ public class Workshop extends BaseActivity {
         tvDateTimeView.setVisibility(View.GONE);
         itienaryView.setVisibility(View.GONE);
         submit = (Button) findViewById(R.id.submit);
+        ImgItie = (ImageView) findViewById(R.id.imgItie);
+        ItenaryUpload = (ImageView) findViewById(R.id.ItenaryUpload);
+        Moditext = (TextInputLayout) findViewById(R.id.modiReasonItie);
+        Moditext.setVisibility(View.GONE);
 
         CustomSpinner(itienaryAction,R.array.itiespinner);
 
         itienaryAction.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                if(position == 1){
+                    ImgItie.setImageResource(R.drawable.check_icon);
+                    Moditext.setVisibility(View.GONE);
+                }else if(position == 2){
+                    ImgItie.setImageResource(R.drawable.bullet);
+                    Moditext.setVisibility(View.VISIBLE);
+                }else {
+                    ImgItie.setImageResource(R.drawable.bullet);
+                    Moditext.setVisibility(View.GONE);
+                }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        ItenaryUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(SOURCE));
+                startActivity(i);*/
+                Intent i = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://drive.google.com/open?id=1rWzEN1IPfTN5OdVd9DleZmrXgp3DhPcXS25hCGjAUdQ"));
+                startActivity(i);
             }
         });
 
