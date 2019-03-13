@@ -319,12 +319,6 @@ public class Workshop extends BaseActivity {
 
                     }
 
-                    /*if(Status.equals("18")){
-                        submit.setVisibility(View.VISIBLE);
-                        Update.setVisibility(View.GONE);
-
-                    }*/
-
                     if (Status.equals("24")) {
                         edDateTimeView.setVisibility(View.GONE);
                         tvDateTimeView.setVisibility(View.VISIBLE);
@@ -333,7 +327,6 @@ public class Workshop extends BaseActivity {
                         submit.setVisibility(View.GONE);
                         tvCheckin.setText(arrivalDate+", "+arrivalTime);
                         tvCheckOut.setText(departureDate+", "+departureTime);
-
                     }
 
                 } catch (JSONException e) {

@@ -31,7 +31,9 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
 import android.widget.ArrayAdapter;
+
 import com.google.gson.JsonObject;
 
 import in.jivanmuktas.www.marg.R;
@@ -59,18 +61,19 @@ import in.jivanmuktas.www.marg.singleton.VolleySingleton;
 public class Nivritti extends BaseActivity {
     private SimpleDateFormat dateFormatter;
     private DatePickerDialog datePickerDialog;
-    String EVENT_ID,status="",Status,SUBJECT_ID,TOPIC_ID;
-    TextView calendar,alottedSubject,commentToApprover,tvCkInTime,tvCkOutTime,alloted_subject,comment_toApprover;
-    EditText etCheckInDate,etCheckOutDate,etCheckInTime,etCheckOutTime,commentForHod;
-    LinearLayout timeView,subjectLayout,dateTimeView,topicView,layoutNivritti,subjectStatusLayout;
+    String EVENT_ID, status = "", Status, SUBJECT_ID, TOPIC_ID;
+    TextView calendar, alottedSubject, commentToApprover, tvCkInTime, tvCkOutTime, alloted_subject, comment_toApprover;
+    EditText etCheckInDate, etCheckOutDate, etCheckInTime, etCheckOutTime, commentForHod;
+    LinearLayout timeView, subjectLayout, dateTimeView, topicView, layoutNivritti, subjectStatusLayout;
     TextInputLayout commentForHodLayout;
-    ImageView tvcheckinTime_image,tvcheckoutTime_image;
-    Button submit,update;
+    ImageView tvcheckinTime_image, tvcheckoutTime_image;
+    Button submit, update;
     JSONObject jsonResponse;
-    String checkin_date="",checkout_date="",checkin_time="",checkout_time="";
+    String checkin_date = "", checkout_date = "", checkin_time = "", checkout_time = "";
     ArrayList<Spinner> actionList = new ArrayList<Spinner>();
     final ArrayList<TopicCompletionStatus> statuses = new ArrayList<>();
-    String stat="";
+    String stat = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,9 +93,9 @@ public class Nivritti extends BaseActivity {
         });
 
         try {
-        EVENT_ID = getIntent().getExtras().getString("EVENT_ID");
-        Status = getIntent().getExtras().getString("STATUS");
-        Log.i("!!! status",Status.toString());
+            EVENT_ID = getIntent().getExtras().getString("EVENT_ID");
+            Status = getIntent().getExtras().getString("STATUS");
+            Log.i("!!! status", Status.toString());
         } catch (Exception e) {
 
         }
@@ -109,7 +112,7 @@ public class Nivritti extends BaseActivity {
         commentToApprover.setVisibility(View.GONE);
         comment_toApprover = findViewById(R.id.tvcomment_ToApprover);
         comment_toApprover.setVisibility(View.GONE);
-        dateTimeView  = (LinearLayout) findViewById(R.id.dateTimeView);
+        dateTimeView = (LinearLayout) findViewById(R.id.dateTimeView);
         etCheckInDate = (EditText) findViewById(R.id.etCheckInDate);
         etCheckInDate.setVisibility(View.GONE);
         etCheckOutDate = (EditText) findViewById(R.id.etCheckOutDate);
@@ -138,17 +141,17 @@ public class Nivritti extends BaseActivity {
         tvcheckoutTime_image = (ImageView) findViewById(R.id.tvCkOutTime_image);
 //        tvcheckoutTime_image.setVisibility(View.GONE);
         if (isNetworkAvailable()) {
-        //    new GetAllData().execute();
+            //    new GetAllData().execute();
             SubjectAlloted();
             SubjectFetched();
-        //    TopicCompletionStatus();
-        }else {
+            //    TopicCompletionStatus();
+        } else {
             finish();
         }
         RegisteredEventData();
-        Log.d("!!! find ",checkin_time.toString());
+        Log.d("!!! find ", checkin_time.toString());
 
-        switch(Status){
+        switch (Status) {
             case "18":
                 alottedSubject.setVisibility(View.VISIBLE);
                 alloted_subject.setVisibility(View.VISIBLE);
@@ -178,13 +181,13 @@ public class Nivritti extends BaseActivity {
                 timeView.setVisibility(View.VISIBLE);
 
 
-            //    tvCkInTime.setText(checkin_date);
-            //    tvCkOutTime.setText(checkout_time);
+                //    tvCkInTime.setText(checkin_date);
+                //    tvCkOutTime.setText(checkout_time);
 
-        //        tvcheckoutTime_image.setVisibility(View.VISIBLE);
-        //        tvcheckinTime_image.setVisibility(View.VISIBLE);
-        //        tvCkInTime.setVisibility(View.VISIBLE);
-        //        tvCkOutTime.setVisibility(View.VISIBLE);
+                //        tvcheckoutTime_image.setVisibility(View.VISIBLE);
+                //        tvcheckinTime_image.setVisibility(View.VISIBLE);
+                //        tvCkInTime.setVisibility(View.VISIBLE);
+                //        tvCkOutTime.setVisibility(View.VISIBLE);
 
                 break;
             case "29":
@@ -217,7 +220,7 @@ public class Nivritti extends BaseActivity {
             @Override
             public void onClick(View view) {
                 if (isValid()) {
-            //        new SubmitData().execute();
+                    //        new SubmitData().execute();
                     SubmitData();
                 }
             }
@@ -279,18 +282,15 @@ public class Nivritti extends BaseActivity {
                         if (selectedHour == 0) {
                             selectedHour += 12;
                             format = "AM";
-                        }
-                        else if (selectedHour == 12) {
+                        } else if (selectedHour == 12) {
                             format = "PM";
-                        }
-                        else if (selectedHour > 12) {
+                        } else if (selectedHour > 12) {
                             selectedHour -= 12;
                             format = "PM";
-                        }
-                        else {
+                        } else {
                             format = "AM";
                         }
-                        etCheckInTime.setText( selectedHour + ":" + selectedMinute+" "+format);
+                        etCheckInTime.setText(selectedHour + ":" + selectedMinute + " " + format);
                     }
                 }, hour, minute, false);//Yes 24 hour time
                 mTimePicker.setTitle("Select Time");
@@ -311,18 +311,15 @@ public class Nivritti extends BaseActivity {
                         if (selectedHour == 0) {
                             selectedHour += 12;
                             format = "AM";
-                        }
-                        else if (selectedHour == 12) {
+                        } else if (selectedHour == 12) {
                             format = "PM";
-                        }
-                        else if (selectedHour > 12) {
+                        } else if (selectedHour > 12) {
                             selectedHour -= 12;
                             format = "PM";
-                        }
-                        else {
+                        } else {
                             format = "AM";
                         }
-                        etCheckOutTime.setText( selectedHour + ":" + selectedMinute+" "+format);
+                        etCheckOutTime.setText(selectedHour + ":" + selectedMinute + " " + format);
                     }
                 }, hour, minute, false);//Yes 24 hour time
                 mTimePicker.setTitle("Select Time");
@@ -334,19 +331,21 @@ public class Nivritti extends BaseActivity {
     //***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#
 
 
-    public class GetAllData extends AsyncTask<String, String, Boolean>{
+    public class GetAllData extends AsyncTask<String, String, Boolean> {
         JSONObject jsonResponse;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             showProgressDailog();
         }
+
         @Override
         protected Boolean doInBackground(String... strings) {
             String response;
             HttpGetHandler handler = new HttpGetHandler();
             try {
-                response = handler.makeServiceCall(Constant.VOLUNTEER_EVENT_APPROVE+/*"id="+app.getUserId()+"&eventid="+EVENT_ID*/"event_id="+EVENT_ID);
+                response = handler.makeServiceCall(Constant.VOLUNTEER_EVENT_APPROVE +/*"id="+app.getUserId()+"&eventid="+EVENT_ID*/"event_id=" + EVENT_ID);
                 //Log.i("!!!Request",Constant.VOLUNTEER_EVENT_APPROVE+"id="+app.getUserId()+"&eventid="+EVENT_ID );
                 //response = AssetJSONFile("nivrittieventview.json",Nivritti.this);
                 jsonResponse = new JSONObject(response);
@@ -367,7 +366,7 @@ public class Nivritti extends BaseActivity {
             if (prsDlg.isShowing()) {
                 prsDlg.dismiss();
             }
-            if (aBoolean){
+            if (aBoolean) {
                 try {
                     JSONArray array = jsonResponse.getJSONArray("response");
                     JSONObject object = array.getJSONObject(0);
@@ -381,8 +380,8 @@ public class Nivritti extends BaseActivity {
                     String checkInTime = object.getString("CHECK_IN_TIME");
                     String checkOutTime = object.getString("CHECK_OUT_TIME");
                     String commentForHod = object.getString("COMMENT_FOR_HOD");
-                 //   status = object.getString("STATUS");//Status for stage 1 or 2
-                //    status = "18";               //manually changed to 26
+                    //   status = object.getString("STATUS");//Status for stage 1 or 2
+                    //    status = "18";               //manually changed to 26
 
                     if (status.equals("1")) {        //manually changed to 26
                         tvCkInTime.setText(checkInTime);
@@ -390,90 +389,91 @@ public class Nivritti extends BaseActivity {
                         timeView.setVisibility(View.VISIBLE);
                         dateTimeView.setVisibility(View.GONE);
                         topicView.setVisibility(View.VISIBLE);
-                    JSONObject subject = object.getJSONObject("SUBJECT");
+                        JSONObject subject = object.getJSONObject("SUBJECT");
 
-                        if (subject.length()==0){
-                        TextView tv = new TextView(Nivritti.this);
-                        tv.setText("No topic allocated yet");
-                        tv.setTextSize(20);
-                        subjectLayout.addView(tv);
-                        submit.setVisibility(View.GONE);
-                    }else {
-                        commentForHodLayout.setVisibility(View.VISIBLE);
-                    Iterator<String> iterator = subject.keys();//Get array name from json Object
-                    while (iterator.hasNext()) {
-                        String currentKey = iterator.next();
-                        Log.i("!!! SUBJECT -> ", currentKey);
-                        JSONArray jsonArray = subject.getJSONArray(currentKey);
+                        if (subject.length() == 0) {
+                            TextView tv = new TextView(Nivritti.this);
+                            tv.setText("No topic allocated yet");
+                            tv.setTextSize(20);
+                            subjectLayout.addView(tv);
+                            submit.setVisibility(View.GONE);
+                        } else {
+                            commentForHodLayout.setVisibility(View.VISIBLE);
+                            Iterator<String> iterator = subject.keys();//Get array name from json Object
+                            while (iterator.hasNext()) {
+                                String currentKey = iterator.next();
+                                Log.i("!!! SUBJECT -> ", currentKey);
+                                JSONArray jsonArray = subject.getJSONArray(currentKey);
 
-                        TextView tv = new TextView(Nivritti.this);
-                        tv.setText("Subject: " + currentKey);
-                        tv.setTextSize(20);
-                        subjectLayout.addView(tv);
+                                TextView tv = new TextView(Nivritti.this);
+                                tv.setText("Subject: " + currentKey);
+                                tv.setTextSize(20);
+                                subjectLayout.addView(tv);
 
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject topic = jsonArray.getJSONObject(i);
-                            String SUBJECT_ID = topic.getString("SUBJECT_ID");
-                            String NAME = topic.getString("NAME");
-                            final String SOURCE = topic.getString("SOURCE");
-                            //#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
-                            LayoutInflater inflater = getLayoutInflater();
-                            final View v = inflater.inflate(R.layout.topic, null);
-                            final ImageView statusIco = (ImageView) v.findViewById(R.id.statusIco);
-                            TextView topicName = (TextView) v.findViewById(R.id.topicName);
-                            ImageView meterial = (ImageView) v.findViewById(R.id.meterial);
-                            Spinner action = (Spinner) v.findViewById(R.id.action);
-                            final TextInputLayout reasonLayout = (TextInputLayout) v.findViewById(R.id.reasonLayout);
-                            EditText reason = (EditText) v.findViewById(R.id.reason);
-                            topicName.setText(NAME);
-                            meterial.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent i = new Intent(Intent.ACTION_VIEW,Uri.parse(SOURCE));
-                                    startActivity(i);
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject topic = jsonArray.getJSONObject(i);
+                                    String SUBJECT_ID = topic.getString("SUBJECT_ID");
+                                    String NAME = topic.getString("NAME");
+                                    final String SOURCE = topic.getString("SOURCE");
+                                    //#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+                                    LayoutInflater inflater = getLayoutInflater();
+                                    final View v = inflater.inflate(R.layout.topic, null);
+                                    final ImageView statusIco = (ImageView) v.findViewById(R.id.statusIco);
+                                    TextView topicName = (TextView) v.findViewById(R.id.topicName);
+                                    ImageView meterial = (ImageView) v.findViewById(R.id.meterial);
+                                    Spinner action = (Spinner) v.findViewById(R.id.action);
+                                    final TextInputLayout reasonLayout = (TextInputLayout) v.findViewById(R.id.reasonLayout);
+                                    EditText reason = (EditText) v.findViewById(R.id.reason);
+                                    topicName.setText(NAME);
+                                    meterial.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(SOURCE));
+                                            startActivity(i);
+                                        }
+                                    });
+                                    //   CustomSpinner(action, R.array.action);
+                                    action.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                            if (position == 1) {
+                                                statusIco.setImageResource(R.drawable.check_icon);
+                                                reasonLayout.setVisibility(View.GONE);
+                                            } else if (position == 2) {
+                                                statusIco.setImageResource(R.drawable.bullet);
+                                                reasonLayout.setVisibility(View.VISIBLE);
+                                            } else {
+                                                statusIco.setImageResource(R.drawable.bullet);
+                                                reasonLayout.setVisibility(View.GONE);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> parent) {
+                                        }
+                                    });
+                                    actionList.add(action);
+                                    subjectLayout.addView(v);
+                                    //#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
                                 }
-                            });
-                         //   CustomSpinner(action, R.array.action);
-                            action.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                @Override
-                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                    if (position == 1) {
-                                        statusIco.setImageResource(R.drawable.check_icon);
-                                        reasonLayout.setVisibility(View.GONE);
-                                    } else if (position == 2) {
-                                        statusIco.setImageResource(R.drawable.bullet);
-                                        reasonLayout.setVisibility(View.VISIBLE);
-                                    } else {
-                                        statusIco.setImageResource(R.drawable.bullet);
-                                        reasonLayout.setVisibility(View.GONE);
-                                    }
-                                }
-
-                                @Override
-                                public void onNothingSelected(AdapterView<?> parent) {
-
-                                }
-                            });
-                            actionList.add(action);
-                            subjectLayout.addView(v);
-                            //#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+                            }
                         }
                     }
-                }}
-                    calendar.setText(startDate+" - "+endDate);
+                    calendar.setText(startDate + " - " + endDate);
                     alottedSubject.setText(allottedSubject);
                     commentToApprover.setText(comment);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }else {
+            } else {
 
             }
         }
     }
-//@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%
-   public boolean isValid(){
-        if(status == "1") {//State 1 validation check   //manually changed to 26
+
+    //@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%
+    public boolean isValid() {
+        if (status == "1") {//State 1 validation check   //manually changed to 26
             if (etCheckInDate.length() == 0) {
                 editTextFocus(etCheckInDate);
                 SnackbarRed(R.id.layoutNivritti, "Please choose Check In Date");
@@ -491,41 +491,41 @@ public class Nivritti extends BaseActivity {
                 SnackbarRed(R.id.layoutNivritti, "Please choose Check Out Time");
                 return false;
             }
-            } else if (status.equals("2")) {//State 2 validation check
-                for (Spinner spinner : actionList) {
-                    if (spinner.getSelectedItemPosition() == 0) {
-                        Toast.makeText(Nivritti.this, "Please select action.", Toast.LENGTH_LONG).show();
-                        return false;
-                    }
-                }
-                if (commentForHod.length() == 0) {
-                    editTextFocus(commentForHod);
-                    commentForHod.setError("Please fill this field");
+        } else if (status.equals("2")) {//State 2 validation check
+            for (Spinner spinner : actionList) {
+                if (spinner.getSelectedItemPosition() == 0) {
+                    Toast.makeText(Nivritti.this, "Please select action.", Toast.LENGTH_LONG).show();
                     return false;
                 }
             }
-            return true;
+            if (commentForHod.length() == 0) {
+                editTextFocus(commentForHod);
+                commentForHod.setError("Please fill this field");
+                return false;
+            }
+        }
+        return true;
 
     }
 //@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%
 
-    public void SubmitData(){
+    public void SubmitData() {
         final String url = Constant.VOLUNTEER_EVENT_CHECKINOUT_UPDATE;
 
-        JSONArray jsonArray =  new JSONArray();
+        JSONArray jsonArray = new JSONArray();
         JSONObject reqObj = new JSONObject();
         try {
             reqObj.put("USER_ID", app.getUserId());
-            reqObj.put("STATUS","26");
+            reqObj.put("STATUS", "26");
             reqObj.put("CHECKIN_DATE", etCheckInDate.getText().toString().trim());
             reqObj.put("CHECKOUT_DATE", etCheckOutDate.getText().toString().trim());
             reqObj.put("CHECKIN_TIME", etCheckInTime.getText().toString().trim());
             reqObj.put("CHECKOUT_TIME", etCheckOutTime.getText().toString().trim());
-            reqObj.put("EVENT_REG_ID",getIntent().getExtras().getString("EVENT_ID"));
-            reqObj.put("MESSAGE","80");
+            reqObj.put("EVENT_REG_ID", getIntent().getExtras().getString("EVENT_ID"));
+            reqObj.put("MESSAGE", "80");
             jsonArray.put(reqObj);
             final String requestBody = jsonArray.toString();
-            Log.i("!!!req",jsonArray.toString());
+            Log.i("!!!req", jsonArray.toString());
             StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
                         @Override
@@ -537,15 +537,14 @@ public class Nivritti extends BaseActivity {
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.e("!!!response",error.toString());
+                    Log.e("!!!response", error.toString());
 
                 }
-            })
-            {
+            }) {
                 @Override
                 public byte[] getBody() throws AuthFailureError {
                     try {
-                        Log.i("!!!Request", url+"    "+requestBody.getBytes("utf-8"));
+                        Log.i("!!!Request", url + "    " + requestBody.getBytes("utf-8"));
                         return requestBody == null ? null : requestBody.getBytes("utf-8");
                     } catch (UnsupportedEncodingException uee) {
                         VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
@@ -562,25 +561,25 @@ public class Nivritti extends BaseActivity {
 
     }
 
-    public void RegisteredEventData(){
+    public void RegisteredEventData() {
         String url = Constant.GET_REGISTERED_EVENT_DATA + "?event_id=" + EVENT_ID;
         JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject object) {
                         try {
-                            if (object.getString("status").equals("true")){
-                                Log.d("!!!Response",object.toString());
+                            if (object.getString("status").equals("true")) {
+                                Log.d("!!!Response", object.toString());
                                 JSONArray jsonArray = object.getJSONArray("response");
                                 JSONObject jsonObject = jsonArray.getJSONObject(0);
-                            //    checkin_date = jsonObject.getString("CHECKIN_DATE");
+                                //    checkin_date = jsonObject.getString("CHECKIN_DATE");
                                 tvCkInTime.setText(jsonObject.getString("CHECKIN_DATE") + " , " + jsonObject.getString("CHECKIN_TIME"));
                                 tvCkOutTime.setText(jsonObject.getString("CHECKOUT_DATE") + " , " + jsonObject.getString("CHECKOUT_TIME"));
                                 calendar.setText(jsonObject.getString("CHECKIN_DATE") + " - " + jsonObject.getString("CHECKOUT_DATE"));
 
-                            //    checkout_date = jsonObject.getString("CHECKOUT_DATE");
-                            //    checkin_time = jsonObject.getString("CHECKIN_TIME");
-                            //    checkout_time = jsonObject.getString("CHECKOUT_TIME");
+                                //    checkout_date = jsonObject.getString("CHECKOUT_DATE");
+                                //    checkin_time = jsonObject.getString("CHECKIN_TIME");
+                                //    checkout_time = jsonObject.getString("CHECKOUT_TIME");
                                 jsonArray.put(jsonObject);
 
                             }
@@ -599,20 +598,20 @@ public class Nivritti extends BaseActivity {
 
     }
 
-    public void UpdateData(){
+    public void UpdateData() {
         final String url = Constant.TOPIC_STATUS_UPDATE;
-        Log.d("!!!url",url);
-        JSONArray jsonArray =  new JSONArray();
+        Log.d("!!!url", url);
+        JSONArray jsonArray = new JSONArray();
         JSONObject reqObj = new JSONObject();
         try {
-            reqObj.put("TOPIC_ID",TOPIC_ID);
-            reqObj.put("STATUS","30");
-            reqObj.put("TOPIC_STATUS",stat);
+            reqObj.put("TOPIC_ID", TOPIC_ID);
+            reqObj.put("STATUS", "30");
+            reqObj.put("TOPIC_STATUS", stat);
             reqObj.put("EVENT_REG_SYS_ID", EVENT_ID);
             reqObj.put("COMMENT_FOR_HOD", commentForHod.getText().toString().trim());
             jsonArray.put(reqObj);
             final String requestBody = jsonArray.toString();
-            Log.i("!!!req",jsonArray.toString());
+            Log.i("!!!req", jsonArray.toString());
             StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
                         @Override
@@ -624,15 +623,14 @@ public class Nivritti extends BaseActivity {
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.e("!!!response",error.toString());
+                    Log.e("!!!response", error.toString());
 
                 }
-            })
-            {
+            }) {
                 @Override
                 public byte[] getBody() throws AuthFailureError {
                     try {
-                        Log.i("!!!Request", url+"    "+requestBody.getBytes("utf-8"));
+                        Log.i("!!!Request", url + "    " + requestBody.getBytes("utf-8"));
                         return requestBody == null ? null : requestBody.getBytes("utf-8");
                     } catch (UnsupportedEncodingException uee) {
                         VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
@@ -648,7 +646,7 @@ public class Nivritti extends BaseActivity {
         }
     }
 
-    public void SubjectAlloted(){
+    public void SubjectAlloted() {
         String url = Constant.GET_CONTENT_DATA + "?event_reg_id=" + EVENT_ID;
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -656,18 +654,18 @@ public class Nivritti extends BaseActivity {
                     @Override
                     public void onResponse(JSONObject object) {
                         try {
-                            if(object.getString("status").equals("true"));
-                            Log.d("!!!Response",object.toString());
+                            if (object.getString("status").equals("true")) ;
+                            Log.d("!!!Response", object.toString());
                             JSONArray jsonArray = object.getJSONArray("response");
-                            for (int i=0;i<jsonArray.length();i++){
-                                Log.d("!!! subject",object.toString());
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                Log.d("!!! subject", object.toString());
                                 JSONObject subject = jsonArray.getJSONObject(i);
                                 final String SOURCE = subject.getString("CONTENT_SOURCE");
                                 String SUBJECT = subject.getString("SUBJECT");
                                 String TOPIC = subject.getString("TOPIC");
                                 SUBJECT_ID = subject.getString("SUBJECT_ID");
                                 TOPIC_ID = subject.getString("TOPIC_ID");
-                            //    jsonArray.put(subject);
+                                //    jsonArray.put(subject);
                                 //=======================================================================================//
                                /* if (subject.length()==0){
                                     TextView tv = new TextView(Nivritti.this);
@@ -687,19 +685,19 @@ public class Nivritti extends BaseActivity {
                                 TextView topicName = (TextView) v.findViewById(R.id.topicName);
                                 ImageView meterial = (ImageView) v.findViewById(R.id.meterial);
                                 Spinner action = (Spinner) v.findViewById(R.id.action);
-                            //    Spinner action = (Spinner) v.findViewById(R.id.action);
+                                //    Spinner action = (Spinner) v.findViewById(R.id.action);
                                 final TextInputLayout reasonLayout = (TextInputLayout) v.findViewById(R.id.reasonLayout);
                                 EditText reason = (EditText) v.findViewById(R.id.reason);
                                 topicName.setText(SUBJECT);
                                 meterial.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        Intent i = new Intent(Intent.ACTION_VIEW,Uri.parse(SOURCE));
+                                        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(SOURCE));
                                         startActivity(i);
                                     }
                                 });
                                 CustomSpinner(action, R.array.action);
-                               // CustomSpin(action,statuses);
+                                // CustomSpin(action,statuses);
                                 /*TopicCompletionStatus();
                                 ArrayAdapter<TopicCompletionStatus> completStatus =new ArrayAdapter<TopicCompletionStatus>(Nivritti.this, R.layout.spinner_dropdown_item, statuses);
                                 completStatus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -708,7 +706,7 @@ public class Nivritti extends BaseActivity {
                                     @Override
                                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                         if (position == 1) {
-                                        //    Toast.makeText(Nivritti.this, "position 1", Toast.LENGTH_SHORT).show();
+                                            //    Toast.makeText(Nivritti.this, "position 1", Toast.LENGTH_SHORT).show();
                                             stat = "97";
                                             statusIco.setImageResource(R.drawable.check_icon);
                                             reasonLayout.setVisibility(View.GONE);
@@ -728,7 +726,7 @@ public class Nivritti extends BaseActivity {
                                     }
                                 });
                                 actionList.add(action);
-                            //    statuses.add();
+                                //    statuses.add();
                                 subjectLayout.addView(v);
                                 //#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
                             }
@@ -746,18 +744,18 @@ public class Nivritti extends BaseActivity {
         VolleySingleton.getInstance(this).addToRequestQueue(objectRequest);
     }
 
-    public void SubjectFetched(){
+    public void SubjectFetched() {
         String url = Constant.GET_CONTENT_DATA + "?event_reg_id=" + EVENT_ID;
         JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject object) {
                         try {
-                            if(object.getString("status").equals("true"));
-                            Log.d("!!!Response",object.toString());
+                            if (object.getString("status").equals("true")) ;
+                            Log.d("!!!Response", object.toString());
                             JSONArray jsonArray = object.getJSONArray("response");
-                            for (int i=0;i<jsonArray.length();i++){
-                                Log.d("!!! subject",object.toString());
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                Log.d("!!! subject", object.toString());
                                 JSONObject subject = jsonArray.getJSONObject(i);
                                 final String SOURCE = subject.getString("CONTENT_SOURCE");
                                 String SUBJECT = subject.getString("SUBJECT");
@@ -801,21 +799,21 @@ public class Nivritti extends BaseActivity {
         });
         VolleySingleton.getInstance(this).addToRequestQueue(objectRequest);
     }
-    public void TopicCompletionStatus(){
-        String url =Constant.TOPIC_COMPLETION_STATUS;
-        Log.d("url",url);
+
+    public void TopicCompletionStatus() {
+        String url = Constant.TOPIC_COMPLETION_STATUS;
+        Log.d("url", url);
         // prepare the Request
-        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url,null,
-                new Response.Listener<JSONObject>()
-                {
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
                             JSONObject object = response;
-                            if (object.getString("status").equals("true")){
+                            if (object.getString("status").equals("true")) {
                                 JSONArray jsonArray = object.getJSONArray("response");
-                                for (int i=0;i<jsonArray.length();i++){
-                                    Log.d("!!!!CompletionStatus",response.toString());
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    Log.d("!!!!CompletionStatus", response.toString());
                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                                     TopicCompletionStatus completionStatus = new TopicCompletionStatus();
                                     completionStatus.setStatus_id(jsonObject.getString("LOV_ID"));
@@ -833,8 +831,7 @@ public class Nivritti extends BaseActivity {
 
                     }
                 },
-                new Response.ErrorListener()
-                {
+                new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("Error.Response", error.toString());
@@ -845,7 +842,7 @@ public class Nivritti extends BaseActivity {
         VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
 
     }
-    }
+}
 
 
    /* public class SubmitData extends AsyncTask<String,String,Boolean> {
