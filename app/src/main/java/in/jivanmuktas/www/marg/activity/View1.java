@@ -250,7 +250,8 @@ public class View1 extends BaseActivity {
                 reqObj.put("EVENT_ID",EVENT_ID);
                 reqObj.put("START_DATE",startDate1.getText().toString().trim());
                 reqObj.put("USER_ID",app.getUserId());
-                response = HttpPutHandler.SendHttpPut(Constant.EVENT_MODIFICATION,reqObj.toString());//Using Put Method
+            //    response = HttpPutHandler.SendHttpPut(Constant.EVENT_MODIFICATION,reqObj.toString());//Using Put Method
+                response = HttpPutHandler.SendHttpPut("","");
 
                 json = new JSONObject(response);
                 Log.i("!!!ResApprovedCancel", response);

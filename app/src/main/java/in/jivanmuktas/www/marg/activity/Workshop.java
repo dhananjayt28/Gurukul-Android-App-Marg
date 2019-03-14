@@ -1,7 +1,9 @@
 package in.jivanmuktas.www.marg.activity;
 
 import android.app.DatePickerDialog;
+import android.app.DownloadManager;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -57,6 +59,7 @@ public class Workshop extends BaseActivity {
     Button submit,Update;
     ImageView ImgItie,ItenaryUpload;
     TextInputLayout Moditext;
+    DownloadManager downloadManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,9 +140,11 @@ public class Workshop extends BaseActivity {
             public void onClick(View v) {
                 /*Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(SOURCE));
                 startActivity(i);*/
-                Intent i = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("https://drive.google.com/open?id=1rWzEN1IPfTN5OdVd9DleZmrXgp3DhPcXS25hCGjAUdQ"));
-                startActivity(i);
+                downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+                Uri uri = Uri.parse("http://foersom.com/net/HowTo/data/OoPdfFormExample.pdf");     //url to be put here
+                DownloadManager.Request request = new DownloadManager.Request(uri);
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                Long referece = downloadManager.enqueue(request);
             }
         });
 
@@ -480,7 +485,6 @@ public class Workshop extends BaseActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.e("!!!response",error.toString());
-
                 }
             })
             {
@@ -501,6 +505,5 @@ public class Workshop extends BaseActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 }

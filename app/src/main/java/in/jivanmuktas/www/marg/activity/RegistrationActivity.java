@@ -215,7 +215,7 @@ public class RegistrationActivity extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position != 0){
-                    TitleId = titles.get(position).getTitle_id();
+                    TitleId = titles.get(position).getTitle_name();
                 }
             }
             @Override
@@ -485,6 +485,21 @@ public class RegistrationActivity extends BaseActivity {
     }
 
     ///////***********************//////////////////
+    public void getSatsangChapter(String chapter){
+        final String url = Constant.GET_SATSANG_CHAPTER + chapter;
+        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+    }
     public class GetSatsangChapter extends AsyncTask<String, String, Boolean> {
         JSONObject jsonObject1;
         JSONArray jsonArray1;
