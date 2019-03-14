@@ -22,21 +22,31 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
 import in.jivanmuktas.www.marg.R;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.Locale;
 
 import in.jivanmuktas.www.marg.constant.Constant;
 import in.jivanmuktas.www.marg.database.JivanmuktasDB;
 import in.jivanmuktas.www.marg.dataclass.UserData;
+import in.jivanmuktas.www.marg.model.Country;
+import in.jivanmuktas.www.marg.model.Education;
 import in.jivanmuktas.www.marg.network.HttpGetHandler;
 import in.jivanmuktas.www.marg.network.HttpPutHandler;
+import in.jivanmuktas.www.marg.singleton.VolleySingleton;
 
 public class ViewProfile extends BaseActivity {
     private static final String TAG = "ViewProfile";
@@ -58,8 +68,11 @@ public class ViewProfile extends BaseActivity {
     Cursor result;
     ArrayList<String> satsang;
     LinearLayout profileLayout;
-
+    ArrayList<Country> countries = new ArrayList<>();
+    ArrayList<Education> edu = new ArrayList<>();
     String chapter;
+    String countryId="";
+    String EducationId="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,26 +138,47 @@ if(isNetworkAvailable()){
     finish();
 }
 
-            spinner_country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if(position!=0) {
-                        new GetSatsangChapter().execute("" + position);
-                    }else {
-                        /////// If Country selected position is 0
-                        ArrayList<String> satsang = new ArrayList<>();
-                        satsang.add("Select Chapter");
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(ViewProfile.this, android.R.layout.simple_spinner_item, satsang);
-                        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-                        spinner_satsang.setAdapter(adapter);
-                    }
-                }
 
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
+        SetCountrySpinner();
+        spinner_country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position != 0 ){
+                    countryId = countries.get(position).getCountry_id();
+                    Log.d("!!!countries",countryId.toString());
+                    new GetSatsangChapter().execute("" + countries.get(position).getCountry_id());
+                    /// Set Country code
+                    String[] array = getResources().getStringArray(R.array.country_code);
                 }
-            });
+                else {
+                    /////// If Country selected position is 0
+                    satsang = new ArrayList<>();
+                    satsang.add("Select Chapter");
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(ViewProfile.this, android.R.layout.simple_spinner_item, satsang);
+                    adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+                    spinner_satsang.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        SetEducation();
+        spinner_edu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position != 0){
+                    EducationId = edu.get(position).getEducation_id();
+                    //    Toast.makeText(RegistrationActivity.this, "edu.get(position).getEducation_id()", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
         etDob.addTextChangedListener(new TextWatcher() {
             @Override
@@ -239,11 +273,11 @@ if(isNetworkAvailable()){
         }else if(spinner_edu.getSelectedItemPosition()==0){
             SnackbarRed(R.id.profileLayout,"Please Select Education. ");
             return false;
-        }else if(etPostalCode.getText().toString().trim().length()==0){
+        }/*else if(etPostalCode.getText().toString().trim().length()==0){
             etPostalCode.setError("Please enter your Postal Code ");
             editTextFocus(etPostalCode);
             return false;
-        }
+        }*/
 
 
         return flag;
@@ -283,7 +317,6 @@ if(isNetworkAvailable()){
 
                 String response = HttpPutHandler.SendHttpPut(Constant.ProfileUpdate, reqObj.toString());
 
-
                 Log.d("!!!Response", response.toString());
                 jsonResponse = new JSONObject(response);
                 if(jsonResponse.getString("status").equals("true")){
@@ -291,7 +324,6 @@ if(isNetworkAvailable()){
                 }else {
                     return false;
                 }
-
 
             } catch (Exception e) {
                 System.out.println("!! Reach here error " + e.getMessage());
@@ -316,7 +348,7 @@ if(isNetworkAvailable()){
     }
 
     /////***********************//////////////////
-    public class GetSatsangChapter extends AsyncTask<String, String, Boolean> {
+    /*public class GetSatsangChapter extends AsyncTask<String, String, Boolean> {
 
         @Override
         protected void onPreExecute() {
@@ -358,7 +390,7 @@ if(isNetworkAvailable()){
                 CustomToast("Server Busy! \nPlease try again later.");
             }
         }
-    }
+    }*/
     /////***********************//////////////////
    /* public class GetSatsangChapter extends AsyncTask<String, String, Boolean> {
 
@@ -471,6 +503,7 @@ if(isNetworkAvailable()){
                     String contactNo = object.getString("MOBILE_NO"); // only mobile no.
                     String emailId = object.getString("EMAIL_ID");
                     String country = object.getString("COUNTRY");
+                    Log.i("!!!country",country);
                     String City  = object.getString("CITY");
                  //   String status = object.getString("STATUS");
                  //   String BusinessProfile = object.getString("ROLE");
@@ -484,7 +517,8 @@ if(isNetworkAvailable()){
                     country = "2";
                     education="2";*/
                     /////********
-                    userName.setText(UserData.getTitle(title)+" "+username);
+            //        userName.setText(UserData.getTitle(title)+" "+username);
+                    userName.setText(title + " " + username);
                     userDob.setText(dateOfBirth);
                     userAge.setText(CalculateAge(dateOfBirth));
                     userGender.setText(gender);
@@ -498,21 +532,40 @@ if(isNetworkAvailable()){
                     //userPin.setText(help_in_other_activity); //check
                     //userPin.setText(BusinessProfile);  //check
 
-                    ///////////***********************
-
-                    ((RadioButton)rgTitle.getChildAt(Integer.parseInt(title)-1)).setChecked(true);
+                    ///////////**********************
                     etName.setText(username);
-
-                    ((RadioButton)rgGender.getChildAt(Integer.parseInt(gender))).setChecked(true);
                     etDob.setText(dateOfBirth);
                     etEmail.setText(emailId);
                     etPhoneNumber.setText(contactNo);
+                    if(title.equalsIgnoreCase("Mr")){
+                        mr.setChecked(true);
+                    }else if(title.equalsIgnoreCase("Mrs")){
+                        mrs.setChecked(true);
+                    }else {
+                       miss.setChecked(true);
+                    }
+                    if (gender.equalsIgnoreCase("MALE")) {
+                        rbMale.setChecked(true);
+                    } else {
+                        rbFemale.setChecked(true);
+                    }
+
+
+
+
+                    //       ((RadioButton)rgTitle.getChildAt(Integer.parseInt(title)-1)).setChecked(true);
+             //       etName.setText(username);
+
+             //       ((RadioButton)rgGender.getChildAt(Integer.parseInt(gender))).setChecked(true);
+             //       etDob.setText(dateOfBirth);
+             //       etEmail.setText(emailId);
+             //       etPhoneNumber.setText(contactNo);
                     //etPostalCode.setText(postal_code);
 
                     ////////// Spinner For Country
-                    CustomSpinner(spinner_country, R.array.country);
+             //       CustomSpinner(spinner_country, R.array.country);
 
-                    spinner_country.setSelection(Integer.parseInt(country));
+             //       spinner_country.setSelection(Integer.parseInt(country));
 
                     ////////// Spinner For Education
                 //    CustomSpinner(spinner_edu, R.array.education);
@@ -527,5 +580,151 @@ if(isNetworkAvailable()){
                 CustomToast("Something went wrong!\nPlease try again later.");
             }
         }
+    }
+    /////////////COUNTRIES///////////////
+    public void SetCountrySpinner(){
+        String url = Constant.GET_COUNTRY_LIST;
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url,null,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject object = response;
+                            if (object.getString("status").equals("true")){
+                                Log.d("!!! countries",object.toString());
+                                JSONArray jsonArray = object.getJSONArray("response");
+                                Log.d("!!! countries",response.toString());
+                                for (int i=0;i<jsonArray.length();i++){
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    Country country = new Country();
+                                    country.setCountry_id(jsonObject.getString("LOV_ID"));
+                                    country.setCountry_name(jsonObject.getString("LOV_NAME"));
+                                    countries.add(country);
+                                }
+
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        ArrayAdapter<Country> country = new ArrayAdapter<Country>(ViewProfile.this,android.R.layout.simple_list_item_1,countries);
+                        country.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_country.setAdapter(country);
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        );
+        VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
+    }
+
+    public class GetSatsangChapter extends AsyncTask<String, String, Boolean> {
+        JSONObject jsonObject1;
+        JSONArray jsonArray1;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDailog();
+        }
+        //?id=0&eventid=1
+        @Override
+        protected Boolean doInBackground(String... params) {
+            String s = params[0];
+            HttpGetHandler handler = new HttpGetHandler();
+            try {
+                Log.i("!!!!URL",Constant.GET_SATSANG_CHAPTER+s);
+                String response = handler.makeServiceCall(Constant.GET_SATSANG_CHAPTER+s);
+                //String response = handler.makeServiceCall(Constant.GET_SATSANG_CHAPTER);
+                // response = AssetJSONFile("SatsangChapter.json",RegistrationActivity.this);
+                Log.d("!!!Response", response.toString());
+                jsonObject1 = new JSONObject(response);
+
+                jsonArray1 = jsonObject1.getJSONArray("response");
+                Log.i("!!!Response",response);
+                if(jsonObject1.getBoolean("status"))
+                    return true;
+                else
+                    return false;
+
+            } catch (Exception e) {
+                System.out.println("!! Reach here error " + e.getMessage());
+                e.printStackTrace();
+            }
+
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean s) {
+            super.onPostExecute(s);
+            dismissProgressDialog();
+
+            if(s) {
+                ArrayList<String> satsang = new ArrayList<>();
+                satsang.add("Select Chapter");
+                try {
+                    for (int i = 0; i < jsonArray1.length(); i++) {
+                        JSONObject object = jsonArray1.getJSONObject(i);
+                        satsang.add(object.getString("CHAPTER_NAME"));
+
+                    }
+                    ////////// Spinner For satsang
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(ViewProfile.this, android.R.layout.simple_spinner_item, satsang);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner_satsang.setAdapter(adapter);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }else {
+                CustomToast("No Data Found.");
+            }
+        }
+    }
+
+    public void SetEducation(){
+        String url =Constant.GET_EDUCATION_LIST;
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url,null,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject object = response;
+                            if (object.getString("status").equals("true")){
+                                JSONArray jsonArray = object.getJSONArray("response");
+                                for (int i=0;i<jsonArray.length();i++){
+                                    Log.d("!!!!Education",response.toString());
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    Education education = new Education();
+                                    education.setEducation_id(jsonObject.getString("LOV_ID"));
+                                    education.setEducation_name(jsonObject.getString("LOV_NAME"));
+                                    edu.add(education);
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        ArrayAdapter educate=new ArrayAdapter(ViewProfile.this, R.layout.spinner_dropdown_item, edu);
+                        educate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_edu.setAdapter(educate);
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        );
+
+        VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
     }
 }

@@ -352,7 +352,6 @@ public class RegistrationActivity extends BaseActivity {
                 }
         );
         VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
-
     }
     /////////CITY//////////////////
     public void SetCitySpinner(){

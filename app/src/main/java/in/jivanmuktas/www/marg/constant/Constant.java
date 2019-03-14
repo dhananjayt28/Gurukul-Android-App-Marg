@@ -18,7 +18,7 @@ public class Constant {
    public static final String GITADISTRIBUTION_ITERARY_CONFIRMATION_UPDATE = BASE_URL_NEW + "itinary-confirmation-update";
    //public static final String GET_USER_DATA = BASE_URL_NEW + "get-user-data";
 
-   public static final String ProfileUpdate = BASE_URL + "user-profile-update";   //in service 1
+   public static final String ProfileUpdate = BASE_URL_NEW + "user-profile-update";   //in service 1
 
    public static final String AvailableEvent = BASE_URL_NEW + "get-event-data?event_type=";
    public static final String ApprovedEvent = BASE_URL_NEW + "get-approved-event-data?user_id=";
@@ -27,7 +27,7 @@ public class Constant {
 
    //public static final String PASSWORD_RESET = BASE_URL + "password-reset";     //in service 2
    //public static final String PASSWORD_UPDATE = BASE_URL + "password-update";   //inservice 3
-   public static final String GET_SATSANG_CHAPTER = BASE_URL_NEW + "get-satsang-chapter-data?country_id=";     //inservice 4
+   public static final String GET_SATSANG_CHAPTER = BASE_URL_NEW + "get-satsang-chapter-data?country_id=";     //inservice 4 complete
 
    public static final String GET_COUNTRY_LIST = BASE_URL_NEW + "get-master-data-list?category_name=MASTER_COUNTRY";
 
