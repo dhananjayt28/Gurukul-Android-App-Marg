@@ -49,6 +49,7 @@ import java.util.Locale;
 import in.jivanmuktas.www.marg.constant.Constant;
 import in.jivanmuktas.www.marg.database.JivanmuktasDB;
 import in.jivanmuktas.www.marg.dataclass.UserData;
+import in.jivanmuktas.www.marg.model.Chapter;
 import in.jivanmuktas.www.marg.model.Country;
 import in.jivanmuktas.www.marg.model.Education;
 import in.jivanmuktas.www.marg.network.HttpGetHandler;
@@ -77,6 +78,7 @@ public class ViewProfile extends BaseActivity {
     LinearLayout profileLayout;
     ArrayList<Country> countries = new ArrayList<>();
     ArrayList<Education> edu = new ArrayList<>();
+    ArrayList<Chapter> chapters = new ArrayList<>();
     String chapter;
     String countryId="";
     String EducationId="";
@@ -157,7 +159,7 @@ if(isNetworkAvailable()){
                 if(position != 0 ){
                     countryId = countries.get(position).getCountry_id();
                     Log.d("!!!countries",countryId.toString());
-                    new GetSatsangChapter().execute("" + countries.get(position).getCountry_id());
+                    SetSatsangChapterSpinner(countries.get(position).getCountry_id());
                     /// Set Country code
                     String[] array = getResources().getStringArray(R.array.country_code);
                 }
@@ -723,70 +725,53 @@ if(isNetworkAvailable()){
         VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
     }
 
-    public class GetSatsangChapter extends AsyncTask<String, String, Boolean> {
-        JSONObject jsonObject1;
-        JSONArray jsonArray1;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showProgressDailog();
-        }
-        //?id=0&eventid=1
-        @Override
-        protected Boolean doInBackground(String... params) {
-            String s = params[0];
-            HttpGetHandler handler = new HttpGetHandler();
-            try {
-                Log.i("!!!!URL",Constant.GET_SATSANG_CHAPTER+s);
-                String response = handler.makeServiceCall(Constant.GET_SATSANG_CHAPTER+s);
-                //String response = handler.makeServiceCall(Constant.GET_SATSANG_CHAPTER);
-                // response = AssetJSONFile("SatsangChapter.json",RegistrationActivity.this);
-                Log.d("!!!Response", response.toString());
-                jsonObject1 = new JSONObject(response);
+    public void SetSatsangChapterSpinner(final String chapter){
+        chapters.clear();
+        String url = Constant.GET_SATSANG_CHAPTER + chapter;
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url,null,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject object = response;
+                            if (object.getString("status").equals("true")){
+                                Log.d("!!! chapter",object.toString());
+                                JSONArray jsonArray = object.getJSONArray("response");
+                                Log.d("!!! chapter",response.toString());
+                                for (int i=0;i<jsonArray.length();i++){
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            //        Chapter chapter1 = new Chapter();
+                            //        chapter1.setChapterId(jsonObject.getString("CHAPTER_ID"));
+                            //        chapter1.setChapterName(jsonObject.getString("CHAPTER_NAME"));
+                                    String chapterid = jsonObject.getString(("CHAPTER_ID"));
+                                    String chapterName = jsonObject.getString("CHAPTER_NAME");
+                                    //           education.setEducation_id(jsonObject.getString("LOV_ID"));
+                                    //            education.setEducation_name(jsonObject.getString("LOV_NAME"));
+                                    chapters.add(new Chapter(chapterName,chapterid));
+                                    //            edu.add(education);
+                                    chapterMap.put(chapterName,"" + i);
 
-                jsonArray1 = jsonObject1.getJSONArray("response");
-                Log.i("!!!Response",response);
-                if(jsonObject1.getBoolean("status"))
-                    return true;
-                else
-                    return false;
+                                }
 
-            } catch (Exception e) {
-                System.out.println("!! Reach here error " + e.getMessage());
-                e.printStackTrace();
-            }
-
-            return false;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean s) {
-            super.onPostExecute(s);
-            dismissProgressDialog();
-
-            if(s) {
-                ArrayList<String> satsang = new ArrayList<>();
-                satsang.add("Select Chapter");
-                try {
-                    for (int i = 0; i < jsonArray1.length(); i++) {
-                        JSONObject object = jsonArray1.getJSONObject(i);
-                        satsang.add(object.getString("CHAPTER_NAME"));
-
-                        chapterMap.put(object.getString("CHAPTER_NAME"),""+i); //chages for spinner position
-
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        ArrayAdapter<Chapter> chapter = new ArrayAdapter<Chapter>(ViewProfile.this,android.R.layout.simple_list_item_1,chapters);
+                        chapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_satsang.setAdapter(chapter);
                     }
-                    ////////// Spinner For satsang
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(ViewProfile.this, android.R.layout.simple_spinner_item, satsang);
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spinner_satsang.setAdapter(adapter);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+                    }
                 }
-            }else {
-                CustomToast("No Data Found.");
-            }
-        }
+        );
+        VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
     }
 
     public void SetEducation(){

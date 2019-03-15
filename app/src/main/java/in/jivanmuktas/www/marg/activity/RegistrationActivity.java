@@ -44,6 +44,7 @@ import java.util.Locale;
 
 import in.jivanmuktas.www.marg.constant.Constant;
 import in.jivanmuktas.www.marg.database.JivanmuktasDB;
+import in.jivanmuktas.www.marg.model.Chapter;
 import in.jivanmuktas.www.marg.model.City;
 import in.jivanmuktas.www.marg.model.Country;
 import in.jivanmuktas.www.marg.model.CountrySetGet;
@@ -75,6 +76,7 @@ public class RegistrationActivity extends BaseActivity {
     ArrayList<City> cities = new ArrayList<>();
     ArrayList<Education> edu = new ArrayList<>();
     ArrayList<Title> titles = new ArrayList<>();
+    ArrayList<Chapter> chapters = new ArrayList<>();
     String countryId="";
     String CityId="";
     String EducationId="";
@@ -163,12 +165,14 @@ public class RegistrationActivity extends BaseActivity {
                 if(position != 0 ){
                     countryId = countries.get(position).getCountry_id();
                     Log.d("!!!countries",countryId.toString());
-                    new GetSatsangChapter().execute("" + countries.get(position).getCountry_id());
+                //    new GetSatsangChapter().execute("" + countries.get(position).getCountry_id());
+                    SetSatsangChapterSpinner(countries.get(position).getCountry_id());
                     /// Set Country code
                     String[] array = getResources().getStringArray(R.array.country_code);
                     }
                 else {
                     /////// If Country selected position is 0
+
                     satsang = new ArrayList<>();
                     satsang.add("Select Chapter");
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(RegistrationActivity.this, android.R.layout.simple_spinner_item, satsang);
@@ -224,7 +228,6 @@ public class RegistrationActivity extends BaseActivity {
         });
 
         getGender();
-
         spinner_gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -239,6 +242,17 @@ public class RegistrationActivity extends BaseActivity {
 
         });
 
+        spinner_satsang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position != 0){
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
 
@@ -282,10 +296,11 @@ public class RegistrationActivity extends BaseActivity {
         }else if (spinner_city.getSelectedItemPosition() == 0) {
             SnackbarRed(R.id.reglayout,"Please Choose City Name");
             flag = false;
-        }else if (spinner_satsang.getSelectedItemPosition() == 0) {
+            Log.d("!!!sayan",String.valueOf(spinner_satsang.getSelectedItemPosition()));
+        }/*else if (spinner_satsang.getSelectedItemPosition() == 0) {
             SnackbarRed(R.id.reglayout,"Please Choose Satsang Chapter");
             flag = false;
-        }else if (spinner_title.getSelectedItemPosition() == 0) {
+        }*/else if (spinner_title.getSelectedItemPosition() == 0) {
             SnackbarRed(R.id.reglayout,"Please Choose Title");
             flag = false;
         } else if (spinner_gender.getSelectedItemPosition() == 0) {
@@ -483,22 +498,50 @@ public class RegistrationActivity extends BaseActivity {
         spinner_gender.setAdapter(gender);
     }
 
-    ///////***********************//////////////////
-    public void getSatsangChapter(String chapter){
-        final String url = Constant.GET_SATSANG_CHAPTER + chapter;
-        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
+    public void SetSatsangChapterSpinner(final String chapter){
+        chapters.clear();
+        String url = Constant.GET_SATSANG_CHAPTER + chapter;
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url,null,
+                new Response.Listener<JSONObject>()
+                {
                     @Override
                     public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject object = response;
+                            if (object.getString("status").equals("true")){
+                                Log.d("!!! chapter",object.toString());
+                                JSONArray jsonArray = object.getJSONArray("response");
+                                Log.d("!!! chapter",response.toString());
+                                for (int i=0;i<jsonArray.length();i++){
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    Chapter chapter1 = new Chapter();
+                                    chapter1.setChapterId(jsonObject.getString("CHAPTER_ID"));
+                                    chapter1.setChapterName(jsonObject.getString("CHAPTER_NAME"));
+                                    chapters.add(chapter1);
+                                }
 
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        ArrayAdapter<Chapter> chapter = new ArrayAdapter<Chapter>(RegistrationActivity.this,android.R.layout.simple_list_item_1,chapters);
+                        chapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_satsang.setAdapter(chapter);
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        );
+        VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
     }
+
+    ///////***********************//////////////////
+
     public class GetSatsangChapter extends AsyncTask<String, String, Boolean> {
         JSONObject jsonObject1;
         JSONArray jsonArray1;
@@ -506,6 +549,7 @@ public class RegistrationActivity extends BaseActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             showProgressDailog();
+
         }
         //?id=0&eventid=1
         @Override
@@ -514,12 +558,13 @@ public class RegistrationActivity extends BaseActivity {
             HttpGetHandler handler = new HttpGetHandler();
             try {
                 Log.i("!!!!URL",Constant.GET_SATSANG_CHAPTER+s);
+
                 String response = handler.makeServiceCall(Constant.GET_SATSANG_CHAPTER+s);
                 //String response = handler.makeServiceCall(Constant.GET_SATSANG_CHAPTER);
                 // response = AssetJSONFile("SatsangChapter.json",RegistrationActivity.this);
                 Log.d("!!!Response", response.toString());
                 jsonObject1 = new JSONObject(response);
-
+                ;
                 jsonArray1 = jsonObject1.getJSONArray("response");
                 Log.i("!!!Response",response);
                 if(jsonObject1.getBoolean("status"))
@@ -540,8 +585,10 @@ public class RegistrationActivity extends BaseActivity {
             super.onPostExecute(s);
             dismissProgressDialog();
 
+
             if(s) {
                 ArrayList<String> satsang = new ArrayList<>();
+                satsang.clear();
                 satsang.add("Select Chapter");
                 try {
                     for (int i = 0; i < jsonArray1.length(); i++) {
@@ -627,7 +674,8 @@ public class RegistrationActivity extends BaseActivity {
                 try {
                     CustomToast(jsonResponse.getString("response")+"\n Registration failed. ");
                 }catch (Exception e){
-                    CustomToast("Server Busy! \nPlease try again later.");
+                //    CustomToast("Server Busy! \nPlease try again later.");
+                    Toast.makeText(RegistrationActivity.this, "Please Enter a country which has satsang Chapter", Toast.LENGTH_LONG).show();
                 }
             }
         }

@@ -4,8 +4,9 @@ public class Chapter {
     String chapterName;
     String chapterId;
 
-    public Chapter(String chapterName) {
+    public Chapter(String chapterName,String chapterId) {
         this.chapterName = chapterName;
+        this.chapterId = chapterId;
 
     }
 
@@ -26,5 +27,10 @@ public class Chapter {
 
     public void setChapterId(String chapterId) {
         this.chapterId = chapterId;
+    }
+
+    @Override
+    public String toString() {
+        return chapterName;
     }
 }

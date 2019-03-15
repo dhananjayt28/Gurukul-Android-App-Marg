@@ -91,7 +91,7 @@ public class ResetPassword extends BaseActivity {
 
                 reqArr.put(reqObj);
                 System.out.println("!!!reqArr  " + reqArr);
-            //    String response =  HttpClient.SendHttpPost(Constant.PASSWORD_RESET, reqObj.toString());
+              //String response =  HttpClient.makeRequest(Constant.PASSWORD_RESET, reqObj.toString());
                 String response = "";
                 Log.d("!!Response", response.toString());
                 jsonResponse = new JSONObject(response);
