@@ -4,6 +4,14 @@ public class Education {
     String education_name;
     String education_id;
 
+    public Education() {
+    }
+
+    public Education(String education_name, String education_id) {
+        this.education_name = education_name;
+        this.education_id = education_id;
+    }
+
     public String getEducation_name() {
         return education_name;
     }

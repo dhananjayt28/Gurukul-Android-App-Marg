@@ -3,6 +3,14 @@ package in.jivanmuktas.www.marg.model;
 public class Country {
     String country_id,country_name;
 
+    public Country(String country_id, String country_name) {
+        this.country_id = country_id;
+        this.country_name = country_name;
+    }
+
+    public Country() {
+    }
+
     public String getCountry_id() {
         return country_id;
     }

@@ -22,10 +22,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import in.jivanmuktas.www.marg.R;
 
@@ -33,9 +38,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 
@@ -73,6 +80,9 @@ public class ViewProfile extends BaseActivity {
     String chapter;
     String countryId="";
     String EducationId="";
+    HashMap<String, String> educationMap = new HashMap<>();
+    HashMap<String, String> countryMap = new HashMap<>();
+    HashMap<String, String> chapterMap = new HashMap<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -215,7 +225,8 @@ if(isNetworkAvailable()){
             case R.id.btUpdate:
                 if (isNetworkAvailable()){
                     if (isValid()){
-                        new ProfileUpdate().execute();
+                    //    new ProfileUpdate().execute();
+                        CurentProfileUpdate();
                     }
                 }
                 break;
@@ -284,6 +295,67 @@ if(isNetworkAvailable()){
     }
 
     /////***********************//////////////////
+
+    public void CurentProfileUpdate() {
+        final String url = Constant.ProfileUpdate;
+
+        JSONArray jsonArray = new JSONArray();
+        JSONObject reqObj = new JSONObject();
+        try {
+            reqObj.put("USER_ID", app.getUserId());
+            RadioButton rbTitle = (RadioButton) findViewById(rgTitle.getCheckedRadioButtonId());
+            int indexTitle = rgTitle.indexOfChild(rbTitle)+1;
+            reqObj.put("STATUS", "26");
+            reqObj.put("TITLE",String.valueOf(indexTitle));// 0 = Mr., 1 = Mrs., 2 = Miss.
+            reqObj.put("NAME",etName.getText().toString().trim());
+            RadioButton rb = (RadioButton) findViewById(rgGender.getCheckedRadioButtonId());
+            int indexGen = rgGender.indexOfChild(rb);
+            reqObj.put("GENDER",String.valueOf(indexGen));// 0 = male, 1 = Female
+            reqObj.put("DOB", etDob.getText().toString().trim());
+            reqObj.put("COUNTRY_CODE", " ");
+            reqObj.put("CONTACT", etPhoneNumber.getText().toString().trim());
+            reqObj.put("EMAIL", etEmail.getText().toString().trim());
+            reqObj.put("POSTAL_CODE", etPostalCode.getText().toString().trim());
+            reqObj.put("COUNTRY", String.valueOf(spinner_country.getSelectedItemPosition()));
+            reqObj.put("CHAPTER", spinner_satsang.getSelectedItem().toString().trim());
+            reqObj.put("EDUCATION", String.valueOf(spinner_edu.getSelectedItemPosition()));
+            jsonArray.put(reqObj);
+            final String requestBody = jsonArray.toString();
+            Log.i("!!!req", jsonArray.toString());
+            StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("!!!Response->", response);
+                            Toast.makeText(ViewProfile.this, "Updated Sucessfully", Toast.LENGTH_SHORT).show();
+                            ViewProfile.this.finish();
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("!!!response", error.toString());
+
+                }
+            }) {
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        Log.i("!!!Request", url + "    " + requestBody.getBytes("utf-8"));
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+            RequestQueue queue = Volley.newRequestQueue(this);
+            // add it to the RequestQueue
+            queue.add(postRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
     public class ProfileUpdate extends AsyncTask<String, String, Boolean> {
         @Override
         protected void onPreExecute() {
@@ -509,6 +581,7 @@ if(isNetworkAvailable()){
                  //   String BusinessProfile = object.getString("ROLE");
                     chapter = object.getString("SATSANG_CHAPTER");
                     String education = object.getString("EDUCATION");
+                    Log.i("!!!education",education);
                  //   String help_in_other_activity = object.getString("HELP_IN_OTHER_ACTIVITY");
                 //    String postal_code = "0";
                     ////////////////////
@@ -550,7 +623,15 @@ if(isNetworkAvailable()){
                         rbFemale.setChecked(true);
                     }
 
+                    String selectPos1 = countryMap.get(country);
+                    spinner_country.setSelection(Integer.parseInt(selectPos1));
 
+                    String selectPos2 = chapterMap.get(chapter);
+                    spinner_satsang.setSelection(Integer.parseInt(selectPos2));
+
+                    String selectPos3 = educationMap.get(education);
+                    Log.i("!!!selectpos",selectPos3);
+                    spinner_edu.setSelection(Integer.parseInt(selectPos3));
 
 
                     //       ((RadioButton)rgTitle.getChildAt(Integer.parseInt(title)-1)).setChecked(true);
@@ -566,9 +647,11 @@ if(isNetworkAvailable()){
              //       CustomSpinner(spinner_country, R.array.country);
 
              //       spinner_country.setSelection(Integer.parseInt(country));
+                    /*CustomSpinner(spinner_edu,Integer.parseInt(education));
+                    spinner_edu.setSelection(Integer.parseInt(education));*/
 
                     ////////// Spinner For Education
-                //    CustomSpinner(spinner_edu, R.array.education);
+            //        CustomSpinner(spinner_edu, R.array.education);
 
                 //    spinner_edu.setSelection(Integer.parseInt(education));
 
@@ -581,6 +664,18 @@ if(isNetworkAvailable()){
             }
         }
     }
+
+    /*private int getIndex(Spinner spinner, String myString){
+
+        int index = 0;
+
+        for (int i=0;i<spinner.getCount();i++){
+            if (spinner.getItemAtPosition(i).equals(myString)){
+                index = i;
+            }
+        }
+        return index;
+    }*/
     /////////////COUNTRIES///////////////
     public void SetCountrySpinner(){
         String url = Constant.GET_COUNTRY_LIST;
@@ -597,10 +692,15 @@ if(isNetworkAvailable()){
                                 Log.d("!!! countries",response.toString());
                                 for (int i=0;i<jsonArray.length();i++){
                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                    Country country = new Country();
-                                    country.setCountry_id(jsonObject.getString("LOV_ID"));
-                                    country.setCountry_name(jsonObject.getString("LOV_NAME"));
-                                    countries.add(country);
+                                //    Country country = new Country();
+                                //    country.setCountry_id(jsonObject.getString("LOV_ID"));
+                                //    country.setCountry_name(jsonObject.getString("LOV_NAME"));
+                                //    countries.add(country);
+
+                                    String countryId = jsonObject.getString("LOV_ID");
+                                    String countryName = jsonObject.getString("LOV_NAME");
+                                    countries.add(new Country(countryId,countryName));
+                                    countryMap.put(countryName,"" + i);
                                 }
 
                             }
@@ -672,6 +772,8 @@ if(isNetworkAvailable()){
                         JSONObject object = jsonArray1.getJSONObject(i);
                         satsang.add(object.getString("CHAPTER_NAME"));
 
+                        chapterMap.put(object.getString("CHAPTER_NAME"),""+i); //chages for spinner position
+
                     }
                     ////////// Spinner For satsang
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(ViewProfile.this, android.R.layout.simple_spinner_item, satsang);
@@ -702,10 +804,15 @@ if(isNetworkAvailable()){
                                 for (int i=0;i<jsonArray.length();i++){
                                     Log.d("!!!!Education",response.toString());
                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                    Education education = new Education();
-                                    education.setEducation_id(jsonObject.getString("LOV_ID"));
-                                    education.setEducation_name(jsonObject.getString("LOV_NAME"));
-                                    edu.add(education);
+                        //            Education education = new Education();
+                                    String educationId = jsonObject.getString(("LOV_ID"));
+                                    String educationName = jsonObject.getString("LOV_NAME");
+                         //           education.setEducation_id(jsonObject.getString("LOV_ID"));
+                        //            education.setEducation_name(jsonObject.getString("LOV_NAME"));
+                                    edu.add(new Education(educationName,educationId));
+                        //            edu.add(education);
+                                    educationMap.put(educationName,"" + i);
+
                                 }
                             }
                         } catch (Exception e) {
