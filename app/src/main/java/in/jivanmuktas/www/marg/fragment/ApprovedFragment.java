@@ -361,8 +361,11 @@ public class ApprovedFragment extends Fragment {
                         ivEvent.setImageDrawable(getResources().getDrawable(R.drawable.gurukul));
                     }else if(EVENT_TYPE.equals("2")){
                         ivEvent.setImageDrawable(getResources().getDrawable(R.drawable.workshop));
+                        modify.setVisibility(View.GONE);
+                        cancel.setVisibility(View.GONE);
                     }else if(EVENT_TYPE.equals("3")){
                         modify.setVisibility(View.GONE);
+                        cancel.setVisibility(View.GONE);
                         ivEvent.setImageDrawable(getResources().getDrawable(R.drawable.distribution));
                     }
 
