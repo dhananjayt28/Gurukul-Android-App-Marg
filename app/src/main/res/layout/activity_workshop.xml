@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.Workshop"
+    android:id="@+id/layoutWorkshop"
     android:orientation="vertical">
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -319,7 +320,8 @@
                 android:id="@+id/tvcommentToApprover"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="10dp"
+
                 android:fontFamily="sans-serif-condensed"
                 android:text=" I shall reach alone"
                 android:textColor="@color/colorTextLabel"

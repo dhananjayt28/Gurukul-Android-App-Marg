@@ -87,6 +87,7 @@ public class Workshop extends BaseActivity {
         try {
             EVENT_ID = getIntent().getExtras().getString("EVENT_ID");
             Status = getIntent().getExtras().getString("STATUS");
+            Log.d("!!!status",Status.toString());
         } catch (Exception e) {
 
         }
@@ -144,6 +145,21 @@ public class Workshop extends BaseActivity {
 
             }
         });
+        if(Status.equals("18") ){
+            submit.setVisibility(View.VISIBLE);
+            Update.setVisibility(View.GONE);
+
+        }
+
+        if (Status.equals("26")) {
+            edDateTimeView.setVisibility(View.GONE);
+            tvDateTimeView.setVisibility(View.VISIBLE);
+            itienaryView.setVisibility(View.VISIBLE);
+            Update.setVisibility(View.VISIBLE);
+            submit.setVisibility(View.GONE);
+            tvCheckin.setText(arrivalDate+", "+arrivalTime);
+            tvCheckOut.setText(departureDate+", "+departureTime);
+        }
 
         //Download the data into the Mobile
         ItenaryUpload.setOnClickListener(new View.OnClickListener() {
@@ -255,7 +271,9 @@ public class Workshop extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if(isNetworkAvailable()) {
-                    SubmitDataItenary();
+                    if(isValiditenary()) {
+                        SubmitDataItenary();
+                    }
                 }
             }
         });
@@ -263,34 +281,36 @@ public class Workshop extends BaseActivity {
     //**************#******************#*****************#*******************#******************#
     //changes done  on 16th Mar
     public boolean isValid() {
-        if (status == "26") {//State 1 validation check   //manually changed to 26
+     //   if (Status == "18") {//State 1 validation check   //manually changed to 26
             if (arrivalDate.length() == 0) {
                 editTextFocus(arrivalDate);
-                SnackbarRed(R.id.layoutNivritti, "Please choose Arrival Date");
+                SnackbarRed(R.id.layoutWorkshop, "Please choose Arrival Date");
                 return false;
             } else if (departureDate.length() == 0) {
                 editTextFocus(departureDate);
-                SnackbarRed(R.id.layoutNivritti, "Please choose Departure Time");
+                SnackbarRed(R.id.layoutWorkshop, "Please choose Departure Time");
                 return false;
             } else if (arrivalTime.length() == 0) {
                 editTextFocus(arrivalTime);
-                SnackbarRed(R.id.layoutNivritti, "Please choose Arrival Date");
+                SnackbarRed(R.id.layoutWorkshop, "Please choose Arrival Date");
                 return false;
             } else if (departureTime.length() == 0) {
                 editTextFocus(departureTime);
-                SnackbarRed(R.id.layoutNivritti, "Please choose Departure Time");
+                SnackbarRed(R.id.layoutWorkshop, "Please choose Departure Time");
                 return false;
             }
-        } else if (status.equals("2")) {//State 2 validation check
-        //    for (Spinner spinner : ) {
-                if (itienaryAction.getSelectedItemPosition() == 0) {
-                    Toast.makeText(Workshop.this, "Please select action.", Toast.LENGTH_LONG).show();
-                    return false;
-                }
-        //    }
-        }
+
+
         return true;
 
+    }
+    public boolean isValiditenary(){
+        if (itienaryAction.getSelectedItemPosition() == 0) {
+        //    Toast.makeText(Workshop.this, "Please select action.", Toast.LENGTH_LONG).show();
+            SnackbarRed(R.id.layoutWorkshop, "Please choose Status of download");
+            return false;
+        }
+        return true;
     }
     //**************#******************#*****************#*******************#******************#
 
@@ -312,7 +332,8 @@ public class Workshop extends BaseActivity {
             HttpGetHandler handler = new HttpGetHandler();
             try {
             //    response = handler.makeServiceCall(Constant.VOLUNTEER_EVENT_APPROVE+"id="+app.getUserId()+"&eventid="+EVENT_ID);
-                response = AssetJSONFile("workshopeventview.json",Workshop.this);
+                response = handler.makeServiceCall(Constant.GET_ITINERARY_INFORMATION + "event_reg_id="+EVENT_ID+"&user_id="+app.getUserId());
+            //    response = AssetJSONFile("workshopeventview.json",Workshop.this);
                 jsonResponse = new JSONObject(response);
                 Log.i("!!!Response", response);
                 if (jsonResponse.getBoolean("status")) {
@@ -321,9 +342,9 @@ public class Workshop extends BaseActivity {
                     return false;
             } catch (JSONException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
+            } /*catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
             return false;
         }
 
@@ -338,7 +359,7 @@ public class Workshop extends BaseActivity {
                 try {
                     JSONArray array = jsonResponse.getJSONArray("response");
                     JSONObject object = array.getJSONObject(0);
-                    String projectName = object.getString("PROJECT_NAME");
+                    /*String projectName = object.getString("PROJECT_NAME");
                     String startDate = object.getString("START_DATE");
                     String endDate = object.getString("END_DATE");
                     String allottedDistrict = object.getString("ALLOTTED_DISTRICT");
@@ -350,19 +371,19 @@ public class Workshop extends BaseActivity {
                     String arrivalDate = object.getString("ARRIVAL_DATE");
                     String departureDate = object.getString("DEPARTURE_DATE");
                     String arrivalTime = object.getString("ARRIVAL_TIME");
-                    String departureTime = object.getString("DEPARTURE_TIME");
+                    String departureTime = object.getString("DEPARTURE_TIME");*/
 
-                    status = object.getString("STATUS");//Status for stage 1 or 2
+                //    status = object.getString("STATUS");//Status for stage 1 or 2
 
-                    tvCalendar.setText(startDate+" - "+endDate);
+                 /*   tvCalendar.setText(startDate+" - "+endDate);
                     tvalottedDistrict.setText(allottedDistrict);
                     tvorigin.setText(origin);
                     tvend.setText(end);
                     tvairport.setText(airport);
                     tvrailway.setText(railway_station);
-                    tvcommentToApprover.setText(comment);
+                    tvcommentToApprover.setText(comment);*/
 
-                    if(Status.equals("26") || Status.equals("18")){
+                    /*if(Status.equals("18") || Status.equals("26")){
                         submit.setVisibility(View.VISIBLE);
                         Update.setVisibility(View.GONE);
 
@@ -376,7 +397,42 @@ public class Workshop extends BaseActivity {
                         submit.setVisibility(View.GONE);
                         tvCheckin.setText(arrivalDate+", "+arrivalTime);
                         tvCheckOut.setText(departureDate+", "+departureTime);
+                    }*/
+                    String EVENT_START_DATE = object.getString("EVENT_START_DATE");
+                    String EVENT_END_DATE = object.getString("EVENT_END_DATE");
+                    String ITINERARY_COMMENTS = object.getString("ITINERARY_COMMENTS");
+                    String STATE_NAME = object.getString("STATE_NAME");
+                    String ORIGIN_LOCATION = object.getString("ORIGIN_LOCATION");
+                    String END_LOCATION = object.getString("END_LOCATION");
+                    String TRANSPORT_MODE_ORIGIN = object.getString("TRANSPORT_MODE_ORIGIN");
+                    String TRANSPORT_MODE_END = object.getString("TRANSPORT_MODE_END");
+                    String COMMENT = object.getString("COMMENT");
+                    String CHECKIN_DATE = object.getString("CHECKIN_DATE");
+                    String CHECKIN_TIME = object.getString("CHECKIN_TIME");
+                    String CHECKOUT_DATE = object.getString("CHECKOUT_DATE");
+                    String CHECKOUT_TIME = object.getString("CHECKOUT_TIME");
+
+                    tvCalendar.setText(EVENT_START_DATE+" - "+EVENT_END_DATE);
+                    STATE_NAME = STATE_NAME.replaceAll("\\{","");
+                    STATE_NAME = STATE_NAME.replaceAll("\\}","");
+                    tvalottedDistrict.setText(STATE_NAME);
+                    Log.d("!!!alloted",STATE_NAME);
+                    tvcommentToApprover.setText(COMMENT);
+                    tvorigin.setText(ORIGIN_LOCATION);
+                    tvend.setText(END_LOCATION);
+                    if (Integer.parseInt(TRANSPORT_MODE_ORIGIN) == 1) {
+                        tvairport.setText("railway");
+                    }else {
+                        tvairport.setText("Airport");
                     }
+                    if (Integer.parseInt(TRANSPORT_MODE_END) == 0) {
+                        tvrailway.setText("railway");
+                    }else {
+                        tvrailway.setText("Airport");
+                    }
+                    tvCheckin.setText(CHECKIN_DATE +" , "+ CHECKIN_TIME);
+                    tvCheckOut.setText(CHECKOUT_DATE +" , " +CHECKOUT_TIME );
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();

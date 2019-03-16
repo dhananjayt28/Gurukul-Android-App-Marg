@@ -67,4 +67,6 @@ public class Constant {
 
    public static final String UPDATE_ITENARY_STATUS = BASE_URL_NEW + "update-itinerary-status ";
 
+   public static final String GET_ITINERARY_INFORMATION = BASE_URL_NEW + "get-itinerary-information?";
+
 }
