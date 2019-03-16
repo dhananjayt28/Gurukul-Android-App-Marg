@@ -79,7 +79,7 @@ public class ViewProfile extends BaseActivity {
     ArrayList<Country> countries = new ArrayList<>();
     ArrayList<Education> edu = new ArrayList<>();
     ArrayList<Chapter> chapters = new ArrayList<>();
-    String chapter;
+    //String chapter_;
     String countryId="";
     String EducationId="";
     HashMap<String, String> educationMap = new HashMap<>();
@@ -280,10 +280,10 @@ if(isNetworkAvailable()){
         }else if(spinner_country.getSelectedItemPosition()==0){
             SnackbarRed(R.id.profileLayout,"Please Select your country.");
             return false;
-        }else if(spinner_satsang.getSelectedItemPosition()==0){
+        }/*else if(spinner_satsang.getSelectedItemPosition()==0){
             SnackbarRed(R.id.profileLayout,"Please Select Satsang Chapter.");
             return false;
-        }else if(spinner_edu.getSelectedItemPosition()==0){
+        }*/else if(spinner_edu.getSelectedItemPosition()==0){
             SnackbarRed(R.id.profileLayout,"Please Select Education. ");
             return false;
         }/*else if(etPostalCode.getText().toString().trim().length()==0){
@@ -581,7 +581,7 @@ if(isNetworkAvailable()){
                     String City  = object.getString("CITY");
                  //   String status = object.getString("STATUS");
                  //   String BusinessProfile = object.getString("ROLE");
-                    chapter = object.getString("SATSANG_CHAPTER");
+                    String chapter = object.getString("SATSANG_CHAPTER");
                     String education = object.getString("EDUCATION");
                     Log.i("!!!education",education);
                  //   String help_in_other_activity = object.getString("HELP_IN_OTHER_ACTIVITY");
@@ -602,10 +602,7 @@ if(isNetworkAvailable()){
                     userEmail.setText(emailId);
                     userCountry.setText(country);
                     userChapter.setText(chapter);
-                    //userEdu.setText(status); //check
                     userEdu.setText(education);
-                    //userPin.setText(help_in_other_activity); //check
-                    //userPin.setText(BusinessProfile);  //check
 
                     ///////////**********************
                     etName.setText(username);
@@ -625,6 +622,7 @@ if(isNetworkAvailable()){
                         rbFemale.setChecked(true);
                     }
 
+                    //For setting the position of the spinner
                     String selectPos1 = countryMap.get(country);
                     spinner_country.setSelection(Integer.parseInt(selectPos1));
 
@@ -640,10 +638,6 @@ if(isNetworkAvailable()){
              //       etName.setText(username);
 
              //       ((RadioButton)rgGender.getChildAt(Integer.parseInt(gender))).setChecked(true);
-             //       etDob.setText(dateOfBirth);
-             //       etEmail.setText(emailId);
-             //       etPhoneNumber.setText(contactNo);
-                    //etPostalCode.setText(postal_code);
 
                     ////////// Spinner For Country
              //       CustomSpinner(spinner_country, R.array.country);
@@ -666,18 +660,6 @@ if(isNetworkAvailable()){
             }
         }
     }
-
-    /*private int getIndex(Spinner spinner, String myString){
-
-        int index = 0;
-
-        for (int i=0;i<spinner.getCount();i++){
-            if (spinner.getItemAtPosition(i).equals(myString)){
-                index = i;
-            }
-        }
-        return index;
-    }*/
     /////////////COUNTRIES///////////////
     public void SetCountrySpinner(){
         String url = Constant.GET_COUNTRY_LIST;
@@ -694,17 +676,11 @@ if(isNetworkAvailable()){
                                 Log.d("!!! countries",response.toString());
                                 for (int i=0;i<jsonArray.length();i++){
                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                //    Country country = new Country();
-                                //    country.setCountry_id(jsonObject.getString("LOV_ID"));
-                                //    country.setCountry_name(jsonObject.getString("LOV_NAME"));
-                                //    countries.add(country);
-
                                     String countryId = jsonObject.getString("LOV_ID");
                                     String countryName = jsonObject.getString("LOV_NAME");
                                     countries.add(new Country(countryId,countryName));
                                     countryMap.put(countryName,"" + i);
                                 }
-
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -741,19 +717,11 @@ if(isNetworkAvailable()){
                                 Log.d("!!! chapter",response.toString());
                                 for (int i=0;i<jsonArray.length();i++){
                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            //        Chapter chapter1 = new Chapter();
-                            //        chapter1.setChapterId(jsonObject.getString("CHAPTER_ID"));
-                            //        chapter1.setChapterName(jsonObject.getString("CHAPTER_NAME"));
                                     String chapterid = jsonObject.getString(("CHAPTER_ID"));
                                     String chapterName = jsonObject.getString("CHAPTER_NAME");
-                                    //           education.setEducation_id(jsonObject.getString("LOV_ID"));
-                                    //            education.setEducation_name(jsonObject.getString("LOV_NAME"));
                                     chapters.add(new Chapter(chapterName,chapterid));
-                                    //            edu.add(education);
                                     chapterMap.put(chapterName,"" + i);
-
                                 }
-
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -789,15 +757,11 @@ if(isNetworkAvailable()){
                                 for (int i=0;i<jsonArray.length();i++){
                                     Log.d("!!!!Education",response.toString());
                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        //            Education education = new Education();
+
                                     String educationId = jsonObject.getString(("LOV_ID"));
                                     String educationName = jsonObject.getString("LOV_NAME");
-                         //           education.setEducation_id(jsonObject.getString("LOV_ID"));
-                        //            education.setEducation_name(jsonObject.getString("LOV_NAME"));
                                     edu.add(new Education(educationName,educationId));
-                        //            edu.add(education);
                                     educationMap.put(educationName,"" + i);
-
                                 }
                             }
                         } catch (Exception e) {
