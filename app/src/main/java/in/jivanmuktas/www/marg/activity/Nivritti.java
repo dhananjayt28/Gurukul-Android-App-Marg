@@ -1,7 +1,9 @@
 package in.jivanmuktas.www.marg.activity;
 
 import android.app.DatePickerDialog;
+import android.app.DownloadManager;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -73,6 +75,7 @@ public class Nivritti extends BaseActivity {
     ArrayList<Spinner> actionList = new ArrayList<Spinner>();
     final ArrayList<TopicCompletionStatus> statuses = new ArrayList<>();
     String stat = "";
+    DownloadManager downloadManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,9 +222,11 @@ public class Nivritti extends BaseActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isValid()) {
-                    //        new SubmitData().execute();
-                    SubmitData();
+                if(isNetworkAvailable()) {
+                    if (isValid()) {
+                        //        new SubmitData().execute();
+                        SubmitData();
+                    }
                 }
             }
         });
@@ -473,7 +478,7 @@ public class Nivritti extends BaseActivity {
 
     //@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%
     public boolean isValid() {
-        if (status == "1") {//State 1 validation check   //manually changed to 26
+        if (status == "26") {//State 1 validation check   //manually changed to 26
             if (etCheckInDate.length() == 0) {
                 editTextFocus(etCheckInDate);
                 SnackbarRed(R.id.layoutNivritti, "Please choose Check In Date");
@@ -687,13 +692,19 @@ public class Nivritti extends BaseActivity {
                                 Spinner action = (Spinner) v.findViewById(R.id.action);
                                 //    Spinner action = (Spinner) v.findViewById(R.id.action);
                                 final TextInputLayout reasonLayout = (TextInputLayout) v.findViewById(R.id.reasonLayout);
+                                reasonLayout.setVisibility(View.GONE);
                                 EditText reason = (EditText) v.findViewById(R.id.reason);
                                 topicName.setText(SUBJECT);
                                 meterial.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(SOURCE));
-                                        startActivity(i);
+                                        /*Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(SOURCE));
+                                        startActivity(i);*/
+                                        downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+                                        Uri uri = Uri.parse(SOURCE);     //url to be put here
+                                        DownloadManager.Request request = new DownloadManager.Request(uri);
+                                        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                                        Long referece = downloadManager.enqueue(request);
                                     }
                                 });
                                 CustomSpinner(action, R.array.action);

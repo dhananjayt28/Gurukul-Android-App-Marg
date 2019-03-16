@@ -145,6 +145,7 @@ public class Workshop extends BaseActivity {
             }
         });
 
+        //Download the data into the Mobile
         ItenaryUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -236,33 +237,66 @@ public class Workshop extends BaseActivity {
 
         new GetAllData().execute();
 
-
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
             //    new SubmitData().execute();
-                SubmitData();
+                if(isNetworkAvailable()){
+                    if(isValid()){
+                        SubmitData();
+                    }
+                } else {
+                    Toast.makeText(Workshop.this, "Network Not Available. Please tur on Network Connection", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         Update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SubmitDataItenary();
+                if(isNetworkAvailable()) {
+                    SubmitDataItenary();
+                }
             }
         });
     }
     //**************#******************#*****************#*******************#******************#
-    /*public boolean isValid(){
-        if (){
-
-        }else if (){
-
+    //changes done  on 16th Mar
+    public boolean isValid() {
+        if (status == "26") {//State 1 validation check   //manually changed to 26
+            if (arrivalDate.length() == 0) {
+                editTextFocus(arrivalDate);
+                SnackbarRed(R.id.layoutNivritti, "Please choose Arrival Date");
+                return false;
+            } else if (departureDate.length() == 0) {
+                editTextFocus(departureDate);
+                SnackbarRed(R.id.layoutNivritti, "Please choose Departure Time");
+                return false;
+            } else if (arrivalTime.length() == 0) {
+                editTextFocus(arrivalTime);
+                SnackbarRed(R.id.layoutNivritti, "Please choose Arrival Date");
+                return false;
+            } else if (departureTime.length() == 0) {
+                editTextFocus(departureTime);
+                SnackbarRed(R.id.layoutNivritti, "Please choose Departure Time");
+                return false;
+            }
+        } else if (status.equals("2")) {//State 2 validation check
+        //    for (Spinner spinner : ) {
+                if (itienaryAction.getSelectedItemPosition() == 0) {
+                    Toast.makeText(Workshop.this, "Please select action.", Toast.LENGTH_LONG).show();
+                    return false;
+                }
+        //    }
         }
         return true;
-    }*/
+
+    }
     //**************#******************#*****************#*******************#******************#
 
     //***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#
+
+    //Getting the data
 
     public class GetAllData extends AsyncTask<String, String, Boolean> {
         JSONObject jsonResponse;
@@ -355,6 +389,7 @@ public class Workshop extends BaseActivity {
         }
     }
     //@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%
+    //First stage submission of the data
     public void SubmitData(){
         final String url = Constant.VOLUNTEER_EVENT_CHECKINOUT_UPDATE;
 
@@ -465,6 +500,7 @@ public class Workshop extends BaseActivity {
         }
     }
 
+    //Final submission of the data of Itenary ststus
     public void SubmitDataItenary(){
         final String url = Constant.UPDATE_ITENARY_STATUS;
 
@@ -473,9 +509,7 @@ public class Workshop extends BaseActivity {
         try {
             reqObj.put("EVENT_REG_SYS_ID",getIntent().getExtras().getString("EVENT_ID"));
             reqObj.put("ITINERARY_STATUS",stat);
-            Log.d("!!!stat",stat);
             reqObj.put("ITINERARY_COMMENTS",Moditext.getEditText().getText().toString());
-            Log.d("!!!text",Moditext.getEditText().getText().toString());
             jsonArray.put(reqObj);
             final String requestBody = jsonArray.toString();
             Log.i("!!!req",jsonArray.toString());
@@ -512,6 +546,8 @@ public class Workshop extends BaseActivity {
             e.printStackTrace();
         }
     }
+
+    //Topic Status Completion status for receiving the itenary status
     public void TopicCompletionStatus() {
         String url = Constant.TOPIC_COMPLETION_STATUS;
         Log.d("url", url);
