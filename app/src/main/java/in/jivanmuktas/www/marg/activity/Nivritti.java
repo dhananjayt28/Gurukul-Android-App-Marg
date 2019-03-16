@@ -478,7 +478,7 @@ public class Nivritti extends BaseActivity {
 
     //@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%
     public boolean isValid() {
-        if (status == "26") {//State 1 validation check   //manually changed to 26
+        if (status == "26" || status == "18") {//State 1 validation check   //manually changed to 26
             if (etCheckInDate.length() == 0) {
                 editTextFocus(etCheckInDate);
                 SnackbarRed(R.id.layoutNivritti, "Please choose Check In Date");
