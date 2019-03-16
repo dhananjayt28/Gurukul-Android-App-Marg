@@ -827,8 +827,6 @@ public class Nivritti extends BaseActivity {
                         /*ArrayAdapter completStatus =new ArrayAdapter(Nivritti.this, R.layout.spinner_dropdown_item, statuses);
                         completStatus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         action.setAdapter(completStatus);*/
-
-
                     }
                 },
                 new Response.ErrorListener() {
@@ -838,9 +836,7 @@ public class Nivritti extends BaseActivity {
                     }
                 }
         );
-
         VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
-
     }
 }
 

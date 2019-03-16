@@ -65,4 +65,6 @@ public class Constant {
 
    public static final String TOPIC_COMPLETION_STATUS = BASE_URL_NEW +"get-master-data-list?category_name=TOPIC_COMPLETION_STATUS";
 
+   public static final String UPDATE_ITENARY_STATUS = BASE_URL_NEW + "update-itinerary-status ";
+
 }

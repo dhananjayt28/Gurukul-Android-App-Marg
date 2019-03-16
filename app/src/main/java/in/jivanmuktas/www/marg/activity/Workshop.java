@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -29,6 +30,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -39,14 +41,16 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
 import in.jivanmuktas.www.marg.R;
 import in.jivanmuktas.www.marg.constant.Constant;
+import in.jivanmuktas.www.marg.model.TopicCompletionStatus;
 import in.jivanmuktas.www.marg.network.HttpGetHandler;
+import in.jivanmuktas.www.marg.singleton.VolleySingleton;
 
-import static com.google.firebase.analytics.FirebaseAnalytics.Param.SOURCE;
 
 public class Workshop extends BaseActivity {
     String EVENT_ID,status,Status;
@@ -60,6 +64,8 @@ public class Workshop extends BaseActivity {
     ImageView ImgItie,ItenaryUpload;
     TextInputLayout Moditext;
     DownloadManager downloadManager;
+    String stat = "";
+     ArrayList<TopicCompletionStatus> statuses = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,20 +118,24 @@ public class Workshop extends BaseActivity {
         Update = (Button) findViewById(R.id.Update);
         Update.setVisibility(View.GONE);
 
-        CustomSpinner(itienaryAction,R.array.itiespinner);
+        //CustomSpinner(itienaryAction,R.array.itiespinner);
 
+        TopicCompletionStatus();
         itienaryAction.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                stat = statuses.get(position).getStatus_id();
                 if(position == 1){
+                //    stat = "97";
                     ImgItie.setImageResource(R.drawable.check_icon);
-        //            Moditext.setVisibility(View.GONE);
+                    Moditext.setVisibility(View.GONE);
                 }else if(position == 2){
+                //    stat = "98";
                     ImgItie.setImageResource(R.drawable.bullet);
-        //            Moditext.setVisibility(View.VISIBLE);
+                    Moditext.setVisibility(View.VISIBLE);
                 }else {
                     ImgItie.setImageResource(R.drawable.bullet);
-        //            Moditext.setVisibility(View.GONE);
+                    Moditext.setVisibility(View.GONE);
                 }
             }
 
@@ -456,20 +466,16 @@ public class Workshop extends BaseActivity {
     }
 
     public void SubmitDataItenary(){
-        final String url = Constant.VOLUNTEER_EVENT_CHECKINOUT_UPDATE;
+        final String url = Constant.UPDATE_ITENARY_STATUS;
 
         JSONArray jsonArray =  new JSONArray();
         JSONObject reqObj = new JSONObject();
         try {
-            /*reqObj.put("USER_ID", app.getUserId());
-            reqObj.put("STATUS","26");
-            reqObj.put("CHECKIN_DATE", arrivalDate.getText().toString().trim());
-            reqObj.put("CHECKOUT_DATE", arrivalTime.getText().toString().trim());
-            reqObj.put("CHECKIN_TIME", departureDate.getText().toString().trim());
-            reqObj.put("CHECKOUT_TIME", departureTime.getText().toString().trim());
-            reqObj.put("EVENT_REG_ID",getIntent().getExtras().getString("EVENT_ID"));
-            reqObj.put("MESSAGE","80");*/
-            reqObj.put("ITIENARY", itienaryAction);
+            reqObj.put("EVENT_REG_SYS_ID",getIntent().getExtras().getString("EVENT_ID"));
+            reqObj.put("ITINERARY_STATUS",stat);
+            Log.d("!!!stat",stat);
+            reqObj.put("ITINERARY_COMMENTS",Moditext.getEditText().getText().toString());
+            Log.d("!!!text",Moditext.getEditText().getText().toString());
             jsonArray.put(reqObj);
             final String requestBody = jsonArray.toString();
             Log.i("!!!req",jsonArray.toString());
@@ -505,5 +511,47 @@ public class Workshop extends BaseActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+    public void TopicCompletionStatus() {
+        String url = Constant.TOPIC_COMPLETION_STATUS;
+        Log.d("url", url);
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject object = response;
+                            if (object.getString("status").equals("true")) {
+                                JSONArray jsonArray = object.getJSONArray("response");
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    Log.d("!!!!CompletionStatus", response.toString());
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    TopicCompletionStatus completionStatus = new TopicCompletionStatus();
+                                    completionStatus.setStatus_id(jsonObject.getString("LOV_ID"));
+                                    completionStatus.setStatus_name(jsonObject.getString("LOV_NAME"));
+                                    statuses.add(completionStatus);
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        ArrayAdapter completStatus =new ArrayAdapter(Workshop.this, R.layout.spinner_dropdown_item, statuses);
+                        completStatus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        itienaryAction.setAdapter(completStatus);
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        );
+
+        VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
+
     }
 }
