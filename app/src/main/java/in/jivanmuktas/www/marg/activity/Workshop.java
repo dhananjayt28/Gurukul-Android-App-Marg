@@ -145,13 +145,17 @@ public class Workshop extends BaseActivity {
 
             }
         });
-        if(Status.equals("18") ){
+        if(Status.equals("18")  ){
             submit.setVisibility(View.VISIBLE);
             Update.setVisibility(View.GONE);
 
         }
+        if( Status.equals("26")){
+            submit.setVisibility(View.GONE);
+            Update.setVisibility(View.GONE);
+        }
 
-        if (Status.equals("26")) {
+        if (Status.equals("24")) {
             edDateTimeView.setVisibility(View.GONE);
             tvDateTimeView.setVisibility(View.VISIBLE);
             itienaryView.setVisibility(View.VISIBLE);
@@ -161,19 +165,7 @@ public class Workshop extends BaseActivity {
             tvCheckOut.setText(departureDate+", "+departureTime);
         }
 
-        //Download the data into the Mobile
-        ItenaryUpload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(SOURCE));
-                startActivity(i);*/
-                downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-                Uri uri = Uri.parse("http://foersom.com/net/HowTo/data/OoPdfFormExample.pdf");     //url to be put here
-                DownloadManager.Request request = new DownloadManager.Request(uri);
-                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                Long referece = downloadManager.enqueue(request);
-            }
-        });
+
 
 
         arrivalDate.setOnClickListener(new View.OnClickListener() {
@@ -299,10 +291,7 @@ public class Workshop extends BaseActivity {
                 SnackbarRed(R.id.layoutWorkshop, "Please choose Departure Time");
                 return false;
             }
-
-
         return true;
-
     }
     public boolean isValiditenary(){
         if (itienaryAction.getSelectedItemPosition() == 0) {
@@ -400,7 +389,7 @@ public class Workshop extends BaseActivity {
                     }*/
                     String EVENT_START_DATE = object.getString("EVENT_START_DATE");
                     String EVENT_END_DATE = object.getString("EVENT_END_DATE");
-                    String ITINERARY_COMMENTS = object.getString("ITINERARY_COMMENTS");
+                    final String ITINERARY_COMMENTS = object.getString("ITINERARY_COMMENTS");
                     String STATE_NAME = object.getString("STATE_NAME");
                     String ORIGIN_LOCATION = object.getString("ORIGIN_LOCATION");
                     String END_LOCATION = object.getString("END_LOCATION");
@@ -425,13 +414,28 @@ public class Workshop extends BaseActivity {
                     }else {
                         tvairport.setText("Airport");
                     }
-                    if (Integer.parseInt(TRANSPORT_MODE_END) == 0) {
+                    if (Integer.parseInt(TRANSPORT_MODE_END) == 1) {
                         tvrailway.setText("railway");
                     }else {
                         tvrailway.setText("Airport");
                     }
                     tvCheckin.setText(CHECKIN_DATE +" , "+ CHECKIN_TIME);
                     tvCheckOut.setText(CHECKOUT_DATE +" , " +CHECKOUT_TIME );
+
+                    //Download the data into the Mobile
+                    ItenaryUpload.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                         /*Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(SOURCE));
+                         startActivity(i);*/
+                            downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+                            Uri uri = Uri.parse("http://foersom.com/net/HowTo/data/OoPdfFormExample.pdf");     //url to be put here
+                            DownloadManager.Request request = new DownloadManager.Request(uri);
+                            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                            Long referece = downloadManager.enqueue(request);
+                            Log.d("!!!itinery",ITINERARY_COMMENTS);
+                        }
+                    });
 
 
                 } catch (JSONException e) {
@@ -455,8 +459,8 @@ public class Workshop extends BaseActivity {
             reqObj.put("USER_ID", app.getUserId());
             reqObj.put("STATUS","26");
             reqObj.put("CHECKIN_DATE", arrivalDate.getText().toString().trim());
-            reqObj.put("CHECKOUT_DATE", arrivalTime.getText().toString().trim());
-            reqObj.put("CHECKIN_TIME", departureDate.getText().toString().trim());
+            reqObj.put("CHECKIN_TIME", arrivalTime.getText().toString().trim());
+            reqObj.put("CHECKOUT_DATE", departureDate.getText().toString().trim());
             reqObj.put("CHECKOUT_TIME", departureTime.getText().toString().trim());
             reqObj.put("EVENT_REG_ID",getIntent().getExtras().getString("EVENT_ID"));
             reqObj.put("MESSAGE","80");

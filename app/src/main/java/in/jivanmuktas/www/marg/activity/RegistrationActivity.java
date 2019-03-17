@@ -164,6 +164,7 @@ public class RegistrationActivity extends BaseActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position != 0 ){
                     countryId = countries.get(position).getCountry_id();
+
                     Log.d("!!!countries",countryId.toString());
                 //    new GetSatsangChapter().execute("" + countries.get(position).getCountry_id());
                     SetSatsangChapterSpinner(countries.get(position).getCountry_id());

@@ -327,6 +327,7 @@ public class CreateScheduleActivity extends BaseActivity {
                 if (isNetworkAvailable()) {
                     if(isValid()) {
                         new RegesterAsyntask().execute();
+
                     }
                 }
 
