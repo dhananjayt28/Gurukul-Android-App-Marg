@@ -220,7 +220,7 @@ public class RegistrationActivity extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position != 0){
-                    TitleId = titles.get(position).getTitle_name();
+                    TitleId = titles.get(position).getTitle_id();
                 }
             }
             @Override

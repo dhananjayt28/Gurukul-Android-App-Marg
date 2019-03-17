@@ -76,6 +76,7 @@ public class Nivritti extends BaseActivity {
     final ArrayList<TopicCompletionStatus> statuses = new ArrayList<>();
     String stat = "";
     DownloadManager downloadManager;
+    String START_DATE,END_DATE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +99,8 @@ public class Nivritti extends BaseActivity {
         try {
             EVENT_ID = getIntent().getExtras().getString("EVENT_ID");
             Status = getIntent().getExtras().getString("STATUS");
+            START_DATE = getIntent().getExtras().getString("START_DATE");
+            END_DATE = getIntent().getExtras().getString("END_DATE");
             Log.i("!!! status", Status.toString());
         } catch (Exception e) {
 
@@ -143,6 +146,8 @@ public class Nivritti extends BaseActivity {
 //        tvcheckoutTime_image.setVisibility(View.GONE);
         tvcheckoutTime_image = (ImageView) findViewById(R.id.tvCkOutTime_image);
 //        tvcheckoutTime_image.setVisibility(View.GONE);
+
+        calendar.setText(START_DATE+" - "+END_DATE);
         if (isNetworkAvailable()) {
             //    new GetAllData().execute();
             SubjectAlloted();
@@ -156,6 +161,7 @@ public class Nivritti extends BaseActivity {
 
         switch (Status) {
             case "18":
+
                 alottedSubject.setVisibility(View.VISIBLE);
                 alloted_subject.setVisibility(View.VISIBLE);
                 commentToApprover.setVisibility(View.VISIBLE);
@@ -464,7 +470,7 @@ public class Nivritti extends BaseActivity {
                             }
                         }
                     }
-                    calendar.setText(startDate + " - " + endDate);
+                //    calendar.setText(START_DATE + " - " + END_DATE);
                     alottedSubject.setText(allottedSubject);
                     commentToApprover.setText(comment);
                 } catch (JSONException e) {
@@ -580,7 +586,7 @@ public class Nivritti extends BaseActivity {
                                 //    checkin_date = jsonObject.getString("CHECKIN_DATE");
                                 tvCkInTime.setText(jsonObject.getString("CHECKIN_DATE") + " , " + jsonObject.getString("CHECKIN_TIME"));
                                 tvCkOutTime.setText(jsonObject.getString("CHECKOUT_DATE") + " , " + jsonObject.getString("CHECKOUT_TIME"));
-                                calendar.setText(jsonObject.getString("CHECKIN_DATE") + " - " + jsonObject.getString("CHECKOUT_DATE"));
+                         //       calendar.setText(jsonObject.getString("CHECKIN_DATE") + " - " + jsonObject.getString("CHECKOUT_DATE"));
 
                                 //    checkout_date = jsonObject.getString("CHECKOUT_DATE");
                                 //    checkin_time = jsonObject.getString("CHECKIN_TIME");

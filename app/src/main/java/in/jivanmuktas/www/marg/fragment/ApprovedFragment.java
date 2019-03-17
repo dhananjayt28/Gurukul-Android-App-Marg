@@ -376,6 +376,8 @@ public class ApprovedFragment extends Fragment {
                             if (EVENT_TYPE.equals("1")){
                                 intent=new Intent(getActivity(), Nivritti.class);
                                 intent.putExtra("EVENT_ID", EVENT_REG_ID);
+                                intent.putExtra("START_DATE",START_DATE);
+                                intent.putExtra("END_DATE",END_DATE);
                                 intent.putExtra("STATUS",STATUS);
                                 startActivity(intent);
                             }else if (EVENT_TYPE.equals("2")){
