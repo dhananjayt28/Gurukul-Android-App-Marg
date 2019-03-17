@@ -76,7 +76,7 @@ public class Nivritti extends BaseActivity {
     final ArrayList<TopicCompletionStatus> statuses = new ArrayList<>();
     String stat = "";
     DownloadManager downloadManager;
-    String START_DATE,END_DATE;
+    String START_DATE,END_DATE,MESSAGE,NOTES;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +101,7 @@ public class Nivritti extends BaseActivity {
             Status = getIntent().getExtras().getString("STATUS");
             START_DATE = getIntent().getExtras().getString("START_DATE");
             END_DATE = getIntent().getExtras().getString("END_DATE");
+
             Log.i("!!! status", Status.toString());
         } catch (Exception e) {
 
@@ -147,7 +148,7 @@ public class Nivritti extends BaseActivity {
         tvcheckoutTime_image = (ImageView) findViewById(R.id.tvCkOutTime_image);
 //        tvcheckoutTime_image.setVisibility(View.GONE);
 
-        calendar.setText(START_DATE+" - "+END_DATE);
+
         if (isNetworkAvailable()) {
             //    new GetAllData().execute();
             SubjectAlloted();
@@ -161,7 +162,7 @@ public class Nivritti extends BaseActivity {
 
         switch (Status) {
             case "18":
-
+                calendar.setText(START_DATE+" - "+END_DATE);
                 alottedSubject.setVisibility(View.VISIBLE);
                 alloted_subject.setVisibility(View.VISIBLE);
                 commentToApprover.setVisibility(View.VISIBLE);
@@ -175,6 +176,7 @@ public class Nivritti extends BaseActivity {
                 tvcheckinTime_image.setVisibility(View.GONE);
                 tvCkInTime.setVisibility(View.GONE);
                 tvCkOutTime.setVisibility(View.GONE);
+
 
                 break;
             case "26":
@@ -242,7 +244,6 @@ public class Nivritti extends BaseActivity {
                 UpdateData();
             }
         });
-
 
         etCheckInDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -341,6 +342,36 @@ public class Nivritti extends BaseActivity {
     }
     //***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#***#
 
+    public boolean isValid() {
+            if (etCheckInDate.length() == 0) {
+                editTextFocus(etCheckInDate);
+                SnackbarRed(R.id.layoutNivritti, "Please choose Check In Date");
+                return false;
+            } else if (etCheckInTime.length() == 0) {
+                editTextFocus(etCheckInTime);
+                SnackbarRed(R.id.layoutNivritti, "Please choose Check In Time");
+                return false;
+            } else if (etCheckOutDate.length() == 0) {
+                editTextFocus(etCheckOutDate);
+                SnackbarRed(R.id.layoutNivritti, "Please choose Check Out Date");
+                return false;
+            } else if (etCheckOutTime.length() == 0) {
+                editTextFocus(etCheckOutTime);
+                SnackbarRed(R.id.layoutNivritti, "Please choose Check Out Time");
+                return false;
+            }
+        return true;
+    }
+    public boolean isValidFinal(){
+
+        if (commentForHod.length() == 0) {
+            editTextFocus(commentForHod);
+            commentForHod.setError("Please fill this field");
+            return false;
+        }
+        return true;
+    }
+
 
     public class GetAllData extends AsyncTask<String, String, Boolean> {
         JSONObject jsonResponse;
@@ -360,7 +391,7 @@ public class Nivritti extends BaseActivity {
                 //Log.i("!!!Request",Constant.VOLUNTEER_EVENT_APPROVE+"id="+app.getUserId()+"&eventid="+EVENT_ID );
                 //response = AssetJSONFile("nivrittieventview.json",Nivritti.this);
                 jsonResponse = new JSONObject(response);
-                Log.i("!!!Response", response);
+                Log.i("!!!Responsegetal", response);
                 if (jsonResponse.getBoolean("status")) {
                     return true;
                 } else
@@ -386,6 +417,7 @@ public class Nivritti extends BaseActivity {
                     String endDate = object.getString("END_DATE");
                     String allottedSubject = object.getString("ALLOTTED_SUBJECT");
                     String comment = object.getString("COMMENT_TO_APPROVER");
+        //            String comment = object.getString("COMMENT");
                     String checkInDate = object.getString("CHECK_IN_DATE");
                     String checkOutDate = object.getString("CHECK_OUT_DATE");
                     String checkInTime = object.getString("CHECK_IN_TIME");
@@ -483,8 +515,8 @@ public class Nivritti extends BaseActivity {
     }
 
     //@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%
-    public boolean isValid() {
-        if (status == "26" || status == "18") {//State 1 validation check   //manually changed to 26
+    /*public boolean isValid() {
+        if (Status == "18") {//State 1 validation check   //manually changed to 26
             if (etCheckInDate.length() == 0) {
                 editTextFocus(etCheckInDate);
                 SnackbarRed(R.id.layoutNivritti, "Please choose Check In Date");
@@ -517,7 +549,7 @@ public class Nivritti extends BaseActivity {
         }
         return true;
 
-    }
+    }*/
 //@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%@@@%%%
 
     public void SubmitData() {
@@ -580,13 +612,14 @@ public class Nivritti extends BaseActivity {
                     public void onResponse(JSONObject object) {
                         try {
                             if (object.getString("status").equals("true")) {
-                                Log.d("!!!Response", object.toString());
+                                Log.d("!!!Responsereg", object.toString());
                                 JSONArray jsonArray = object.getJSONArray("response");
                                 JSONObject jsonObject = jsonArray.getJSONObject(0);
                                 //    checkin_date = jsonObject.getString("CHECKIN_DATE");
                                 tvCkInTime.setText(jsonObject.getString("CHECKIN_DATE") + " , " + jsonObject.getString("CHECKIN_TIME"));
                                 tvCkOutTime.setText(jsonObject.getString("CHECKOUT_DATE") + " , " + jsonObject.getString("CHECKOUT_TIME"));
                          //       calendar.setText(jsonObject.getString("CHECKIN_DATE") + " - " + jsonObject.getString("CHECKOUT_DATE"));
+                                commentToApprover.setText(jsonObject.getString("COMMENT"));
 
                                 //    checkout_date = jsonObject.getString("CHECKOUT_DATE");
                                 //    checkin_time = jsonObject.getString("CHECKIN_TIME");
@@ -659,6 +692,7 @@ public class Nivritti extends BaseActivity {
 
     public void SubjectAlloted() {
         String url = Constant.GET_CONTENT_DATA + "?event_reg_id=" + EVENT_ID;
+        Log.d("!!!urlalloted",url);
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -666,7 +700,7 @@ public class Nivritti extends BaseActivity {
                     public void onResponse(JSONObject object) {
                         try {
                             if (object.getString("status").equals("true")) ;
-                            Log.d("!!!Response", object.toString());
+                            Log.d("!!!Responseallo", object.toString());
                             JSONArray jsonArray = object.getJSONArray("response");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 Log.d("!!! subject", object.toString());
@@ -762,14 +796,16 @@ public class Nivritti extends BaseActivity {
     }
 
     public void SubjectFetched() {
+
         String url = Constant.GET_CONTENT_DATA + "?event_reg_id=" + EVENT_ID;
+        Log.d("!!!urlFetched",url);
         JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject object) {
                         try {
                             if (object.getString("status").equals("true")) ;
-                            Log.d("!!!Response", object.toString());
+                            Log.d("!!!Responsefet", object.toString());
                             JSONArray jsonArray = object.getJSONArray("response");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 Log.d("!!! subject", object.toString());
