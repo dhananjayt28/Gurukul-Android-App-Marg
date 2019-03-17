@@ -23,6 +23,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import in.jivanmuktas.www.marg.R;
 import in.jivanmuktas.www.marg.activity.GitaDistribution;
 import in.jivanmuktas.www.marg.activity.MyApplication;
@@ -40,6 +49,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -337,7 +347,52 @@ public class ApprovedFragment extends Fragment {
                                 sbView.setBackgroundColor(getResources().getColor(R.color.Red));
                                 snackbar.show();
                             }else {
-                                new CancelApproveEvent().execute(EVENT_REG_ID);
+                            //    new CancelApproveEvent().execute(EVENT_REG_ID);
+                                String User_id = MyApplication.getInstance().getUserId();
+                                final String url = Constant.CANCEL_EVENT;
+                                Log.d("!!!urlcancel",url);
+                                JSONArray jsonArray =  new JSONArray();
+                                JSONObject reqObj = new JSONObject();
+                                try {
+                                    reqObj.put("USER_ID", User_id);
+                                    reqObj.put("EVENT_ID",EVENT_REG_ID);
+                                    reqObj.put("ISACTIVE","0");
+                                    jsonArray.put(reqObj);
+                                    final String requestBody = jsonArray.toString();
+                                    Log.i("!!!req",jsonArray.toString());
+                                    StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                                            new Response.Listener<String>() {
+                                                @Override
+                                                public void onResponse(String response) {
+                                                    Log.i("!!!Response->", response);
+                                                    Toast.makeText(getActivity(), "Updated Sucessfully", Toast.LENGTH_SHORT).show();
+                                                    getActivity().finish();
+                                                }
+                                            }, new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            Log.e("!!!response",error.toString());
+
+                                        }
+                                    })
+                                    {
+                                        @Override
+                                        public byte[] getBody() throws AuthFailureError {
+                                            try {
+                                                Log.i("!!!Request", url+"    "+requestBody.getBytes("utf-8"));
+                                                return requestBody == null ? null : requestBody.getBytes("utf-8");
+                                            } catch (UnsupportedEncodingException uee) {
+                                                VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                                                return null;
+                                            }
+                                        }
+                                    };
+                                    RequestQueue queue = Volley.newRequestQueue(getContext());
+                                    // add it to the RequestQueue
+                                    queue.add(postRequest);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     });
@@ -378,6 +433,7 @@ public class ApprovedFragment extends Fragment {
                                 intent.putExtra("EVENT_ID", EVENT_REG_ID);
                                 intent.putExtra("START_DATE",START_DATE);
                                 intent.putExtra("END_DATE",END_DATE);
+                                intent.putExtra("NOTES",NOTES);
                                 intent.putExtra("STATUS",STATUS);
                                 startActivity(intent);
                             }else if (EVENT_TYPE.equals("2")){
@@ -472,6 +528,55 @@ public class ApprovedFragment extends Fragment {
         return d;
     }
     //***************************************************************************************
+
+    public void CancelApproveEvent(){
+        String User_id = MyApplication.getInstance().getUserId();
+        final String url = Constant.CANCEL_EVENT;
+
+        JSONArray jsonArray =  new JSONArray();
+        JSONObject reqObj = new JSONObject();
+        try {
+            reqObj.put("USER_ID", User_id);
+        //    reqObj.put("EVENT_ID",);
+            reqObj.put("ISACTIVE","0");
+            jsonArray.put(reqObj);
+            final String requestBody = jsonArray.toString();
+            Log.i("!!!req",jsonArray.toString());
+            StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("!!!Response->", response);
+                            Toast.makeText(getActivity(), "Updated Sucessfully", Toast.LENGTH_SHORT).show();
+                            getActivity().finish();
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("!!!response",error.toString());
+
+                }
+            })
+            {
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        Log.i("!!!Request", url+"    "+requestBody.getBytes("utf-8"));
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+            RequestQueue queue = Volley.newRequestQueue(getContext());
+            // add it to the RequestQueue
+            queue.add(postRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public class CancelApproveEvent extends AsyncTask<String, String, Boolean> {
         String USER_ID = MyApplication.getInstance().getUserId();
