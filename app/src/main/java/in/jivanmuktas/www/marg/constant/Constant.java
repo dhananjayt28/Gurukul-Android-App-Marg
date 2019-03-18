@@ -27,12 +27,11 @@ public class Constant {
 
    //public static final String PASSWORD_RESET = BASE_URL + "password-reset";     //in service 2
    //public static final String PASSWORD_UPDATE = BASE_URL + "password-update";   //inservice 3
-   public static final String GET_SATSANG_CHAPTER = BASE_URL_NEW + "get-satsang-chapter-data?country_id=";     //inservice 4 complete
-
    //public static final String GET_COUNTRY_LIST = BASE_URL_NEW + "get-master-data-list?category_name=MASTER_COUNTRY";
    public static final String GET_COUNTRY_LIST = BASE_URL_NEW + "get-country-data";
+   public static final String GET_CITY_LIST = BASE_URL_NEW + "get-city-data?";
+   public static final String GET_SATSANG_CHAPTER = BASE_URL_NEW + "get-chapter-data?";
 
-   public static final String GET_CITY_LIST = BASE_URL_NEW + "get-master-data-list?category_name=MASTER_CITY";
    public static final String GET_ID_CARD_SPINNER = BASE_URL_NEW + "get-master-data-list?category_name=ID_Card_Type";
 
    public static final String EVENT_REGISTRTION = BASE_URL_NEW + "event-registration";
