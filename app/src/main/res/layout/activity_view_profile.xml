@@ -575,7 +575,7 @@
                             android:textSize="20sp" />
                     </android.support.design.widget.TextInputLayout>
 
-                    <!--<android.support.design.widget.TextInputLayout
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -592,7 +592,7 @@
                             android:textColor="#6C7A89"
                             android:textColorHint="@color/colorEditText"
                             android:textSize="20sp" />
-                    </android.support.design.widget.TextInputLayout>-->
+                    </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
@@ -643,6 +643,30 @@
 
                     <Spinner
                         android:id="@+id/spinner_country"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:gravity="center|start"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:padding="10dp"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed"
+                        android:paddingStart="2dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="2dp"
+                        android:paddingBottom="1dp"
+                        android:text="Satsang City *"
+                        android:textColor="@color/colorPrimaryDeep"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/spinner_city"
                         android:layout_width="match_parent"
                         android:layout_height="54dp"
                         android:gravity="center|start"

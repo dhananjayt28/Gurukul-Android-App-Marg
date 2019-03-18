@@ -50,6 +50,7 @@ import in.jivanmuktas.www.marg.constant.Constant;
 import in.jivanmuktas.www.marg.database.JivanmuktasDB;
 import in.jivanmuktas.www.marg.dataclass.UserData;
 import in.jivanmuktas.www.marg.model.Chapter;
+import in.jivanmuktas.www.marg.model.City;
 import in.jivanmuktas.www.marg.model.Country;
 import in.jivanmuktas.www.marg.model.Education;
 import in.jivanmuktas.www.marg.network.HttpGetHandler;
@@ -62,7 +63,7 @@ public class ViewProfile extends BaseActivity {
     RadioGroup rgTitle,rgGender;
     RadioButton mr,mrs,miss,rbMale,rbFemale;
     EditText etName,etDob,etAge,etEmail,etPhoneNumber,etPostalCode;
-    Spinner spinner_country,spinner_satsang,spinner_edu;
+    Spinner spinner_country,spinner_satsang,spinner_edu,spinner_city;
     Button btEdit,btUpdate,btCancel;
     CardView view1,view2;
 
@@ -79,12 +80,15 @@ public class ViewProfile extends BaseActivity {
     ArrayList<Country> countries = new ArrayList<>();
     ArrayList<Education> edu = new ArrayList<>();
     ArrayList<Chapter> chapters = new ArrayList<>();
+    ArrayList<City> cities = new ArrayList<>();
     //String chapter_;
     String countryId="";
     String EducationId="";
+    String CityId="";
     HashMap<String, String> educationMap = new HashMap<>();
     HashMap<String, String> countryMap = new HashMap<>();
     HashMap<String, String> chapterMap = new HashMap<>();
+    HashMap<String, String> cityMap = new HashMap<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,6 +142,7 @@ public class ViewProfile extends BaseActivity {
         etPhoneNumber = (EditText) findViewById(R.id.etPhoneNumber);
         spinner_country = (Spinner) findViewById(R.id.spinner_country);
         spinner_satsang = (Spinner) findViewById(R.id.spinner_satsang);
+        spinner_city = (Spinner) findViewById(R.id.spinner_city);
         spinner_edu = (Spinner) findViewById(R.id.spinner_edu);
         etPostalCode = (EditText) findViewById(R.id.etPostalCode);
         btUpdate = (Button) findViewById(R.id.btUpdate);
@@ -175,6 +180,20 @@ if(isNetworkAvailable()){
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        SetCitySpinner();
+        spinner_city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position != 0){
+                    CityId = cities.get(position).getCity_id();
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 
@@ -633,6 +652,9 @@ if(isNetworkAvailable()){
                     Log.i("!!!selectpos",selectPos3);
                     spinner_edu.setSelection(Integer.parseInt(selectPos3));
 
+                    String selectPos4 = cityMap.get(City);
+                    spinner_city.setSelection(Integer.parseInt(selectPos4));
+
 
                     //       ((RadioButton)rgTitle.getChildAt(Integer.parseInt(title)-1)).setChecked(true);
              //       etName.setText(username);
@@ -699,6 +721,47 @@ if(isNetworkAvailable()){
                 }
         );
         VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
+    }
+    public void SetCitySpinner(){
+        String url = Constant.GET_CITY_LIST;
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url,null,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject object = response;
+                            if (object.getString("status").equals("true")){
+                                Log.d("!!! city",object.toString());
+                                JSONArray jsonArray = object.getJSONArray("response");
+                                Log.d("!!! city",response.toString());
+                                for (int i=0;i<jsonArray.length();i++){
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    City city = new City();
+                                    city.setCity_id(jsonObject.getString("LOV_ID"));
+                                    city.setCity_name(jsonObject.getString("LOV_NAME"));
+                                    cities.add(city);
+                                }
+
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        ArrayAdapter city = new ArrayAdapter(ViewProfile.this,android.R.layout.simple_list_item_1,cities);
+                        city.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_city.setAdapter(city);
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        );
+        VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
+
     }
 
     public void SetSatsangChapterSpinner(final String chapter){
