@@ -82,7 +82,7 @@
                 android:id="@+id/userId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/username"
+                android:hint="Email Id *"
                 android:imeOptions="actionDone"
                 android:inputType="textEmailAddress"
                 android:paddingEnd="0dp"

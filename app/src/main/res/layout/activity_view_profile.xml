@@ -103,7 +103,7 @@
                             android:paddingTop="5dp"
                             android:paddingEnd="2dp"
                             android:paddingBottom="1dp"
-                            android:text="@string/date_of_birth"
+                            android:text="Date of Birth"
                             android:textColor="@color/colorPrimary"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -357,7 +357,7 @@
                             android:paddingTop="5dp"
                             android:paddingEnd="2dp"
                             android:paddingBottom="1dp"
-                            android:text="@string/area"
+                            android:text="Satsang Chapter"
                             android:textColor="@color/colorPrimary"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -575,7 +575,7 @@
                             android:textSize="20sp" />
                     </android.support.design.widget.TextInputLayout>
 
-                    <android.support.design.widget.TextInputLayout
+                    <!--<android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -592,7 +592,7 @@
                             android:textColor="#6C7A89"
                             android:textColorHint="@color/colorEditText"
                             android:textSize="20sp" />
-                    </android.support.design.widget.TextInputLayout>
+                    </android.support.design.widget.TextInputLayout>-->
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
