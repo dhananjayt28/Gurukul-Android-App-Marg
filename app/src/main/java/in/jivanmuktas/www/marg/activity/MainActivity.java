@@ -111,8 +111,8 @@ public class MainActivity extends BaseActivity{
             startActivity(ias);
         }
         if (id == R.id.hod) {
-            Intent hod = new Intent
-                    (MainActivity.this, HODBoard.class);
+
+            Intent hod = new Intent(MainActivity.this, HODBoard.class);
             hod.putExtra("TITLE","HOD Board");
             startActivity(hod);
         }
