@@ -456,6 +456,7 @@ public class CreateScheduleActivity extends BaseActivity {
 
             try {
                 CustomToast(jsonResponse.getString("response"));
+                finish();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
