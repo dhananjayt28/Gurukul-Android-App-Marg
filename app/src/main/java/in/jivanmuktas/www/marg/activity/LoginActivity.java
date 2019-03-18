@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+
 import in.jivanmuktas.www.marg.R;
 
 import org.json.JSONArray;
@@ -99,7 +100,8 @@ public class LoginActivity extends BaseActivity {
         forgetPassWord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CustomOnlyIntent(ResetPassword.class);
+                Intent intent = new Intent(LoginActivity.this,LoginViaQRScanner.class);
+                startActivity(intent);
             }
         });
     }

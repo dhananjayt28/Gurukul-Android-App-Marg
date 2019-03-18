@@ -56,6 +56,12 @@
             android:name=".activity.RegistrationActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.QRscanner"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.LoginViaQRScanner"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.MyProfileActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.CreateScheduleActivity" />

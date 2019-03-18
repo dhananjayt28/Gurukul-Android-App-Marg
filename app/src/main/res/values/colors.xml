@@ -21,4 +21,8 @@
    <!-- <color name="orange">#f99068</color>-->
     <color name="orange">#f7deaf</color>
     <color name="blue">#002e6e</color>
+    <color name="yellow">#FFFF80</color>
+    <color name="borderBlue">#0404B4</color>
+    <color name="mainBackground">#A9F5F2</color>
+    <color name="textcolorMain">#26E600</color>
 </resources>
