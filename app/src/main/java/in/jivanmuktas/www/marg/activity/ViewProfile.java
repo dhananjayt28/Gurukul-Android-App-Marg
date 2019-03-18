@@ -154,8 +154,8 @@ public class ViewProfile extends BaseActivity {
 ////#########################################################////
 
         if (isNetworkAvailable()) {
-        //    new GetUserProfile().execute();
-            GetUserProfile();
+            new GetUserProfile().execute();
+        //    GetUserProfile();
         } else {
             finish();
         }
@@ -454,7 +454,7 @@ public class ViewProfile extends BaseActivity {
                                 }
 
                                 //For setting the position of the spinner
-                                String selectPos1 = countryMap.get(country);
+                                /*String selectPos1 = countryMap.get(country);
                                 spinner_country.setSelection(Integer.parseInt(selectPos1));
 
                                 String selectPos2 = chapterMap.get(chapter);
@@ -465,7 +465,7 @@ public class ViewProfile extends BaseActivity {
                                 spinner_edu.setSelection(Integer.parseInt(selectPos3));
 
                                 String selectPos4 = cityMap.get(City);
-                                spinner_city.setSelection(Integer.parseInt(selectPos4));
+                                spinner_city.setSelection(Integer.parseInt(selectPos4));*/
 
                             }
                         } catch (JSONException e) {
@@ -763,7 +763,7 @@ public class ViewProfile extends BaseActivity {
 
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                ChapterId = chapters.get(position).getChapterId();
+                                ChapterId = chapters.get(position).getChapterName();
                             }
 
                             @Override
