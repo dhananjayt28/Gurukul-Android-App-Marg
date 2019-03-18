@@ -422,7 +422,6 @@ public class RegistrationActivity extends BaseActivity {
                                 else {
                                 }
                             }
-
                             @Override
                             public void onNothingSelected(AdapterView<?> parent) {
                             }
