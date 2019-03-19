@@ -48,26 +48,16 @@ public class MainActivity extends BaseActivity{
         View v=inflater.inflate(R.layout.menu_layout, null);
 
         resideMenu.addView(v);
-        v.findViewById(R.id.profile).setOnClickListener
-                (this);
-        v.findViewById
-                (R.id.volunteering).setOnClickListener(this);
-        v.findViewById(R.id.faq).setOnClickListener
-                (this);
-        v.findViewById
-                (R.id.ias_coaching).setOnClickListener(this);
-        v.findViewById(R.id.hod).setOnClickListener
-                (this);
-        v.findViewById
-                (R.id.abuot_us).setOnClickListener(this);
-        v.findViewById
-                (R.id.guidelines).setOnClickListener(this);
-        v.findViewById
-                (R.id.contact).setOnClickListener(this);
-        v.findViewById
-                (R.id.notification).setOnClickListener(this);
-        v.findViewById
-                (R.id.logout).setOnClickListener(this);
+        v.findViewById(R.id.profile).setOnClickListener(this);
+        v.findViewById(R.id.volunteering).setOnClickListener(this);
+        v.findViewById(R.id.faq).setOnClickListener(this);
+        v.findViewById(R.id.ias_coaching).setOnClickListener(this);
+        v.findViewById(R.id.hod).setOnClickListener(this);
+        v.findViewById(R.id.abuot_us).setOnClickListener(this);
+        v.findViewById(R.id.guidelines).setOnClickListener(this);
+        v.findViewById(R.id.contact).setOnClickListener(this);
+        v.findViewById(R.id.notification).setOnClickListener(this);
+        v.findViewById(R.id.logout).setOnClickListener(this);
 
         resideMenu.attachToActivity(this);
         //valid scale factor is between 0.0f and 1.0f. leftmenu'width is 150dip.
@@ -111,10 +101,15 @@ public class MainActivity extends BaseActivity{
             startActivity(ias);
         }
         if (id == R.id.hod) {
-
-            Intent hod = new Intent(MainActivity.this, HODBoard.class);
-            hod.putExtra("TITLE","HOD Board");
-            startActivity(hod);
+            Log.d("!!!roleid",app.getRoleId());
+            if(app.getRoleId().equals("5")){
+                Intent hod = new Intent(MainActivity.this, HODBoard.class);
+                hod.putExtra("TITLE", "HOD Board");
+                startActivity(hod);
+            } else {
+                Intent hod = new Intent(MainActivity.this,PermissionDenied.class);
+                startActivity(hod);
+            }
         }
         if (id == R.id.abuot_us) {
             Intent about = new Intent

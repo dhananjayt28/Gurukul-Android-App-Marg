@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import in.jivanmuktas.www.marg.R;
 
-public class PermissionDenied extends AppCompatActivity {
+public class PermissionDenied extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

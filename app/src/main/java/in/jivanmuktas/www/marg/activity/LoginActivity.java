@@ -251,6 +251,7 @@ public class LoginActivity extends BaseActivity {
                                 app.setEmail(emailId);
                                 app.setCountry(country);
                                 app.setChapter(chapter);
+                                app.setRoleId(Role_id);
                                 //Save To fire base
                                 final FirebaseDatabase database = FirebaseDatabase.getInstance();
                                 DatabaseReference user = database.getReference("User_Details/" + app.getUserId());
