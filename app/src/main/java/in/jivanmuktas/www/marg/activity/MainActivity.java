@@ -108,29 +108,26 @@ public class MainActivity extends BaseActivity{
                 startActivity(hod);
             } else {
                 Intent hod = new Intent(MainActivity.this,PermissionDenied.class);
+                hod.putExtra("TITLE", "PERMISSION DENIED");
                 startActivity(hod);
             }
         }
         if (id == R.id.abuot_us) {
-            Intent about = new Intent
-                    (MainActivity.this, AboutUs.class);
+            Intent about = new Intent(MainActivity.this, AboutUs.class);
             startActivity(about);
         }
         if (id == R.id.guidelines) {
-            Intent guide = new Intent
-                    (MainActivity.this, Project.class);
+            Intent guide = new Intent(MainActivity.this, Project.class);
             guide.putExtra("TITLE","Guidelines");
             startActivity(guide);
         }
         if (id == R.id.contact) {
-            Intent guide = new Intent
-                    (MainActivity.this, ContactUs.class);
+            Intent guide = new Intent(MainActivity.this, ContactUs.class);
             guide.putExtra("TITLE","Contact Us");
             startActivity(guide);
         }
         if ( id == R.id.notification){
-            Intent intent = new Intent
-                    (MainActivity.this, Notification.class);
+            Intent intent = new Intent(MainActivity.this, Notification.class);
             startActivity(intent);
             finish();
         }

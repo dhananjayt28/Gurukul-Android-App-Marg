@@ -394,6 +394,7 @@ guidance​ ​to​ ​the​ ​students.\n
 5. All Professors must update the register on a daily
 basis.\n
     </string>
+    <string name="permissiondenied">Sorry You do not have permission for this page.Please contact your administrator </string>
     <string name="scanQr">Scan QR Code</string>
     <string name="scanQrFile">Scan Qr Code From file</string>
     <string-array name="monList">
