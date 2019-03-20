@@ -156,12 +156,12 @@ public class LoginViaQRScanner extends BaseActivity {
             try {
                 if(!UserInfo.equals("") ) {
                     JSONObject jsonObject = new JSONObject(UserInfo);
-                    String userId = jsonObject.getString("USER_ID");
-                    String password = jsonObject.getString("PASSWORD");
+                    String userId = jsonObject.getString("EMAIL_ID");
+                    String password = jsonObject.getString("USER_ID");
                     
                     Log.i("!!!Activity",userId);
 
-                    if(userId.equalsIgnoreCase("Amrendra") && password.equalsIgnoreCase("123456")){
+                    if(userId.equalsIgnoreCase("deb@tts.com") && password.equalsIgnoreCase("106")){
                         app.setSession(true);
                         Intent intent = new Intent(LoginViaQRScanner.this, MainActivity.class);
                         startActivity(intent);
