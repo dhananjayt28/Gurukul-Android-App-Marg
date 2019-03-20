@@ -100,7 +100,7 @@ public class LoginActivity extends BaseActivity {
         forgetPassWord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this,LoginViaQRScanner.class);
+                Intent intent = new Intent(LoginActivity.this,ForgotPassword.class);
                 startActivity(intent);
             }
         });
