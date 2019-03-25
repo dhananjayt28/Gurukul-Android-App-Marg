@@ -16,11 +16,13 @@
 
         <ImageView
             android:id="@+id/imgLogo"
-            android:layout_width="235dp"
-            android:layout_height="117dp"
+            android:layout_width="wrap_content"
+            android:layout_height="158dp"
+
             android:layout_gravity="center"
             android:src="@drawable/margimage" />
     </LinearLayout>
+
 
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/loader"

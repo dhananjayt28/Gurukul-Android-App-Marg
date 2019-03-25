@@ -60,7 +60,7 @@ public class MainActivity extends BaseActivity{
             final Dialog dialog = new Dialog(MainActivity.this);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);//Hide Title .use before setContentView
             dialog.setContentView(R.layout.sync_alert_layout);
-            dialog.setCancelable(false);
+        //    dialog.setCancelable(false);
             TextView tvDesc = (TextView) dialog.findViewById(R.id.tvDesc);
             tvDesc.setText(R.string.dialog_sync);
             Button sync = (Button) dialog.findViewById(R.id.sync);
@@ -114,7 +114,7 @@ public class MainActivity extends BaseActivity{
                 dialog.show();
 
             } else {
-                Toast.makeText(MainActivity.this, "No Sync available.", Toast.LENGTH_LONG).show();
+            //    Toast.makeText(MainActivity.this, "No Sync available.", Toast.LENGTH_LONG).show();
             }
         }
 
@@ -245,12 +245,14 @@ public class MainActivity extends BaseActivity{
     }
 
     public void GetUserProfile(){
+        showProgressDailog();
         final String url = Constant.ProfileView + "?user_id=" + app.getUserId() ;
         Log.d("!!!urlProfile",url);
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        dismissProgressDialog();
                         try {
                             JSONObject object = response;
                             if(object.getString("status").equals("true")){
@@ -268,18 +270,21 @@ public class MainActivity extends BaseActivity{
                                 String mobile_no = object1.getString("MOBILE_NO");
                                 String emailId = object1.getString("EMAIL_ID");
                                 String country = object1.getString("COUNTRY");
+                                String countryCode = object1.getString("COUNTRY_CODE");
                                 String city = object1.getString("CITY");
                                 String education = object1.getString("EDUCATION");
                                 String satsang_chap = object1.getString("SATSANG_CHAPTER");
                                 String other_activity = object1.getString("HELP_IN_OTHER_ACTIVITY");
                                 String status = object1.getString("STATUS");
 
+                                app.setSession(true);
                                 app.setUserId(UserId);
                                 app.setRoleId(Roleid);
                                 app.setGender(Gender);
                                 app.setUserName(Name);
                                 app.setDob(dob);
-                                app.setContact(mobile_no);
+                                app.setAge(CalculateAge(dob));
+                                app.setContact(countryCode + " " +mobile_no);
                                 app.setEmail(emailId);
                                 app.setCountry(country);
                                 app.setEducation(education);

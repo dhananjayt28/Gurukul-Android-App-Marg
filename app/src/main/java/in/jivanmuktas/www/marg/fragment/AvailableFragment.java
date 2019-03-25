@@ -374,8 +374,9 @@ public class AvailableFragment extends Fragment {
                     final LinearLayout report_view = (LinearLayout) view.findViewById(R.id.report_view);
                     report_view.setVisibility(View.GONE);
 
-                   // dt.setText(startDate + "   -   " + endDate);
-                    dt.setText(startDate);
+                    dt.setText(startDate + "   -   " + endDate);
+
+                 //   dt.setText(endDate);
                     //dt.setText("July 2018 ");
                     //f.setText(female);
                     // m.setText(male);

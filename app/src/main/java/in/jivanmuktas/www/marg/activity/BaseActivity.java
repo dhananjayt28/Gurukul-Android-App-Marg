@@ -306,7 +306,7 @@ public void CustomToast(String text){
             long diff = d2.getTime() - d1.getTime();
 
             diffHours = (diff / (24 * 60 * 60 * 1000));
-            //    diffHours = (diff / 10*60*1000);
+        //        diffHours = (diff / 60*1000);
             Log.i("!!!!!Hour",diffHours+"");
         } catch (Exception e) {
             e.printStackTrace();

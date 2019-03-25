@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragment.AvailableFragment">
+    tools:context="in.jivanmuktas.www.marg.fragment.AvailableFragment">
 
     <!-- TODO: Upevent_date blank fragment layout -->
     <android.support.v4.widget.SwipeRefreshLayout
