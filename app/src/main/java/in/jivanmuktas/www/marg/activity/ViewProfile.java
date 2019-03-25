@@ -74,7 +74,7 @@ public class ViewProfile extends BaseActivity {
     JSONObject jsonResponse;
     JSONArray responseArray;
 
-    JivanmuktasDB jivanmuktasDB;
+   // JivanmuktasDB jivanmuktasDB;
     Cursor result;
     ArrayList<String> satsang;
     LinearLayout profileLayout;
@@ -104,8 +104,8 @@ public class ViewProfile extends BaseActivity {
     //    Log.i("!!!Activity", TAG);
 
 /////////////////////************************////////////////////////////
-        jivanmuktasDB = JivanmuktasDB.getInstance(this);
-        jivanmuktasDB.open();
+    //    jivanmuktasDB = JivanmuktasDB.getInstance(this);
+    //    jivanmuktasDB.open();
 
         profileLayout = (LinearLayout) findViewById(R.id.profileLayout);
 

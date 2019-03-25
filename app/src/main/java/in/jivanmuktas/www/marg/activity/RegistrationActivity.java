@@ -69,7 +69,7 @@ public class RegistrationActivity extends BaseActivity {
 
     JSONObject jsonResponse;
     JSONArray responseArray;
-    JivanmuktasDB jivanmuktasDB;
+    //JivanmuktasDB jivanmuktasDB;
     Cursor result;
     ArrayList<String> satsang;
     ArrayList<Country> countries = new ArrayList<>();
@@ -102,8 +102,8 @@ public class RegistrationActivity extends BaseActivity {
         final String countr;
         //////////////************************///////////////////
 
-        jivanmuktasDB = JivanmuktasDB.getInstance(this);
-        jivanmuktasDB.open();
+    //    jivanmuktasDB = JivanmuktasDB.getInstance(this);
+    //    jivanmuktasDB.open();
 
         title = (RadioGroup) findViewById(R.id.title);
         etFirstName =(EditText) findViewById(R.id.etFirstName);

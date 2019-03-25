@@ -180,6 +180,8 @@
     <string name="enter_the_year_you_join">Enter The Year You Join</string>
     <string name="comment">Comment To Approver</string>
     <string name="sorrynodata">Sorry no data found. Please contact administrator</string>
+    <string name="dialog_sync">You logged in for the first time. You need to sync the app.</string>
+    <string name="Sync_Required">Your app has not synced since last 24 hours please sync before you proceed</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

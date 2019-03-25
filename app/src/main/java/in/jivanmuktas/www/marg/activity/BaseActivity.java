@@ -14,6 +14,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,9 +33,11 @@ import in.jivanmuktas.www.marg.model.TopicCompletionStatus;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -278,5 +281,37 @@ public void CustomToast(String text){
         String formattedDate = df.format(c.getTime());
         // Now formattedDate have current date/time
         return formattedDate;
+    }
+
+    public String TimeToDate(String timeStamp){
+        long time = Long.parseLong(timeStamp);
+        System.out.print("Time "+time);
+        java.sql.Timestamp stamp = new Timestamp(time);
+        Date date = new Date(stamp.getTime());
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        //sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+        String formattedDate = sdf.format(date);
+
+        return formattedDate;
+    }
+    public int DiffTime(String dateStart, String dateStop){
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        Date d1 = null;
+        Date d2 = null;
+        long diffHours = 0;
+        try {
+            d1 = format.parse(dateStart);
+            d2 = format.parse(dateStop);
+            //in milliseconds
+            long diff = d2.getTime() - d1.getTime();
+
+            diffHours = (diff / (24 * 60 * 60 * 1000));
+            //    diffHours = (diff / 10*60*1000);
+            Log.i("!!!!!Hour",diffHours+"");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ((int)diffHours);
     }
 }

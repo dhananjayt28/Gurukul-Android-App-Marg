@@ -7,13 +7,13 @@ import android.content.SharedPreferences.Editor;
 
 public class MyApplication extends Application{
     public String AppKey = "4321";
-    private String userId, userName,password,education,dob,age,gender,contact,email,country,chapter,roleId;
+    private String userId, userName,password,education,dob,age,gender,contact,email,country,chapter,roleId,city;
     public boolean session=false;
     public SharedPreferences pref;
     private static MyApplication instance;
 
     private enum UserData {
-        LOGIN_PREF,SESSION,USER_ID,USER_NAME,PASSWORD,EDUCATION,DOB,AGE,GENDER,CONTACT, EMAIL,COUNTRY,CHAPTER,ROLEID
+        LOGIN_PREF,SESSION,USER_ID,USER_NAME,PASSWORD,EDUCATION,DOB,AGE,GENDER,CONTACT, EMAIL,COUNTRY,CHAPTER,ROLEID,CITY
     }
     public static MyApplication getInstance(){
         return instance;
@@ -151,6 +151,17 @@ public class MyApplication extends Application{
         this.chapter = chapter;
         Editor edit = pref.edit();
         edit.putString(UserData.CHAPTER.name(), this.chapter);
+        edit.commit();
+    }
+
+    public String getCity() {
+        return pref.getString(UserData.CITY.name(), this.city);
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+        Editor edit = pref.edit();
+        edit.putString(UserData.CITY.name(), this.city);
         edit.commit();
     }
     ////////**********************************//////////////

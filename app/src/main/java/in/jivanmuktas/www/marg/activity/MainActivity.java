@@ -1,5 +1,6 @@
 package in.jivanmuktas.www.marg.activity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,15 +8,29 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import in.jivanmuktas.www.marg.R;
+import in.jivanmuktas.www.marg.constant.Constant;
+import in.jivanmuktas.www.marg.database.JivanmuktasDB;
+import in.jivanmuktas.www.marg.singleton.VolleySingleton;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.special.ResideMenu.ResideMenu;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Date;
 
 public class MainActivity extends BaseActivity{
     private static final String TAG = "MainActivity";
@@ -24,6 +39,7 @@ public class MainActivity extends BaseActivity{
     Window window;
     JSONObject jsonResponse;
     TextView homeDoc;
+    JivanmuktasDB database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,8 +50,73 @@ public class MainActivity extends BaseActivity{
         homeDoc = (TextView) findViewById(R.id.homeDoc);
         homeDoc.setText(getResources().getString(R.string.hometext));
 
-
         setUpMenu();
+
+        database = JivanmuktasDB.getInstance(this);
+        database.open();
+
+        //Creating Sync button for the sync
+        if (database.selectSync().equals("0")) {
+            final Dialog dialog = new Dialog(MainActivity.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);//Hide Title .use before setContentView
+            dialog.setContentView(R.layout.sync_alert_layout);
+            dialog.setCancelable(false);
+            TextView tvDesc = (TextView) dialog.findViewById(R.id.tvDesc);
+            tvDesc.setText(R.string.dialog_sync);
+            Button sync = (Button) dialog.findViewById(R.id.sync);
+            Button exit = (Button) dialog.findViewById(R.id.exit);
+            sync.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    GetUserProfile();
+                    dialog.dismiss();
+                }
+            });
+            exit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+            dialog.show();
+        } else {
+            String LastSyncTimeStamp = database.selectLastSyncStamp();
+            String currentTimeStamp = String.valueOf(new Date().getTime());
+            String dateStart = new String();
+            String dateStop = new String();
+            dateStart = TimeToDate(LastSyncTimeStamp);
+            dateStop = TimeToDate(currentTimeStamp);
+            int diffHour = DiffTime(dateStart, dateStop);
+
+            if (diffHour >= 24) {
+                final Dialog dialog = new Dialog(MainActivity.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);//Hide Title .use before setContentView
+                dialog.setContentView(R.layout.sync_alert_layout);
+                dialog.setCancelable(false);
+                TextView tvDesc = (TextView) dialog.findViewById(R.id.tvDesc);
+                tvDesc.setText(R.string.Sync_Required);
+                Button sync = (Button) dialog.findViewById(R.id.sync);
+                Button exit = (Button) dialog.findViewById(R.id.exit);
+                sync.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        GetUserProfile();
+                        dialog.dismiss();
+
+                    }
+                });
+                exit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
+                dialog.show();
+
+            } else {
+                Toast.makeText(MainActivity.this, "No Sync available.", Toast.LENGTH_LONG).show();
+            }
+        }
 
 
     }
@@ -161,6 +242,63 @@ public class MainActivity extends BaseActivity{
         } else {
             super.onBackPressed();
         }
+    }
+
+    public void GetUserProfile(){
+        final String url = Constant.ProfileView + "?user_id=" + app.getUserId() ;
+        Log.d("!!!urlProfile",url);
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject object = response;
+                            if(object.getString("status").equals("true")){
+                                Log.i("!!!Request",object.toString());
+                                JSONArray jsonArray = object.getJSONArray("response");
+                                Log.d("!!!response",response.toString());
+
+                                JSONObject object1 = jsonArray.getJSONObject(0);
+                                String UserId = object1.getString("USER_ID");
+                                String title = object1.getString("TITLE");
+                                String Roleid = object1.getString("ROLE_ID");
+                                String Name = object1.getString("NAME");
+                                String Gender = object1.getString("GENDER");
+                                String dob = object1.getString("DOB");
+                                String mobile_no = object1.getString("MOBILE_NO");
+                                String emailId = object1.getString("EMAIL_ID");
+                                String country = object1.getString("COUNTRY");
+                                String city = object1.getString("CITY");
+                                String education = object1.getString("EDUCATION");
+                                String satsang_chap = object1.getString("SATSANG_CHAPTER");
+                                String other_activity = object1.getString("HELP_IN_OTHER_ACTIVITY");
+                                String status = object1.getString("STATUS");
+
+                                app.setUserId(UserId);
+                                app.setRoleId(Roleid);
+                                app.setGender(Gender);
+                                app.setUserName(Name);
+                                app.setDob(dob);
+                                app.setContact(mobile_no);
+                                app.setEmail(emailId);
+                                app.setCountry(country);
+                                app.setEducation(education);
+                                app.setChapter(satsang_chap);
+                                app.setCity(city);
+                                database.updateSync(String.valueOf(new Date().getTime()));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Error.Response", error.toString());
+            }
+        });
+        VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
     }
 
 }
