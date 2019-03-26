@@ -111,10 +111,10 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
             return true;
         }
         if (id == R.id.action_logout) {
-            /*app.setSession(false);
+            app.setSession(false);
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);*/
+            startActivity(intent);
             return true;
         }
         if (id==R.id.action_home){
