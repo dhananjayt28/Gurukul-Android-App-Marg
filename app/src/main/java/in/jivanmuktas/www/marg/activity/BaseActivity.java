@@ -27,8 +27,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import in.jivanmuktas.www.marg.R;
+import in.jivanmuktas.www.marg.constant.Constant;
+import in.jivanmuktas.www.marg.database.JivanmuktasDB;
 import in.jivanmuktas.www.marg.model.TopicCompletionStatus;
+import in.jivanmuktas.www.marg.singleton.VolleySingleton;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -47,6 +59,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     public int height, width;
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
+    JivanmuktasDB database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +69,9 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         height = display.getHeight();
         width = display.getWidth();
         prsDlg = new ProgressDialog(this);
+
+        database = JivanmuktasDB.getInstance(this);
+        database.open();
     }
 
     @Override
@@ -111,6 +127,11 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
            /* Intent intent = new Intent(getApplicationContext(), ViewProfile.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);*/
+            return true;
+        }
+        if (id==R.id.action_sync){
+            GetUserProfile();
+            Toast.makeText(this, "Sync done sucessfully", Toast.LENGTH_SHORT).show();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -313,5 +334,66 @@ public void CustomToast(String text){
         }
 
         return ((int)diffHours);
+    }
+    public void GetUserProfile(){
+        showProgressDailog();
+        final String url = Constant.ProfileView + "?user_id=" + app.getUserId() ;
+        Log.d("!!!urlProfile",url);
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        dismissProgressDialog();
+                        try {
+                            JSONObject object = response;
+                            if(object.getString("status").equals("true")){
+                                Log.i("!!!Request",object.toString());
+                                JSONArray jsonArray = object.getJSONArray("response");
+                                Log.d("!!!response",response.toString());
+
+                                JSONObject object1 = jsonArray.getJSONObject(0);
+                                String UserId = object1.getString("USER_ID");
+                                String title = object1.getString("TITLE");
+                                String Roleid = object1.getString("ROLE_ID");
+                                String Name = object1.getString("NAME");
+                                String Gender = object1.getString("GENDER");
+                                String dob = object1.getString("DOB");
+                                String mobile_no = object1.getString("MOBILE_NO");
+                                String emailId = object1.getString("EMAIL_ID");
+                                String country = object1.getString("COUNTRY");
+                                String countryCode = object1.getString("COUNTRY_CODE");
+                                String city = object1.getString("CITY");
+                                String education = object1.getString("EDUCATION");
+                                String satsang_chap = object1.getString("SATSANG_CHAPTER");
+                                String other_activity = object1.getString("HELP_IN_OTHER_ACTIVITY");
+                                String status = object1.getString("STATUS");
+
+                                app.setSession(true);
+                                app.setUserId(UserId);
+                                app.setRoleId(Roleid);
+                                app.setGender(Gender);
+                                app.setUserName(Name);
+                                app.setDob(dob);
+                                app.setAge(CalculateAge(dob));
+                                app.setContact(countryCode + " " +mobile_no);
+                                app.setEmail(emailId);
+                                app.setCountry(country);
+                                app.setEducation(education);
+                                app.setChapter(satsang_chap);
+                                app.setCity(city);
+                                database.updateSync(String.valueOf(new Date().getTime()));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Error.Response", error.toString());
+            }
+        });
+        VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
     }
 }
