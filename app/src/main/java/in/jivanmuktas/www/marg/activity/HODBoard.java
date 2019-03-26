@@ -3,9 +3,12 @@ package in.jivanmuktas.www.marg.activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -29,6 +32,7 @@ import okhttp3.Response;
 public class HODBoard extends BaseActivity {
     String title;
     EditText hodMsgField;
+    TextView counter;
     OkHttpClient mClient;
     JSONArray jsonArray;
     @Override
@@ -51,6 +55,26 @@ public class HODBoard extends BaseActivity {
 
         mClient = new OkHttpClient();
         hodMsgField = (EditText) findViewById(R.id.hodMsgField);
+        counter = findViewById(R.id.counter_text);
+        hodMsgField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String text = hodMsgField.getText().toString();
+                int symbol = text.length();
+                counter.setText(symbol + "/150");
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     public void SendMsgFromHOD(View view) {
