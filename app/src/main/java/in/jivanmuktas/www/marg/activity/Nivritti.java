@@ -101,7 +101,6 @@ public class Nivritti extends BaseActivity {
             Status = getIntent().getExtras().getString("STATUS");
             START_DATE = getIntent().getExtras().getString("START_DATE");
             END_DATE = getIntent().getExtras().getString("END_DATE");
-
             Log.i("!!! status", Status.toString());
         } catch (Exception e) {
 
@@ -183,7 +182,7 @@ public class Nivritti extends BaseActivity {
                 alloted_subject.setVisibility(View.GONE);
                 alottedSubject.setVisibility(View.GONE);
                 commentToApprover.setVisibility(View.GONE);
-                comment_toApprover.setVisibility(View.GONE);
+                comment_toApprover.setVisibility(View.VISIBLE);
                 etCheckInDate.setVisibility(View.GONE);
                 etCheckOutDate.setVisibility(View.GONE);
                 etCheckInTime.setVisibility(View.GONE);

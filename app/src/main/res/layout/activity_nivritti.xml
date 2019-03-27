@@ -153,7 +153,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text=" English,History of India"
+                android:text="Subject Allocation Pending From Administrator"
                 android:textColor="@color/colorTextLabel"
                 android:textSize="15sp"
                 android:fontFamily="sans-serif-condensed"/>

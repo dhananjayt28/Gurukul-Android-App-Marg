@@ -7,7 +7,7 @@
     android:background="@color/colorBackground"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context=".activity.MyProfileActivity"
+    tools:context="in.jivanmuktas.www.marg.activity.MyProfileActivity"
     android:id="@+id/profileLayout">
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
