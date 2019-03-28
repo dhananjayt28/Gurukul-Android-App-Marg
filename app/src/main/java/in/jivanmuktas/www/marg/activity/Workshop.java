@@ -53,19 +53,20 @@ import in.jivanmuktas.www.marg.singleton.VolleySingleton;
 
 
 public class Workshop extends BaseActivity {
-    String EVENT_ID,status,Status;
+    String EVENT_ID,status,Status,ORIGIN_PLACE,DESTINATION_PALACE,TRANSPORT_MODE_ORIGIN,TRANSPORT_MODE_END;
     private SimpleDateFormat dateFormatter;
     private DatePickerDialog datePickerDialog;
     TextView tvCalendar,tvalottedDistrict,tvorigin, tvend, tvairport, tvrailway, tvcommentToApprover,tvCheckin,tvCheckOut;
     EditText arrivalDate,arrivalTime,departureDate,departureTime;
     LinearLayout edDateTimeView,tvDateTimeView,itienaryView;
     Spinner itienaryAction;
-    Button submit,Update;
+    Button submit,Update,UpdateAgain;
     ImageView ImgItie,ItenaryUpload;
     TextInputLayout Moditext;
     DownloadManager downloadManager;
     String stat = "";
      ArrayList<TopicCompletionStatus> statuses = new ArrayList<>();
+     ImageView originModeAir,originModeRail,destModeAir,destModeRail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +88,13 @@ public class Workshop extends BaseActivity {
         try {
             EVENT_ID = getIntent().getExtras().getString("EVENT_ID");
             Status = getIntent().getExtras().getString("STATUS");
+            ORIGIN_PLACE = getIntent().getExtras().getString("ORIGIN_PLACE");
+            DESTINATION_PALACE = getIntent().getExtras().getString("DESTINATION_PALACE");
+            TRANSPORT_MODE_ORIGIN = getIntent().getExtras().getString("TRANSPORT_MODE_ORIGIN");
+            TRANSPORT_MODE_END = getIntent().getExtras().getString("TRANSPORT_MODE_END");
+
             Log.d("!!!status",Status.toString());
+
         } catch (Exception e) {
 
         }
@@ -118,6 +125,18 @@ public class Workshop extends BaseActivity {
         Moditext.setVisibility(View.GONE);
         Update = (Button) findViewById(R.id.Update);
         Update.setVisibility(View.GONE);
+        UpdateAgain = findViewById(R.id.UpdateAgain);
+        UpdateAgain.setVisibility(View.GONE);
+        originModeAir = findViewById(R.id.aero_image1);
+        originModeAir.setVisibility(View.GONE);
+        originModeRail = findViewById(R.id.rail_image1);
+        originModeRail.setVisibility(View.GONE);
+        destModeAir = findViewById(R.id.aero_image2);
+        destModeAir.setVisibility(View.GONE);
+        destModeRail = findViewById(R.id.rail_image2);
+        destModeRail.setVisibility(View.GONE);
+
+
 
         //CustomSpinner(itienaryAction,R.array.itiespinner);
 
@@ -148,11 +167,13 @@ public class Workshop extends BaseActivity {
         if(Status.equals("18")  ){
             submit.setVisibility(View.VISIBLE);
             Update.setVisibility(View.GONE);
+            UpdateAgain.setVisibility(View.GONE);
 
         }
         if( Status.equals("26")){
             submit.setVisibility(View.GONE);
             Update.setVisibility(View.GONE);
+            UpdateAgain.setVisibility(View.GONE);
         }
 
         if (Status.equals("24")) {
@@ -161,6 +182,17 @@ public class Workshop extends BaseActivity {
             itienaryView.setVisibility(View.VISIBLE);
             Update.setVisibility(View.VISIBLE);
             submit.setVisibility(View.GONE);
+            UpdateAgain.setVisibility(View.GONE);
+            tvCheckin.setText(arrivalDate+", "+arrivalTime);
+            tvCheckOut.setText(departureDate+", "+departureTime);
+        }
+        if(Status.equals("112")){
+            edDateTimeView.setVisibility(View.GONE);
+            tvDateTimeView.setVisibility(View.VISIBLE);
+            itienaryView.setVisibility(View.GONE);
+            Update.setVisibility(View.GONE);
+            submit.setVisibility(View.GONE);
+            UpdateAgain.setVisibility(View.VISIBLE);
             tvCheckin.setText(arrivalDate+", "+arrivalTime);
             tvCheckOut.setText(departureDate+", "+departureTime);
         }
@@ -265,6 +297,16 @@ public class Workshop extends BaseActivity {
                 if(isNetworkAvailable()) {
                     if(isValiditenary()) {
                         SubmitDataItenary();
+                    }
+                }
+            }
+        });
+        UpdateAgain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isNetworkAvailable()) {
+                    if(isValiditenary()) {
+                        SubmitDataAgain();
                     }
                 }
             }
@@ -400,25 +442,37 @@ public class Workshop extends BaseActivity {
                     String CHECKIN_TIME = object.getString("CHECKIN_TIME");
                     String CHECKOUT_DATE = object.getString("CHECKOUT_DATE");
                     String CHECKOUT_TIME = object.getString("CHECKOUT_TIME");
+                    final String SOURCE = object.getString("SOURCE");
 
                     tvCalendar.setText(EVENT_START_DATE+" - "+EVENT_END_DATE);
                     STATE_NAME = STATE_NAME.replaceAll("\\{","");
                     STATE_NAME = STATE_NAME.replaceAll("\\}","");
+                    Log.d("!!!mode origin",TRANSPORT_MODE_ORIGIN);
+                    Log.d("!!!mode end",TRANSPORT_MODE_END);
+                    if(TRANSPORT_MODE_ORIGIN.equals(String.valueOf(1))){
+                        originModeRail.setVisibility(View.VISIBLE);
+                        originModeAir.setVisibility(View.GONE);
+                    } else {
+                        originModeAir.setVisibility(View.VISIBLE);
+                        originModeRail.setVisibility(View.GONE);
+                    }
+                    if(TRANSPORT_MODE_END.equals(String.valueOf(1))){
+                        destModeRail.setVisibility(View.VISIBLE);
+                        destModeAir.setVisibility(View.GONE);
+                    } else {
+                        destModeAir.setVisibility(View.VISIBLE);
+                        destModeRail.setVisibility(View.GONE);
+                    }
+                    tvairport.setText(ORIGIN_PLACE);
+                    tvrailway.setText(DESTINATION_PALACE);
                     tvalottedDistrict.setText(STATE_NAME);
                     Log.d("!!!alloted",STATE_NAME);
+
+
                     tvcommentToApprover.setText(COMMENT);
                     tvorigin.setText(ORIGIN_LOCATION);
                     tvend.setText(END_LOCATION);
-                    if (Integer.parseInt(TRANSPORT_MODE_ORIGIN) == 1) {
-                        tvairport.setText("railway");
-                    }else {
-                        tvairport.setText("Airport");
-                    }
-                    if (Integer.parseInt(TRANSPORT_MODE_END) == 1) {
-                        tvrailway.setText("railway");
-                    }else {
-                        tvrailway.setText("Airport");
-                    }
+
                     tvCheckin.setText(CHECKIN_DATE +" , "+ CHECKIN_TIME);
                     tvCheckOut.setText(CHECKOUT_DATE +" , " +CHECKOUT_TIME );
 
@@ -429,7 +483,8 @@ public class Workshop extends BaseActivity {
                          /*Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(SOURCE));
                          startActivity(i);*/
                             downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-                            Uri uri = Uri.parse("http://foersom.com/net/HowTo/data/OoPdfFormExample.pdf");     //url to be put here
+                        //    Uri uri = Uri.parse("http://foersom.com/net/HowTo/data/OoPdfFormExample.pdf");
+                            Uri uri = Uri.parse(SOURCE);//url to be put here
                             DownloadManager.Request request = new DownloadManager.Request(uri);
                             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
                             Long referece = downloadManager.enqueue(request);
@@ -563,13 +618,58 @@ public class Workshop extends BaseActivity {
     //Final submission of the data of Itenary ststus
     public void SubmitDataItenary(){
         final String url = Constant.UPDATE_ITENARY_STATUS;
-
         JSONArray jsonArray =  new JSONArray();
         JSONObject reqObj = new JSONObject();
         try {
+            reqObj.put("STATUS","114");
             reqObj.put("EVENT_REG_SYS_ID",getIntent().getExtras().getString("EVENT_ID"));
+            reqObj.put("MESSAGE","112");
             reqObj.put("ITINERARY_STATUS",stat);
             reqObj.put("ITINERARY_COMMENTS",Moditext.getEditText().getText().toString());
+            jsonArray.put(reqObj);
+            final String requestBody = jsonArray.toString();
+            Log.i("!!!req",jsonArray.toString());
+            StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("!!!Response->", response);
+                            Toast.makeText(Workshop.this, "Updated Sucessfully", Toast.LENGTH_SHORT).show();
+                            Workshop.this.finish();
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("!!!response",error.toString());
+                }
+            })
+            {
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        Log.i("!!!Request", url+"    "+requestBody.getBytes("utf-8"));
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+            RequestQueue queue = Volley.newRequestQueue(this);
+            // add it to the RequestQueue
+            queue.add(postRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public void SubmitDataAgain(){
+        final String url = Constant.UPDATE_ITENARY_STATUS;
+        JSONArray jsonArray =  new JSONArray();
+        JSONObject reqObj = new JSONObject();
+        try {
+            reqObj.put("STATUS","115");
+            reqObj.put("EVENT_REG_SYS_ID",getIntent().getExtras().getString("EVENT_ID"));
+            reqObj.put("MESSAGE","113");
             jsonArray.put(reqObj);
             final String requestBody = jsonArray.toString();
             Log.i("!!!req",jsonArray.toString());

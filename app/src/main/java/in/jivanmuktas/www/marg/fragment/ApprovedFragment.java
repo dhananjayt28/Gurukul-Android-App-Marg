@@ -303,7 +303,7 @@ public class ApprovedFragment extends Fragment {
 
             @Override
             public View getView(int position, View view, ViewGroup parent) {
-                final String EVENT_NAME, START_DATE, END_DATE, TODAY, EVENT_TYPE, EVENT_REG_ID, EVENT_CALNDER_ID, EVENT_MASTER_ID,MESSAGE,NOTES,STATUS,TRANSPORTAION_ARRANGEMENT,ACCOMODATION_ARRANGEMENT,CARD_TYPE;
+                final String EVENT_NAME, START_DATE, END_DATE, TODAY, EVENT_TYPE, EVENT_REG_ID, EVENT_CALNDER_ID, EVENT_MASTER_ID,MESSAGE,NOTES,STATUS,TRANSPORTAION_ARRANGEMENT,ACCOMODATION_ARRANGEMENT,CARD_TYPE,ORIGIN_PLACE,DESTINATION_PALACE,TRANSPORT_MODE_ORIGIN,ORIGIN_LOCATION,TRANSPORT_MODE_END,END_LOCATION;
                 JSONObject object;
                 try {
                     object = responseArray.getJSONObject(position);
@@ -321,6 +321,12 @@ public class ApprovedFragment extends Fragment {
                     TRANSPORTAION_ARRANGEMENT = object.getString("TRANSPORTAION_ARRANGEMENT");
                     ACCOMODATION_ARRANGEMENT = object.getString("ACCOMODATION_ARRANGEMENT");
                     CARD_TYPE = object.getString("CARD_TYPE");
+                    ORIGIN_PLACE = object.getString("ORIGIN_PLACE");
+                    DESTINATION_PALACE = object.getString("DESTINATION_PALACE");
+                    TRANSPORT_MODE_ORIGIN = object.getString("TRANSPORT_MODE_ORIGIN");
+                    ORIGIN_LOCATION = object.getString("ORIGIN_LOCATION");
+                    TRANSPORT_MODE_END = object.getString("TRANSPORT_MODE_END");
+                    END_LOCATION = object.getString("END_LOCATION");
 
                     LayoutInflater layoutInflater = LayoutInflater.from(getContext());
                     view = layoutInflater.inflate(R.layout.approvedlist, null);
@@ -440,6 +446,10 @@ public class ApprovedFragment extends Fragment {
                                 intent=new Intent(getActivity(), Workshop.class);//Change line later
                                 intent.putExtra("EVENT_ID", EVENT_REG_ID);
                                 intent.putExtra("STATUS",STATUS);
+                                intent.putExtra("ORIGIN_PLACE",ORIGIN_PLACE);
+                                intent.putExtra("DESTINATION_PALACE",DESTINATION_PALACE);
+                                intent.putExtra("TRANSPORT_MODE_ORIGIN",TRANSPORT_MODE_ORIGIN);
+                                intent.putExtra("TRANSPORT_MODE_END",TRANSPORT_MODE_END);
                                 startActivity(intent);
                             }else if (EVENT_TYPE.equals("3")){
                                 intent=new Intent(getActivity(), GitaDistribution.class);//Change line later
