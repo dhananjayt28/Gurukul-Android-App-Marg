@@ -186,13 +186,23 @@ public class Workshop extends BaseActivity {
             tvCheckin.setText(arrivalDate+", "+arrivalTime);
             tvCheckOut.setText(departureDate+", "+departureTime);
         }
-        if(Status.equals("112")){
+        if(Status.equals("114")){
             edDateTimeView.setVisibility(View.GONE);
             tvDateTimeView.setVisibility(View.VISIBLE);
             itienaryView.setVisibility(View.GONE);
             Update.setVisibility(View.GONE);
             submit.setVisibility(View.GONE);
             UpdateAgain.setVisibility(View.VISIBLE);
+            tvCheckin.setText(arrivalDate+", "+arrivalTime);
+            tvCheckOut.setText(departureDate+", "+departureTime);
+        }
+        if(Status.equals("115")){
+            edDateTimeView.setVisibility(View.GONE);
+            tvDateTimeView.setVisibility(View.VISIBLE);
+            itienaryView.setVisibility(View.GONE);
+            Update.setVisibility(View.GONE);
+            submit.setVisibility(View.GONE);
+            UpdateAgain.setVisibility(View.GONE);
             tvCheckin.setText(arrivalDate+", "+arrivalTime);
             tvCheckOut.setText(departureDate+", "+departureTime);
         }
@@ -305,9 +315,9 @@ public class Workshop extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if(isNetworkAvailable()) {
-                    if(isValiditenary()) {
+
                         SubmitDataAgain();
-                    }
+
                 }
             }
         });
@@ -364,6 +374,7 @@ public class Workshop extends BaseActivity {
             try {
             //    response = handler.makeServiceCall(Constant.VOLUNTEER_EVENT_APPROVE+"id="+app.getUserId()+"&eventid="+EVENT_ID);
                 response = handler.makeServiceCall(Constant.GET_ITINERARY_INFORMATION + "event_reg_id="+EVENT_ID+"&user_id="+app.getUserId());
+                Log.d("!!!event_id_ite",EVENT_ID);
             //    response = AssetJSONFile("workshopeventview.json",Workshop.this);
                 jsonResponse = new JSONObject(response);
                 Log.i("!!!Response", response);
@@ -442,7 +453,9 @@ public class Workshop extends BaseActivity {
                     String CHECKIN_TIME = object.getString("CHECKIN_TIME");
                     String CHECKOUT_DATE = object.getString("CHECKOUT_DATE");
                     String CHECKOUT_TIME = object.getString("CHECKOUT_TIME");
-                    final String SOURCE = object.getString("SOURCE");
+                    final String ITINERARY_FILES = object.getString("ITINERARY_FILES");
+                    final String URI = "http://uatappweb.jivanmuktas.org//Uploaded_files/";
+                //    final String SOURCE = object.getString("SOURCE");
 
                     tvCalendar.setText(EVENT_START_DATE+" - "+EVENT_END_DATE);
                     STATE_NAME = STATE_NAME.replaceAll("\\{","");
@@ -483,8 +496,9 @@ public class Workshop extends BaseActivity {
                          /*Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(SOURCE));
                          startActivity(i);*/
                             downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-                        //    Uri uri = Uri.parse("http://foersom.com/net/HowTo/data/OoPdfFormExample.pdf");
-                            Uri uri = Uri.parse(SOURCE);//url to be put here
+                         //   Uri uri = Uri.parse("http://foersom.com/net/HowTo/data/OoPdfFormExample.pdf");
+                            Uri uri = Uri.parse(URI+ITINERARY_FILES);//url to be put here
+                            Log.d("!!!uri", ITINERARY_FILES);
                             DownloadManager.Request request = new DownloadManager.Request(uri);
                             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
                             Long referece = downloadManager.enqueue(request);

@@ -64,7 +64,7 @@ import in.jivanmuktas.www.marg.singleton.VolleySingleton;
 public class GitaDistribution extends BaseActivity {
     String EVENT_ID;
     Spinner idpprofSpinner;
-    LinearLayout gitadisLayout,layout_button;
+    LinearLayout gitadisLayout,layout_button,layout_exit;
     ImageView picImg;
     private String userChoosenTask;
     File file;
@@ -74,7 +74,7 @@ public class GitaDistribution extends BaseActivity {
     TextView tvEventDate,tvNote,tvName,tvDob,tvGender,gitaDistribution,tvMessage,tvbookingContinue,status_show,accomodation,transport,set_id;
     CheckBox cbTransportArran,cbAccomodation;
     String img64code="";
-    Button submit;
+    Button submit,exit;
     ArrayList<IdCard> idCards = new ArrayList<>();
     String id_card = "";
     String Status = "";
@@ -118,12 +118,15 @@ public class GitaDistribution extends BaseActivity {
         cbAccomodation = (CheckBox) findViewById(R.id.cbAccomodation);
         cbAccomodation.setVisibility(View.INVISIBLE);
         submit = (Button) findViewById(R.id.submit);
+        exit = (Button) findViewById(R.id.exit);
         gitaDistribution = (TextView) findViewById(R.id.gitaDistribution);
         tvMessage = (TextView) findViewById(R.id.tvMessage);
         tvbookingContinue = (TextView)findViewById(R.id.tvbookingContinue);
         tvbookingContinue.setVisibility(View.INVISIBLE);
         layout_button = (LinearLayout) findViewById(R.id.layout_button);
         layout_button.setVisibility(View.INVISIBLE);
+        layout_exit =  (LinearLayout) findViewById(R.id.layout_button_exit);
+        layout_exit.setVisibility(View.GONE);
         status_show = findViewById(R.id.Status_show);
         accomodation = findViewById(R.id.accomodation_arrangement);
         transport = findViewById(R.id.transport_arrangement);
@@ -191,6 +194,7 @@ public class GitaDistribution extends BaseActivity {
         switch(Status){
             case "27":
                 layout_button.setVisibility(View.INVISIBLE);
+                layout_exit.setVisibility(View.VISIBLE);
                 tvbookingContinue.setVisibility(View.INVISIBLE);
                 idpprofSpinner.setVisibility(View.INVISIBLE);
                 card_type = getIntent().getStringExtra("CARD_TYPE");
@@ -219,6 +223,7 @@ public class GitaDistribution extends BaseActivity {
                 break;
             case "18":
                 layout_button.setVisibility(View.VISIBLE);
+                layout_exit.setVisibility(View.GONE);
                 tvbookingContinue.setVisibility(View.VISIBLE);
                 picImg.setVisibility(View.INVISIBLE);
                 idpprofSpinner.setVisibility(View.VISIBLE);
@@ -274,7 +279,14 @@ public class GitaDistribution extends BaseActivity {
                 }
                   */  // new SubmitData().execute();
                     SubmitData();
+                    finish();
 
+                }
+            });
+            exit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
                 }
             });
          //   GetSpinner();

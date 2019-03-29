@@ -651,6 +651,7 @@ public class Nivritti extends BaseActivity {
             reqObj.put("STATUS", "30");
             reqObj.put("TOPIC_STATUS", stat);
             reqObj.put("EVENT_REG_SYS_ID", EVENT_ID);
+
             reqObj.put("COMMENT_FOR_HOD", commentForHod.getText().toString().trim());
             jsonArray.put(reqObj);
             final String requestBody = jsonArray.toString();

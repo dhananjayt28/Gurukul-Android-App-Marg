@@ -104,7 +104,7 @@ public class HODBoard extends BaseActivity {
                     data.put("MOBILE", app.getContact());
                     data.put("EMAIL", app.getEmail());
                     JSONObject notification = new JSONObject();
-                    notification.put("rgTitle", "Jivanmukta Volunteering");
+                    notification.put("rgTitle", "Jivanm ukta Volunteering");
                     notification.put("text", hodMsgField.getText().toString());
                     notification.put("click_action", "OPEN_ACTIVITY_NOTIFICATION");
 
