@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -69,44 +71,52 @@ public class IASCoaching extends BaseActivity {
        // ias_List.setAdapter(new ListAdapter());
 
         showTimeSubject();
+    //    runAnimation(recyclerView);
     }
 
-/*public class ListAdapter extends BaseAdapter{
+    private void runAnimation(RecyclerView recyclerView) {
+        Context context = recyclerView.getContext();
+        LayoutAnimationController controller = null;
+            controller = AnimationUtils.loadLayoutAnimation(context,R.anim.layout_slide_from_right);
 
-    @Override
-    public int getCount() {
-        //return date.length;
     }
 
-    @Override
-    public Object getItem(int position) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
-    public View getView(int position, View view, ViewGroup parent) {
-
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.iaslistview, null);
-        TextView t1 = (TextView) view.findViewById(R.id.date);
-        TextView t2 = (TextView) view.findViewById(R.id.subject);
-
-        try {
-            String s1 = date[position];
-            String s2 = subject[position];
-            t1.setText(s1);
-            t2.setText(s2);
-        } catch (Exception e) {
-            e.printStackTrace();
+    /*public class ListAdapter extends BaseAdapter{
+    
+        @Override
+        public int getCount() {
+            //return date.length;
         }
-        return view;
-    }
-}*/
+    
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+    
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+    
+        @Override
+        public View getView(int position, View view, ViewGroup parent) {
+    
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(R.layout.iaslistview, null);
+            TextView t1 = (TextView) view.findViewById(R.id.date);
+            TextView t2 = (TextView) view.findViewById(R.id.subject);
+    
+            try {
+                String s1 = date[position];
+                String s2 = subject[position];
+                t1.setText(s1);
+                t2.setText(s2);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return view;
+        }
+    }*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         /* Inflate the menu; this adds items to the action bar if it is present.
@@ -134,8 +144,14 @@ public class IASCoaching extends BaseActivity {
                                     iasCoaching.setSubject_name(obj.getString("SUBJECT_NAME"));
                                     arrayList.add(iasCoaching);
                                 }
+                                Context context = recyclerView.getContext();
+                                LayoutAnimationController controller = null;
+                                controller = AnimationUtils.loadLayoutAnimation(context,R.anim.layout_slide_from_right);
                                 adapter = new IASCoachingAdapter(arrayList,IASCoaching.this);
                                 recyclerView.setAdapter(adapter);
+                                recyclerView.setLayoutAnimation(controller);
+                                recyclerView.getAdapter().notifyDataSetChanged();
+                                recyclerView.scheduleLayoutAnimation();
                             }else {
                                 Toast.makeText(IASCoaching.this, "Data NOT Found", Toast.LENGTH_SHORT).show();
                             }
