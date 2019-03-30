@@ -139,7 +139,7 @@ public class ViewProfile extends BaseActivity {
 
         //View 2
 
-        rgTitle = (RadioGroup) findViewById(R.id.title);
+    //    rgTitle = (RadioGroup) findViewById(R.id.title);
     //    rgGender = (RadioGroup) findViewById(R.id.rgGender);
     //    mr = (RadioButton) findViewById(R.id.mr);
     //    mrs = (RadioButton) findViewById(R.id.mrs);
@@ -296,6 +296,12 @@ public class ViewProfile extends BaseActivity {
         if (etName.getText().toString().trim().length() == 0) {
             etName.setError("Please enter your Name ");
             editTextFocus(etName);
+            return false;
+        } else if (spinner_title.getSelectedItemPosition() == 0) {
+            SnackbarRed(R.id.profileLayout, "Please Select your Title.");
+            return false;
+        } else if (spinner_gender.getSelectedItemPosition() == 0) {
+            SnackbarRed(R.id.profileLayout, "Please Select your Gender.");
             return false;
         } else if (etDob.getText().toString().trim().length() == 0) {
             etDob.setError("Please enter your D.O.B ");
@@ -928,23 +934,24 @@ public class ViewProfile extends BaseActivity {
         JSONObject reqObj = new JSONObject();
         try {
             reqObj.put("USER_ID", app.getUserId());
-            RadioButton rbTitle = (RadioButton) findViewById(rgTitle.getCheckedRadioButtonId());
-            int indexTitle = rgTitle.indexOfChild(rbTitle) + 1;
-            reqObj.put("STATUS", "26");
+//            RadioButton rbTitle = (RadioButton) findViewById(rgTitle.getCheckedRadioButtonId());
+ //           int indexTitle = rgTitle.indexOfChild(rbTitle) + 1;
+    //        reqObj.put("STATUS", "26");
             reqObj.put("TITLE", TitleId);
             reqObj.put("NAME", etName.getText().toString().trim());
-            RadioButton rb = (RadioButton) findViewById(rgGender.getCheckedRadioButtonId());
-            int indexGen = rgGender.indexOfChild(rb);
+ //           RadioButton rb = (RadioButton) findViewById(rgGender.getCheckedRadioButtonId());
+ //           int indexGen = rgGender.indexOfChild(rb);
             reqObj.put("GENDER", GenderId);// 0 = male, 1 = Female
             reqObj.put("DOB", etDob.getText().toString().trim());
             reqObj.put("COUNTRY_CODE", " ");
-            reqObj.put("CONTACT", etPhoneNumber.getText().toString().trim());
-            reqObj.put("EMAIL", etEmail.getText().toString().trim());
-            reqObj.put("POSTAL_CODE", etPostalCode.getText().toString().trim());
+            reqObj.put("MOBILE_NO", etPhoneNumber.getText().toString().trim());
+            reqObj.put("EMAIL_ID", etEmail.getText().toString().trim());
+            reqObj.put("MODIFIEDBY",app.getUserId());
+            reqObj.put("POSTAL_CODE", " ");
             reqObj.put("COUNTRY", countryId);
-            reqObj.put("CITY",CityId);
-            reqObj.put("CHAPTER", ChapterId);
-            reqObj.put("EDUCATION", String.valueOf(spinner_edu.getSelectedItemPosition()));
+            reqObj.put("CITY_ID",CityId);
+            reqObj.put("SATSANG_CHAPTER", ChapterId);
+            reqObj.put("EDUCATION",EducationId );
             jsonArray.put(reqObj);
             final String requestBody = jsonArray.toString();
             Log.i("!!!req", jsonArray.toString());
