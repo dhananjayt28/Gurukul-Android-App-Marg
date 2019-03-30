@@ -54,6 +54,7 @@ import in.jivanmuktas.www.marg.model.City;
 import in.jivanmuktas.www.marg.model.Country;
 import in.jivanmuktas.www.marg.model.Education;
 import in.jivanmuktas.www.marg.model.IdCard;
+import in.jivanmuktas.www.marg.model.Title;
 import in.jivanmuktas.www.marg.network.HttpGetHandler;
 import in.jivanmuktas.www.marg.network.HttpPutHandler;
 import in.jivanmuktas.www.marg.singleton.VolleySingleton;
@@ -64,7 +65,7 @@ public class ViewProfile extends BaseActivity {
     RadioGroup rgTitle, rgGender;
     RadioButton mr, mrs, miss, rbMale, rbFemale;
     EditText etName, etDob, etAge, etEmail, etPhoneNumber, etPostalCode;
-    Spinner spinner_country, spinner_satsang, spinner_edu, spinner_city;
+    Spinner spinner_country, spinner_satsang, spinner_edu, spinner_city,spinner_title,spinner_gender;
     Button btEdit, btUpdate, btCancel;
     CardView view1, view2;
 
@@ -78,20 +79,26 @@ public class ViewProfile extends BaseActivity {
     Cursor result;
     ArrayList<String> satsang;
     LinearLayout profileLayout;
+    ArrayList<Title> titles = new ArrayList<>();
     ArrayList<Country> countries = new ArrayList<>();
     ArrayList<Education> edu = new ArrayList<>();
     ArrayList<Chapter> chapters = new ArrayList<>();
     ArrayList<City> cities = new ArrayList<>();
+    String[] Gender = {"Select","Male","Female"};
+    String GenderId = "";
     //String chapter_;
     String countryId = "";
     String CityId = "";
     String ChapterId = "";
     String EducationId = "";
+    String TitleId = "";
 
     HashMap<String, String> educationMap = new HashMap<>();
     HashMap<String, String> countryMap = new HashMap<>();
     HashMap<String, String> chapterMap = new HashMap<>();
     HashMap<String, String> cityMap = new HashMap<>();
+    HashMap<String,String> titleMap = new HashMap<>();
+    HashMap<String,String> genderMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,12 +140,12 @@ public class ViewProfile extends BaseActivity {
         //View 2
 
         rgTitle = (RadioGroup) findViewById(R.id.title);
-        rgGender = (RadioGroup) findViewById(R.id.rgGender);
-        mr = (RadioButton) findViewById(R.id.mr);
-        mrs = (RadioButton) findViewById(R.id.mrs);
-        miss = (RadioButton) findViewById(R.id.miss);
-        rbMale = (RadioButton) findViewById(R.id.rbMale);
-        rbFemale = (RadioButton) findViewById(R.id.rbFemale);
+    //    rgGender = (RadioGroup) findViewById(R.id.rgGender);
+    //    mr = (RadioButton) findViewById(R.id.mr);
+    //    mrs = (RadioButton) findViewById(R.id.mrs);
+    //    miss = (RadioButton) findViewById(R.id.miss);
+    //    rbMale = (RadioButton) findViewById(R.id.rbMale);
+    //    rbFemale = (RadioButton) findViewById(R.id.rbFemale);
         etName = (EditText) findViewById(R.id.etName);
         etDob = (EditText) findViewById(R.id.etDob);
         etAge = (EditText) findViewById(R.id.etAge);
@@ -151,6 +158,8 @@ public class ViewProfile extends BaseActivity {
         etPostalCode = (EditText) findViewById(R.id.etPostalCode);
         btUpdate = (Button) findViewById(R.id.btUpdate);
         btCancel = (Button) findViewById(R.id.btCancel);
+        spinner_title = (Spinner)findViewById(R.id.spinner_title);
+        spinner_gender = (Spinner)findViewById(R.id.spinner_gender);
 ////#########################################################////
 
         if (isNetworkAvailable()) {
@@ -202,6 +211,8 @@ public class ViewProfile extends BaseActivity {
         });*/
 
         SetEducation();
+        SetTitle();
+        getGender();
         /*spinner_edu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -596,6 +607,12 @@ public class ViewProfile extends BaseActivity {
                     String selectPos4 = cityMap.get(City);
                     spinner_city.setSelection(Integer.parseInt(selectPos4));
 
+                    String selectPos5 = titleMap.get(title);
+                    spinner_title.setSelection(Integer.parseInt(selectPos5));
+
+                    String selectPos6 = genderMap.get(gender);
+                    spinner_gender.setSelection(Integer.parseInt(selectPos6));
+
 
                     //       ((RadioButton)rgTitle.getChildAt(Integer.parseInt(title)-1)).setChecked(true);
                     //       etName.setText(username);
@@ -625,6 +642,58 @@ public class ViewProfile extends BaseActivity {
     }
 
     /////////////COUNTRIES///////////////
+
+    public void SetTitle(){
+        String url =Constant.GET_TITLE_LIST;
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url,null,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject object = response;
+                            if (object.getString("status").equals("true")){
+                                JSONArray jsonArray = object.getJSONArray("response");
+                                for (int i=0;i<jsonArray.length();i++){
+                                    Log.d("!!!!Title",response.toString());
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    Title title = new Title();
+                                    title.setTitle_id(jsonObject.getString("LOV_ID"));
+                                    title.setTitle_name(jsonObject.getString("LOV_NAME"));
+                                    titles.add(title);
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        ArrayAdapter title=new ArrayAdapter(ViewProfile.this, R.layout.spinner_dropdown_item, titles);
+                        title.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_title.setAdapter(title);
+                        spinner_title.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                if(position != 0){
+                                    TitleId = titles.get(position).getTitle_id();
+                                }
+                            }
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+                            }
+                        });
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        );
+
+        VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
+    }
     public void SetCountrySpinner() {
         String url = Constant.GET_COUNTRY_LIST;
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -677,6 +746,24 @@ public class ViewProfile extends BaseActivity {
                 }
         );
         VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
+    }
+    public void getGender(){
+        ArrayAdapter gender = new ArrayAdapter(ViewProfile.this,R.layout.spinner_dropdown_item,Gender);
+        gender.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_gender.setAdapter(gender);
+        spinner_gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position != 0){
+                    GenderId = Gender[position];
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+
+        });
     }
 
     public void SetCitySpinner(final String country) {
@@ -844,11 +931,11 @@ public class ViewProfile extends BaseActivity {
             RadioButton rbTitle = (RadioButton) findViewById(rgTitle.getCheckedRadioButtonId());
             int indexTitle = rgTitle.indexOfChild(rbTitle) + 1;
             reqObj.put("STATUS", "26");
-            reqObj.put("TITLE", String.valueOf(indexTitle));// 0 = Mr., 1 = Mrs., 2 = Miss.
+            reqObj.put("TITLE", TitleId);
             reqObj.put("NAME", etName.getText().toString().trim());
             RadioButton rb = (RadioButton) findViewById(rgGender.getCheckedRadioButtonId());
             int indexGen = rgGender.indexOfChild(rb);
-            reqObj.put("GENDER", String.valueOf(indexGen));// 0 = male, 1 = Female
+            reqObj.put("GENDER", GenderId);// 0 = male, 1 = Female
             reqObj.put("DOB", etDob.getText().toString().trim());
             reqObj.put("COUNTRY_CODE", " ");
             reqObj.put("CONTACT", etPhoneNumber.getText().toString().trim());

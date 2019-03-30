@@ -192,7 +192,7 @@ public class GitaDistribution extends BaseActivity {
         Log.d("!!!This is",Status.toString());
 
         switch(Status){
-            case "27":
+            case "28":
                 layout_button.setVisibility(View.INVISIBLE);
                 layout_exit.setVisibility(View.VISIBLE);
                 tvbookingContinue.setVisibility(View.INVISIBLE);
@@ -472,7 +472,7 @@ public class GitaDistribution extends BaseActivity {
     //This Method contans EventName,StartDate,EndDate,Notes,Message
     public void GetOtherData(){
         gitaDistribution.setText(getIntent().getStringExtra("EVENT_NAME"));
-        tvEventDate.setText(getIntent().getStringExtra("START_DATE") + "to" + getIntent().getStringExtra("END_DATE"));
+        tvEventDate.setText(getIntent().getStringExtra("START_DATE") + " To " + getIntent().getStringExtra("END_DATE"));
         tvNote.setText(getIntent().getStringExtra("NOTES"));
         tvMessage.setText(getIntent().getStringExtra("MESSAGE"));
         Message = getIntent().getStringExtra("MESSAGE");

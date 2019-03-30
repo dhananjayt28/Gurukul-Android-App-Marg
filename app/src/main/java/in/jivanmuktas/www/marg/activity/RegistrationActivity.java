@@ -110,7 +110,7 @@ public class RegistrationActivity extends BaseActivity {
     //    etFirstName.setHint(Html.fromHtml(getString(R.string.first_name)));
         etLastName = (EditText) findViewById(R.id.etLastName);
     //    etLastName.setHint(Html.fromHtml(getString(R.string.last_name)));
-        rgGender = (RadioGroup) findViewById(R.id.rgGender);
+    //    rgGender = (RadioGroup) findViewById(R.id.rgGender);
         etDob = (EditText) findViewById(R.id.etDob);
     //    etDob.setHint(Html.fromHtml(getString(R.string.enterdob)));
         etAge = (EditText) findViewById(R.id.etAge);

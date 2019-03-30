@@ -478,7 +478,7 @@
                     android:orientation="vertical"
                     android:padding="10dp">
 
-                    <RadioGroup
+                    <!--<RadioGroup
                         android:id="@+id/title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -504,7 +504,37 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:text="Miss." />
-                    </RadioGroup>
+                    </RadioGroup>-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginStart="5dp"
+                        android:background="@android:color/white"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="1dp"
+                            android:paddingEnd="2dp"
+                            android:paddingStart="2dp"
+                            android:paddingTop="5dp"
+                            android:text="Select Title *"
+                            android:textColor="@color/colorPrimaryDeep"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif-condensed" />
+
+                        <Spinner
+                            android:id="@+id/spinner_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="54dp"
+                            android:paddingLeft="10dp"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
@@ -522,8 +552,33 @@
                             android:textColorHint="@color/colorEditText"
                             android:textSize="20sp" />
                     </android.support.design.widget.TextInputLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginStart="5dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="1dp"
+                            android:paddingEnd="2dp"
+                            android:paddingStart="2dp"
+                            android:paddingTop="5dp"
+                            android:text="@string/gender"
+                            android:textColor="@color/colorPrimaryDeep"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:fontFamily="sans-serif-condensed"/>
+                        <Spinner
+                            android:id="@+id/spinner_gender"
+                            android:layout_width="match_parent"
+                            android:layout_height="54dp"
+                            android:paddingLeft="10dp"
+                            android:textSize="20sp" />
+                    </LinearLayout>
 
-                    <TextView
+                    <!--<TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-condensed"
@@ -557,7 +612,7 @@
                             android:layout_marginLeft="20dp"
                             android:text="Female"
                             android:textSize="13sp" />
-                    </RadioGroup>
+                    </RadioGroup>-->
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
