@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,6 +69,8 @@ public class ViewProfile extends BaseActivity {
     Spinner spinner_country, spinner_satsang, spinner_edu, spinner_city,spinner_title,spinner_gender;
     Button btEdit, btUpdate, btCancel;
     CardView view1, view2;
+    RelativeLayout layoutCity,layoutChapter,layoutEducation;
+    TextView textviewCity,textviewChapter,textviewEducation;
 
     private SimpleDateFormat dateFormatter;
     private DatePickerDialog datePickerDialog;
@@ -92,6 +95,7 @@ public class ViewProfile extends BaseActivity {
     String ChapterId = "";
     String EducationId = "";
     String TitleId = "";
+
 
     HashMap<String, String> educationMap = new HashMap<>();
     HashMap<String, String> countryMap = new HashMap<>();
@@ -153,22 +157,39 @@ public class ViewProfile extends BaseActivity {
         etPhoneNumber = (EditText) findViewById(R.id.etPhoneNumber);
         spinner_country = (Spinner) findViewById(R.id.spinner_country);
         spinner_satsang = (Spinner) findViewById(R.id.spinner_satsang);
+        spinner_satsang.setVisibility(View.GONE);
         spinner_city = (Spinner) findViewById(R.id.spinner_city);
+        spinner_city.setVisibility(View.GONE);
         spinner_edu = (Spinner) findViewById(R.id.spinner_edu);
+        spinner_edu.setVisibility(View.GONE);
         etPostalCode = (EditText) findViewById(R.id.etPostalCode);
         btUpdate = (Button) findViewById(R.id.btUpdate);
         btCancel = (Button) findViewById(R.id.btCancel);
         spinner_title = (Spinner)findViewById(R.id.spinner_title);
         spinner_gender = (Spinner)findViewById(R.id.spinner_gender);
+        layoutCity = (RelativeLayout) findViewById(R.id.layout_city);
+        layoutChapter = (RelativeLayout) findViewById(R.id.layout_chapter);
+        layoutEducation = (RelativeLayout) findViewById(R.id.layout_education);
+        textviewCity = (TextView)findViewById(R.id.textview_city);
+        textviewCity.setVisibility(View.GONE);
+        textviewChapter = (TextView) findViewById(R.id.textview_chapter);
+        textviewChapter.setVisibility(View.GONE);
+        textviewEducation = (TextView) findViewById(R.id.textview_education);
+        textviewEducation.setVisibility(View.GONE);
 ////#########################################################////
+
+        SetTitle();
+        getGender();
+        SetCountrySpinner();
+        SetEducation();
 
         if (isNetworkAvailable()) {
             new GetUserProfile().execute();
-        //    GetUserProfile();
+        //    GetUserProfiles();
         } else {
             finish();
         }
-        SetCountrySpinner();
+
         /*SetCountrySpinner();
         spinner_country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -210,9 +231,7 @@ public class ViewProfile extends BaseActivity {
             }
         });*/
 
-        SetEducation();
-        SetTitle();
-        getGender();
+
         /*spinner_edu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -318,13 +337,19 @@ public class ViewProfile extends BaseActivity {
             etPhoneNumber.setError("Please enter your Phone Number ");
             editTextFocus(etPhoneNumber);
             return false;
-        } else if (spinner_country.getSelectedItemPosition() == 0) {
+        }/* else if (spinner_country.getSelectedItemPosition() == 0) {
             SnackbarRed(R.id.profileLayout, "Please Select your country.");
             return false;
-        }/*else if(spinner_satsang.getSelectedItemPosition()==0){
+        }else if(spinner_satsang.getSelectedItemPosition()==0){
             SnackbarRed(R.id.profileLayout,"Please Select Satsang Chapter.");
             return false;
-        }*/ else if (spinner_edu.getSelectedItemPosition() == 0) {
+        }*/else if (spinner_city.getSelectedItem() == null) {
+            SnackbarRed(R.id.reglayout,"Satsang City cannot be empty please select another Country having City");
+            flag = false;
+        }else if (spinner_satsang.getSelectedItem() == null) {
+            SnackbarRed(R.id.reglayout,"Satsang Chapter cannot be empty please select another Country having Satsang Chapter");
+            flag = false;
+        } else if (spinner_edu.getSelectedItemPosition() == 0) {
             SnackbarRed(R.id.profileLayout, "Please Select Education. ");
             return false;
         }/*else if(etPostalCode.getText().toString().trim().length()==0){
@@ -405,13 +430,9 @@ public class ViewProfile extends BaseActivity {
         }
     }
 
-    /////***********************//////////////////
-
-    /////***********************//////////////////
-
     ///**************************************************************////
 
-    public void GetUserProfile(){
+    public void GetUserProfiles(){
         final String url = Constant.ProfileView + "?user_id=" + app.getUserId() ;
         Log.d("!!!urlProfile",url);
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -457,7 +478,27 @@ public class ViewProfile extends BaseActivity {
                                 etDob.setText(dateOfBirth);
                                 etEmail.setText(emailId);
                                 etPhoneNumber.setText(contactNo);
-                                if (title.equalsIgnoreCase("Mr")) {
+
+                                String selectPos1 = countryMap.get(country);
+                                spinner_country.setSelection(Integer.parseInt(selectPos1));
+
+                                String selectPos2 = chapterMap.get(chapter);
+                                spinner_satsang.setSelection(Integer.parseInt(selectPos2));
+
+                                String selectPos3 = educationMap.get(education);
+                                Log.i("!!!selectpos", selectPos3);
+                                spinner_edu.setSelection(Integer.parseInt(selectPos3));
+
+                                String selectPos4 = cityMap.get(City);
+                                spinner_city.setSelection(Integer.parseInt(selectPos4));
+
+                                String selectPos5 = titleMap.get(title);
+                                spinner_title.setSelection(Integer.parseInt(selectPos5));
+
+                                String selectPos6 = genderMap.get(gender);
+                                spinner_gender.setSelection(Integer.parseInt(selectPos6));
+
+                                /*if (title.equalsIgnoreCase("Mr")) {
                                     mr.setChecked(true);
                                 } else if (title.equalsIgnoreCase("Mrs")) {
                                     mrs.setChecked(true);
@@ -468,7 +509,7 @@ public class ViewProfile extends BaseActivity {
                                     rbMale.setChecked(true);
                                 } else {
                                     rbFemale.setChecked(true);
-                                }
+                                }*/
 
                                 //For setting the position of the spinner
                                 /*String selectPos1 = countryMap.get(country);
@@ -499,156 +540,7 @@ public class ViewProfile extends BaseActivity {
         VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
     }
 
-    public class GetUserProfile extends AsyncTask<Void, Void, Boolean> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showProgressDailog();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-            HttpGetHandler handler = new HttpGetHandler();
-            try {
-                JSONArray reqArr = new JSONArray();
-                JSONObject reqObj = new JSONObject();
-
-                reqArr.put(reqObj);
-                System.out.println("!!!reqArr  " + reqArr);
-
-                //    String response = handler.makeServiceCall(Constant.ProfileView+"?id="+app.getUserId());
-                String response = handler.makeServiceCall(Constant.ProfileView + "?user_id=" + app.getUserId());
-                //   String response = handler.makeServiceCall(Constant.GET_USER_DATA+"?id="+app.getUserId());
-
-            //    Log.d("!!Response", response.toString());
-                jsonResponse = new JSONObject(response);
-
-                if (jsonResponse.getBoolean("status"))
-                    return true;
-                else
-                    return false;
-            } catch (Exception e) {
-                System.out.println("!! Reach here error " + e.getMessage());
-                e.printStackTrace();
-            }
-            return false;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean response) {
-            super.onPostExecute(response);
-            dismissProgressDialog();
-
-            if (response) {
-
-                try {
-                    view1.setVisibility(View.VISIBLE);
-                    JSONArray array = jsonResponse.getJSONArray("response");
-
-                    JSONObject object = array.getJSONObject(0);
-                    String title = object.getString("TITLE"); //na
-                    String username = object.getString("NAME");
-                    String gender = object.getString("GENDER"); // value
-                    String dateOfBirth = object.getString("DOB"); // proper formatting
-                    //    String countryCode = object.getString("COUNTRY_CODE"); // country code
-                    String contactNo = object.getString("MOBILE_NO"); // only mobile no.
-                    String emailId = object.getString("EMAIL_ID");
-                    String country = object.getString("COUNTRY");
-                    Log.i("!!!country", country);
-                    String City = object.getString("CITY");
-                    //   String status = object.getString("STATUS");
-                    //   String BusinessProfile = object.getString("ROLE");
-                    String chapter = object.getString("SATSANG_CHAPTER");
-                    String education = object.getString("EDUCATION");
-                    Log.i("!!!education", education);
-                    //   String help_in_other_activity = object.getString("HELP_IN_OTHER_ACTIVITY");
-                    //    String postal_code = "0";
-                    ////////////////////
-                   /* title = "1";// Please Remove this line
-                    gender="1";// Please Remove this line
-                    country = "2";
-                    education="2";*/
-                    /////********
-                    //        userName.setText(UserData.getTitle(title)+" "+username);
-                    userName.setText(title + " " + username);
-                    userDob.setText(dateOfBirth);
-                    userAge.setText(CalculateAge(dateOfBirth));
-                    userGender.setText(gender);
-                    userCity.setText(City);
-                    userContact.setText(contactNo);
-                    userEmail.setText(emailId);
-                    userCountry.setText(country);
-                    userChapter.setText(chapter);
-                    userEdu.setText(education);
-
-                    ///////////**********************
-                    etName.setText(username);
-                    etDob.setText(dateOfBirth);
-                    etEmail.setText(emailId);
-                    etPhoneNumber.setText(contactNo);
-                    if (title.equalsIgnoreCase("Mr")) {
-                        mr.setChecked(true);
-                    } else if (title.equalsIgnoreCase("Mrs")) {
-                        mrs.setChecked(true);
-                    } else {
-                        miss.setChecked(true);
-                    }
-                    if (gender.equalsIgnoreCase("MALE")) {
-                        rbMale.setChecked(true);
-                    } else {
-                        rbFemale.setChecked(true);
-                    }
-
-                    //For setting the position of the spinner
-                    String selectPos1 = countryMap.get(country);
-                    spinner_country.setSelection(Integer.parseInt(selectPos1));
-
-                    String selectPos2 = chapterMap.get(chapter);
-                    spinner_satsang.setSelection(Integer.parseInt(selectPos2));
-
-                    String selectPos3 = educationMap.get(education);
-                    Log.i("!!!selectpos", selectPos3);
-                    spinner_edu.setSelection(Integer.parseInt(selectPos3));
-
-                    String selectPos4 = cityMap.get(City);
-                    spinner_city.setSelection(Integer.parseInt(selectPos4));
-
-                    String selectPos5 = titleMap.get(title);
-                    spinner_title.setSelection(Integer.parseInt(selectPos5));
-
-                    String selectPos6 = genderMap.get(gender);
-                    spinner_gender.setSelection(Integer.parseInt(selectPos6));
-
-
-                    //       ((RadioButton)rgTitle.getChildAt(Integer.parseInt(title)-1)).setChecked(true);
-                    //       etName.setText(username);
-
-                    //       ((RadioButton)rgGender.getChildAt(Integer.parseInt(gender))).setChecked(true);
-
-                    ////////// Spinner For Country
-                    //       CustomSpinner(spinner_country, R.array.country);
-
-                    //       spinner_country.setSelection(Integer.parseInt(country));
-                    /*CustomSpinner(spinner_edu,Integer.parseInt(education));
-                    spinner_edu.setSelection(Integer.parseInt(education));*/
-
-                    ////////// Spinner For Education
-                    //        CustomSpinner(spinner_edu, R.array.education);
-
-                    //    spinner_edu.setSelection(Integer.parseInt(education));
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                view1.setVisibility(View.GONE);
-                CustomToast("Something went wrong!\nPlease try again later.");
-            }
-        }
-    }
-
-    /////////////COUNTRIES///////////////
-
+    /////////////Title///////////////
     public void SetTitle(){
         String url =Constant.GET_TITLE_LIST;
         // prepare the Request
@@ -665,9 +557,13 @@ public class ViewProfile extends BaseActivity {
                                     Log.d("!!!!Title",response.toString());
                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                                     Title title = new Title();
-                                    title.setTitle_id(jsonObject.getString("LOV_ID"));
-                                    title.setTitle_name(jsonObject.getString("LOV_NAME"));
-                                    titles.add(title);
+                            //        title.setTitle_id(jsonObject.getString("LOV_ID"));
+                            //        title.setTitle_name(jsonObject.getString("LOV_NAME"));
+                            //        titles.add(title);
+                                    String title_id = jsonObject.getString("LOV_ID");
+                                    String title_name = jsonObject.getString("LOV_NAME");
+                                    titles.add(new Title(title_id,title_name));
+                                    titleMap.put(title_name,""+i);
                                 }
                             }
                         } catch (Exception e) {
@@ -681,6 +577,7 @@ public class ViewProfile extends BaseActivity {
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                 if(position != 0){
                                     TitleId = titles.get(position).getTitle_id();
+
                                 }
                             }
                             @Override
@@ -699,6 +596,27 @@ public class ViewProfile extends BaseActivity {
         );
 
         VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
+    }
+
+    ///////////////////GEnder///////////////
+    public void getGender(){
+        ArrayAdapter gender = new ArrayAdapter(ViewProfile.this,R.layout.spinner_dropdown_item,Gender);
+        gender.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_gender.setAdapter(gender);
+        spinner_gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position != 0){
+                    GenderId = Gender[position];
+
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+
+        });
     }
     public void SetCountrySpinner() {
         String url = Constant.GET_COUNTRY_LIST;
@@ -734,6 +652,7 @@ public class ViewProfile extends BaseActivity {
                                     countryId = countries.get(position).getCountry_id();
                                     Log.d("!!!countries", countryId.toString());
                                     SetCitySpinner(countryId);
+
                                 } else {
                                 }
                             }
@@ -753,26 +672,10 @@ public class ViewProfile extends BaseActivity {
         );
         VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
     }
-    public void getGender(){
-        ArrayAdapter gender = new ArrayAdapter(ViewProfile.this,R.layout.spinner_dropdown_item,Gender);
-        gender.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_gender.setAdapter(gender);
-        spinner_gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position != 0){
-                    GenderId = Gender[position];
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-
-        });
-    }
 
     public void SetCitySpinner(final String country) {
+        cities.clear();
         String url = Constant.GET_CITY_LIST + "country_id=" + country;
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -787,11 +690,11 @@ public class ViewProfile extends BaseActivity {
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                                     City city = new City();
-                                    city.setCity_id(jsonObject.getString("LOV_ID"));
-                                    city.setCity_name(jsonObject.getString("LOV_NAME"));
-                                    cities.add(city);
+                                    String cityId = jsonObject.getString("LOV_ID");
+                                    String cityName = jsonObject.getString("LOV_NAME");
+                                    cities.add(new City(cityId,cityName));
+                                    cityMap.put(cityName, "" + i);
                                 }
-
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -804,12 +707,9 @@ public class ViewProfile extends BaseActivity {
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                 CityId = cities.get(position).getCity_id();
                                 SetSatsangChapterSpinner(country, CityId);
-
                             }
-
                             @Override
                             public void onNothingSelected(AdapterView<?> parent) {
-
                             }
                         });
                     }
@@ -858,7 +758,6 @@ public class ViewProfile extends BaseActivity {
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                 ChapterId = chapters.get(position).getChapterName();
                             }
-
                             @Override
                             public void onNothingSelected(AdapterView<?> parent) {
                             }
@@ -889,11 +788,11 @@ public class ViewProfile extends BaseActivity {
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     Log.d("!!!!Education", response.toString());
                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-
                                     String educationId = jsonObject.getString(("LOV_ID"));
                                     String educationName = jsonObject.getString("LOV_NAME");
                                     edu.add(new Education(educationName, educationId));
                                     educationMap.put(educationName, "" + i);
+
                                 }
                             }
                         } catch (Exception e) {
@@ -909,7 +808,6 @@ public class ViewProfile extends BaseActivity {
                                     EducationId = edu.get(position).getEducation_id();
                                 }
                             }
-
                             @Override
                             public void onNothingSelected(AdapterView<?> parent) {
                             }
@@ -923,8 +821,150 @@ public class ViewProfile extends BaseActivity {
                     }
                 }
         );
-
         VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
+    }
+
+    public class GetUserProfile extends AsyncTask<Void, Void, Boolean> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDailog();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            HttpGetHandler handler = new HttpGetHandler();
+            try {
+                JSONArray reqArr = new JSONArray();
+                JSONObject reqObj = new JSONObject();
+
+                reqArr.put(reqObj);
+                System.out.println("!!!reqArr  " + reqArr);
+
+                //    String response = handler.makeServiceCall(Constant.ProfileView+"?id="+app.getUserId());
+                String response = handler.makeServiceCall(Constant.ProfileView + "?user_id=" + app.getUserId());
+                //   String response = handler.makeServiceCall(Constant.GET_USER_DATA+"?id="+app.getUserId());
+
+                //    Log.d("!!Response", response.toString());
+                jsonResponse = new JSONObject(response);
+
+                if (jsonResponse.getBoolean("status"))
+                    return true;
+                else
+                    return false;
+            } catch (Exception e) {
+                System.out.println("!! Reach here error " + e.getMessage());
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean response) {
+            super.onPostExecute(response);
+            dismissProgressDialog();
+
+            if (response) {
+
+                try {
+                    view1.setVisibility(View.VISIBLE);
+                    JSONArray array = jsonResponse.getJSONArray("response");
+
+                    JSONObject object = array.getJSONObject(0);
+                    String title = object.getString("TITLE"); //na
+                    String username = object.getString("NAME");
+                    String gender = object.getString("GENDER"); // value
+                    String dateOfBirth = object.getString("DOB"); // proper formatting
+                    //    String countryCode = object.getString("COUNTRY_CODE"); // country code
+                    String contactNo = object.getString("MOBILE_NO"); // only mobile no.
+                    String emailId = object.getString("EMAIL_ID");
+
+                    String country = object.getString("COUNTRY");
+                    String City = object.getString("CITY");
+                    //   String status = object.getString("STATUS");
+                    //   String BusinessProfile = object.getString("ROLE");
+                    String chapter = object.getString("SATSANG_CHAPTER");
+                    String education = object.getString("EDUCATION");
+                    //   String help_in_other_activity = object.getString("HELP_IN_OTHER_ACTIVITY");
+                    //    String postal_code = "0";
+                    ////////////////////
+                    /////********
+                    //        userName.setText(UserData.getTitle(title)+" "+username);
+                    userName.setText(title + " " + username);
+                    userDob.setText(dateOfBirth);
+                    userAge.setText(CalculateAge(dateOfBirth));
+                    userGender.setText(gender);
+                    userCity.setText(City);
+                    userContact.setText(contactNo);
+                    userEmail.setText(emailId);
+                    userCountry.setText(country);
+                    userChapter.setText(chapter);
+                    userEdu.setText(education);
+
+                    ///////////**********************
+                    etName.setText(username);
+                    etDob.setText(dateOfBirth);
+                    etEmail.setText(emailId);
+                    etPhoneNumber.setText(contactNo);
+
+                    textviewCity.setVisibility(View.VISIBLE);
+                    textviewCity.setText(City);
+                    layoutCity.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            textviewCity.setVisibility(View.GONE);
+                            spinner_city.setVisibility(View.VISIBLE);
+                        }
+                    });
+                   textviewChapter.setVisibility(View.VISIBLE);
+                    textviewChapter.setText(chapter);
+                    layoutChapter.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            textviewChapter.setVisibility(View.GONE);
+                            spinner_satsang.setVisibility(View.VISIBLE);
+                        }
+                    });
+                    textviewEducation.setVisibility(View.VISIBLE);
+                    textviewEducation.setText(education);
+                    layoutEducation.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            textviewEducation.setVisibility(View.GONE);
+                            spinner_edu.setVisibility(View.VISIBLE);
+                        }
+                    });
+
+                    //For setting the position of the spinner
+                    String selectPos5 = titleMap.get(title);
+                    spinner_title.setSelection(Integer.parseInt(selectPos5));
+
+                    if(gender.equalsIgnoreCase("Male")) {
+                        spinner_gender.setSelection(1);
+                    } else {
+                        spinner_gender.setSelection(2);
+                    }
+
+                    String selectPos1 = countryMap.get(country);
+                    spinner_country.setSelection(Integer.parseInt(selectPos1));
+
+                    String selectPos4 = cityMap.get(City);
+                    spinner_city.setSelection(Integer.parseInt(selectPos4));
+
+                    String selectPos2 = chapterMap.get(chapter);
+                    spinner_satsang.setSelection(Integer.parseInt(selectPos2));
+
+                    String selectPos3 = educationMap.get(education);
+                    spinner_edu.setSelection(Integer.parseInt(selectPos3));
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                view1.setVisibility(View.GONE);
+                CustomToast("Something went wrong!\nPlease try again later.");
+            }
+        }
     }
 
     public void CurentProfileUpdate() {
@@ -949,7 +989,12 @@ public class ViewProfile extends BaseActivity {
             reqObj.put("MODIFIEDBY",app.getUserId());
             reqObj.put("POSTAL_CODE", " ");
             reqObj.put("COUNTRY", countryId);
-            reqObj.put("CITY_ID",CityId);
+            /*if(textviewCity.getVisibility() == View.VISIBLE){
+                reqObj.put("CITY_ID",textviewCity.getText().toString());
+            } else {
+                reqObj.put("CITY_ID", CityId);
+            }*/
+            reqObj.put("CITY_ID", CityId);
             reqObj.put("SATSANG_CHAPTER", ChapterId);
             reqObj.put("EDUCATION",EducationId );
             jsonArray.put(reqObj);

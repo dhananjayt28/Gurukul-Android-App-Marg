@@ -3,6 +3,14 @@ package in.jivanmuktas.www.marg.model;
 public class City {
     String city_id,city_name;
 
+    public City() {
+    }
+
+    public City(String city_id, String city_name) {
+        this.city_id = city_id;
+        this.city_name = city_name;
+    }
+
     public String getCity_id() {
         return city_id;
     }

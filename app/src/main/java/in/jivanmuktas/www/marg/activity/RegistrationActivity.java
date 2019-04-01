@@ -57,8 +57,8 @@ import in.jivanmuktas.www.marg.singleton.VolleySingleton;
 public class RegistrationActivity extends BaseActivity {
     EditText etFirstName,etLastName,etDob,etAge,etPass,etRePass,etEmail,etPhoneNumber,etHelpAnother;
     RadioGroup title,rgGender;
-    Spinner spinner_satsang,spinner_edu,spinner_country,spinner_title,spinner_gender;
-    SearchableSpinner spinner_city;
+    Spinner spinner_satsang,spinner_edu,spinner_country,spinner_title,spinner_gender,spinner_city;
+    //SearchableSpinner spinner_city;
 
 
 
@@ -92,7 +92,7 @@ public class RegistrationActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarTop);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Registration");
+        setTitle("User Registration");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,7 +121,8 @@ public class RegistrationActivity extends BaseActivity {
         spinner_satsang = (Spinner) findViewById(R.id.spinner_satsang);
         spinner_edu = (Spinner) findViewById(R.id.spinner_edu);  //education
         spinner_country = (Spinner) findViewById(R.id.spinner_country);
-        spinner_city = (SearchableSpinner) findViewById(R.id.spinner_city);
+        //spinner_city = (SearchableSpinner) findViewById(R.id.spinner_city);
+        spinner_city = (Spinner) findViewById(R.id.spinner_city);
         spinner_title = (Spinner)findViewById(R.id.spinner_title);
         spinner_gender = (Spinner)findViewById(R.id.spinner_gender);
         etHelpAnother = (EditText) findViewById(R.id.etHelpAnother);
@@ -297,14 +298,13 @@ public class RegistrationActivity extends BaseActivity {
         }else if (spinner_country.getSelectedItemPosition() == 0) {
             SnackbarRed(R.id.reglayout,"Please Choose Country Name");
             flag = false;
-        }/*else if (spinner_city.getSelectedItemPosition() == 0) {
-            SnackbarRed(R.id.reglayout,"Please Choose City Name");
+        }else if (spinner_city.getSelectedItem() == null) {
+            SnackbarRed(R.id.reglayout,"Satsang City cannot be empty please select another Country having City");
             flag = false;
-            Log.d("!!!sayan",String.valueOf(spinner_satsang.getSelectedItemPosition()));
-        }else if (spinner_satsang.getSelectedItemPosition() == 0) {
-            SnackbarRed(R.id.reglayout,"Please Choose Satsang Chapter");
+        }else if (spinner_satsang.getSelectedItem() == null) {
+            SnackbarRed(R.id.reglayout,"Satsang Chapter cannot be empty please select another Country having Satsang Chapter");
             flag = false;
-        }*/else if (spinner_title.getSelectedItemPosition() == 0) {
+        }else if (spinner_title.getSelectedItemPosition() == 0) {
             SnackbarRed(R.id.reglayout,"Please Choose Title");
             flag = false;
         } else if (spinner_gender.getSelectedItemPosition() == 0) {
