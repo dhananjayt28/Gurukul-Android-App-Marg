@@ -528,7 +528,7 @@ public class RegistrationActivity extends BaseActivity {
 
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                ChapterId = chapters.get(position).getChapterName();
+                                ChapterId = chapters.get(position).getChapterId();
                             }
                             @Override
                             public void onNothingSelected(AdapterView<?> parent) {

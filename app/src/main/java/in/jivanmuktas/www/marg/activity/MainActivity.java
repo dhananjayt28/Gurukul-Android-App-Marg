@@ -183,7 +183,7 @@ public class MainActivity extends BaseActivity{
         }
         if (id == R.id.hod) {
             Log.d("!!!roleid",app.getRoleId());
-            if(app.getRoleId().equals("5")){
+            if(app.getRoleId().equals("5") ){
                 Intent hod = new Intent(MainActivity.this, HODBoard.class);
                 hod.putExtra("TITLE", "HOD Board");
                 startActivity(hod);
