@@ -673,6 +673,7 @@
                             android:textSize="14sp" />
                     </android.support.design.widget.TextInputLayout>
 
+
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -698,21 +699,90 @@
                         android:paddingTop="5dp"
                         android:paddingEnd="2dp"
                         android:paddingBottom="1dp"
+                        android:text="@string/education"
+                        android:textColor="@color/colorPrimaryDeep"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                    <RelativeLayout
+                        android:id="@+id/layout_education"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp">
+
+                        <TextView
+                            android:id="@+id/textview_education"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="25dp"
+                            android:textColor="#000000" />
+
+                        <Spinner
+                            android:id="@+id/spinner_edu"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:gravity="center|start"
+                            android:imeOptions="actionNext"
+                            android:inputType="textPassword"
+                            android:maxLines="1"
+                            android:paddingLeft="10dp"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp">
+
+                        <Button
+                            android:id="@+id/edit_others"
+                            android:layout_width="150dp"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentEnd="true"
+                            android:background="@drawable/button"
+                            android:elevation="10dp"
+                            android:text="@string/edit"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed"
+                        android:paddingStart="2dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="2dp"
+                        android:paddingBottom="1dp"
                         android:text="@string/country"
                         android:textColor="@color/colorPrimaryDeep"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
-                    <Spinner
-                        android:id="@+id/spinner_country"
+                    <RelativeLayout
+                        android:id="@+id/layout_country"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:gravity="center|start"
-                        android:imeOptions="actionNext"
-                        android:inputType="textPassword"
-                        android:maxLines="1"
-                        android:padding="10dp"
-                        android:textSize="14sp" />
+                        android:layout_height="40dp">
+
+                        <TextView
+                            android:id="@+id/textview_country"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="25dp"
+                            android:textColor="#000000" />
+
+                        <Spinner
+                            android:id="@+id/spinner_country"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:gravity="center|start"
+                            android:imeOptions="actionNext"
+                            android:inputType="textPassword"
+                            android:maxLines="1"
+                            android:padding="10dp"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
 
 
                     <TextView
@@ -792,43 +862,6 @@
                             android:textSize="14sp" />
                     </RelativeLayout>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-condensed"
-                        android:paddingStart="2dp"
-                        android:paddingTop="5dp"
-                        android:paddingEnd="2dp"
-                        android:paddingBottom="1dp"
-                        android:text="@string/education"
-                        android:textColor="@color/colorPrimaryDeep"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <RelativeLayout
-                        android:id="@+id/layout_education"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp">
-
-                        <TextView
-                            android:id="@+id/textview_education"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:gravity="center_vertical"
-                            android:paddingLeft="25dp"
-                            android:textColor="#000000" />
-
-                        <Spinner
-                            android:id="@+id/spinner_edu"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:gravity="center|start"
-                            android:imeOptions="actionNext"
-                            android:inputType="textPassword"
-                            android:maxLines="1"
-                            android:paddingLeft="10dp"
-                            android:textSize="14sp" />
-                    </RelativeLayout>
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"

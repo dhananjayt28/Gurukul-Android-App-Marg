@@ -67,10 +67,10 @@ public class ViewProfile extends BaseActivity {
     RadioButton mr, mrs, miss, rbMale, rbFemale;
     EditText etName, etDob, etAge, etEmail, etPhoneNumber, etPostalCode;
     Spinner spinner_country, spinner_satsang, spinner_edu, spinner_city,spinner_title,spinner_gender;
-    Button btEdit, btUpdate, btCancel;
+    Button btEdit, btUpdate, btCancel,btEditOthers;
     CardView view1, view2;
-    RelativeLayout layoutCity,layoutChapter,layoutEducation;
-    TextView textviewCity,textviewChapter,textviewEducation;
+    RelativeLayout layoutCountry,layoutCity,layoutChapter,layoutEducation;
+    TextView textviewCountry,textviewCity,textviewChapter,textviewEducation;
 
     private SimpleDateFormat dateFormatter;
     private DatePickerDialog datePickerDialog;
@@ -78,13 +78,15 @@ public class ViewProfile extends BaseActivity {
     JSONObject jsonResponse;
     JSONArray responseArray;
 
+    int count = 0;
+
    // JivanmuktasDB jivanmuktasDB;
     Cursor result;
     ArrayList<String> satsang;
     LinearLayout profileLayout;
     ArrayList<Title> titles = new ArrayList<>();
-    ArrayList<Country> countries = new ArrayList<>();
     ArrayList<Education> edu = new ArrayList<>();
+    ArrayList<Country> countries = new ArrayList<>();
     ArrayList<Chapter> chapters = new ArrayList<>();
     ArrayList<City> cities = new ArrayList<>();
     String[] Gender = {"Select","Male","Female"};
@@ -156,32 +158,59 @@ public class ViewProfile extends BaseActivity {
         etEmail = (EditText) findViewById(R.id.etEmail);
         etPhoneNumber = (EditText) findViewById(R.id.etPhoneNumber);
         spinner_country = (Spinner) findViewById(R.id.spinner_country);
+        spinner_country.setVisibility(View.GONE);
         spinner_satsang = (Spinner) findViewById(R.id.spinner_satsang);
         spinner_satsang.setVisibility(View.GONE);
         spinner_city = (Spinner) findViewById(R.id.spinner_city);
         spinner_city.setVisibility(View.GONE);
         spinner_edu = (Spinner) findViewById(R.id.spinner_edu);
-        spinner_edu.setVisibility(View.GONE);
+    //    spinner_edu.setVisibility(View.GONE);
         etPostalCode = (EditText) findViewById(R.id.etPostalCode);
         btUpdate = (Button) findViewById(R.id.btUpdate);
         btCancel = (Button) findViewById(R.id.btCancel);
         spinner_title = (Spinner)findViewById(R.id.spinner_title);
         spinner_gender = (Spinner)findViewById(R.id.spinner_gender);
+        layoutCountry = (RelativeLayout) findViewById(R.id.layout_country);
         layoutCity = (RelativeLayout) findViewById(R.id.layout_city);
         layoutChapter = (RelativeLayout) findViewById(R.id.layout_chapter);
         layoutEducation = (RelativeLayout) findViewById(R.id.layout_education);
+        textviewCountry = (TextView) findViewById(R.id.textview_country);
+        textviewCountry.setVisibility(View.GONE);
         textviewCity = (TextView)findViewById(R.id.textview_city);
         textviewCity.setVisibility(View.GONE);
         textviewChapter = (TextView) findViewById(R.id.textview_chapter);
         textviewChapter.setVisibility(View.GONE);
-        textviewEducation = (TextView) findViewById(R.id.textview_education);
-        textviewEducation.setVisibility(View.GONE);
+     //   textviewEducation = (TextView) findViewById(R.id.textview_education);
+    //    textviewEducation.setVisibility(View.GONE);
+        textviewCountry.setVisibility(View.VISIBLE);
+        textviewCity.setVisibility(View.VISIBLE);
+        textviewChapter.setVisibility(View.VISIBLE);
+    //    textviewEducation.setVisibility(View.VISIBLE);
+        btEditOthers = (Button) findViewById(R.id.edit_others);
+        btEditOthers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textviewCountry.setVisibility(View.GONE);
+                textviewCity.setVisibility(View.GONE);
+                textviewChapter.setVisibility(View.GONE);
+        //        textviewEducation.setVisibility(View.GONE);
+                spinner_country.setVisibility(View.VISIBLE);
+                spinner_city.setVisibility(View.VISIBLE);
+                spinner_satsang.setVisibility(View.VISIBLE);
+        //        spinner_edu.setVisibility(View.VISIBLE );
+                count = 1;
+
+
+            }
+        });
+
 ////#########################################################////
 
         SetTitle();
         getGender();
-        SetCountrySpinner();
         SetEducation();
+        SetCountrySpinner();
+
 
         if (isNetworkAvailable()) {
             new GetUserProfile().execute();
@@ -557,9 +586,6 @@ public class ViewProfile extends BaseActivity {
                                     Log.d("!!!!Title",response.toString());
                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                                     Title title = new Title();
-                            //        title.setTitle_id(jsonObject.getString("LOV_ID"));
-                            //        title.setTitle_name(jsonObject.getString("LOV_NAME"));
-                            //        titles.add(title);
                                     String title_id = jsonObject.getString("LOV_ID");
                                     String title_name = jsonObject.getString("LOV_NAME");
                                     titles.add(new Title(title_id,title_name));
@@ -617,6 +643,55 @@ public class ViewProfile extends BaseActivity {
             }
 
         });
+    }
+    public void SetEducation() {
+        String url = Constant.GET_EDUCATION_LIST;
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject object = response;
+                            if (object.getString("status").equals("true")) {
+                                JSONArray jsonArray = object.getJSONArray("response");
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    Log.d("!!!!Education", response.toString());
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    String educationId = jsonObject.getString(("LOV_ID"));
+                                    String educationName = jsonObject.getString("LOV_NAME");
+                                    edu.add(new Education(educationName, educationId));
+                                    educationMap.put(educationName, "" + i);
+
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        ArrayAdapter educate = new ArrayAdapter(ViewProfile.this, R.layout.spinner_dropdown_item, edu);
+                        educate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_edu.setAdapter(educate);
+                        spinner_edu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                if (position != 0) {
+                                    EducationId = edu.get(position).getEducation_id();
+                                }
+                            }
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+                            }
+                        });
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        );
+        VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
     }
     public void SetCountrySpinner() {
         String url = Constant.GET_COUNTRY_LIST;
@@ -774,55 +849,7 @@ public class ViewProfile extends BaseActivity {
         VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
     }
 
-    public void SetEducation() {
-        String url = Constant.GET_EDUCATION_LIST;
-        // prepare the Request
-        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONObject object = response;
-                            if (object.getString("status").equals("true")) {
-                                JSONArray jsonArray = object.getJSONArray("response");
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    Log.d("!!!!Education", response.toString());
-                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                    String educationId = jsonObject.getString(("LOV_ID"));
-                                    String educationName = jsonObject.getString("LOV_NAME");
-                                    edu.add(new Education(educationName, educationId));
-                                    educationMap.put(educationName, "" + i);
 
-                                }
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        ArrayAdapter educate = new ArrayAdapter(ViewProfile.this, R.layout.spinner_dropdown_item, edu);
-                        educate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        spinner_edu.setAdapter(educate);
-                        spinner_edu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                if (position != 0) {
-                                    EducationId = edu.get(position).getEducation_id();
-                                }
-                            }
-                            @Override
-                            public void onNothingSelected(AdapterView<?> parent) {
-                            }
-                        });
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("Error.Response", error.toString());
-                    }
-                }
-        );
-        VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
-    }
 
     public class GetUserProfile extends AsyncTask<Void, Void, Boolean> {
         @Override
@@ -878,13 +905,16 @@ public class ViewProfile extends BaseActivity {
                     //    String countryCode = object.getString("COUNTRY_CODE"); // country code
                     String contactNo = object.getString("MOBILE_NO"); // only mobile no.
                     String emailId = object.getString("EMAIL_ID");
-
+                    String education = object.getString("EDUCATION");
                     String country = object.getString("COUNTRY");
                     String City = object.getString("CITY");
                     //   String status = object.getString("STATUS");
                     //   String BusinessProfile = object.getString("ROLE");
                     String chapter = object.getString("SATSANG_CHAPTER");
-                    String education = object.getString("EDUCATION");
+                    String country_id = object.getString("COUNTRY_ID");
+                    String city_id = object.getString("CITY_ID");
+                    String chapter_id = object.getString("SATSANG_CHAPTER_ID");
+
                     //   String help_in_other_activity = object.getString("HELP_IN_OTHER_ACTIVITY");
                     //    String postal_code = "0";
                     ////////////////////
@@ -907,33 +937,17 @@ public class ViewProfile extends BaseActivity {
                     etEmail.setText(emailId);
                     etPhoneNumber.setText(contactNo);
 
+                    textviewCountry.setVisibility(View.VISIBLE);
+                    textviewCountry.setText(country);
+
                     textviewCity.setVisibility(View.VISIBLE);
                     textviewCity.setText(City);
-                    layoutCity.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            textviewCity.setVisibility(View.GONE);
-                            spinner_city.setVisibility(View.VISIBLE);
-                        }
-                    });
-                   textviewChapter.setVisibility(View.VISIBLE);
+
+                    textviewChapter.setVisibility(View.VISIBLE);
                     textviewChapter.setText(chapter);
-                    layoutChapter.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            textviewChapter.setVisibility(View.GONE);
-                            spinner_satsang.setVisibility(View.VISIBLE);
-                        }
-                    });
-                    textviewEducation.setVisibility(View.VISIBLE);
-                    textviewEducation.setText(education);
-                    layoutEducation.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            textviewEducation.setVisibility(View.GONE);
-                            spinner_edu.setVisibility(View.VISIBLE);
-                        }
-                    });
+
+                //    textviewEducation.setVisibility(View.VISIBLE);
+                //    textviewEducation.setText(education);
 
                     //For setting the position of the spinner
                     String selectPos5 = titleMap.get(title);
@@ -945,6 +959,9 @@ public class ViewProfile extends BaseActivity {
                         spinner_gender.setSelection(2);
                     }
 
+                    String selectPos3 = educationMap.get(education);
+                    spinner_edu.setSelection(Integer.parseInt(selectPos3));
+
                     String selectPos1 = countryMap.get(country);
                     spinner_country.setSelection(Integer.parseInt(selectPos1));
 
@@ -954,8 +971,8 @@ public class ViewProfile extends BaseActivity {
                     String selectPos2 = chapterMap.get(chapter);
                     spinner_satsang.setSelection(Integer.parseInt(selectPos2));
 
-                    String selectPos3 = educationMap.get(education);
-                    spinner_edu.setSelection(Integer.parseInt(selectPos3));
+
+
 
                 } catch (Exception e) {
                     e.printStackTrace();
