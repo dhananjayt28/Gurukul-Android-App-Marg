@@ -279,8 +279,8 @@ public class View1 extends BaseActivity {
         try {
             reqObj.put("USER_ID", app.getUserId());
             reqObj.put("STATUS", "24");
-            reqObj.put("START_DATE",startDate1.getText().toString().trim());
-            reqObj.put("END_DATE",endDate1.getText().toString().trim());
+            reqObj.put("REG_START_DATE",startDate1.getText().toString().trim());
+            reqObj.put("REG_END_DATE",endDate1.getText().toString().trim());
             reqObj.put("CHECKIN_DATE", tvCheckInDate.getText().toString().trim());
             reqObj.put("CHECKIN_TIME", tvCheckInTime.getText().toString().trim());
             reqObj.put("CHECKOUT_DATE", tvCheckOutDate.getText().toString().trim());
