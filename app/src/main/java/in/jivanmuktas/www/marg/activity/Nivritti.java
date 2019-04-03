@@ -189,8 +189,6 @@ public class Nivritti extends BaseActivity {
                 etCheckOutTime.setVisibility(View.GONE);
                 submit.setVisibility(View.GONE);
                 timeView.setVisibility(View.VISIBLE);
-
-
                 //    tvCkInTime.setText(checkin_date);
                 //    tvCkOutTime.setText(checkout_time);
 
@@ -200,7 +198,24 @@ public class Nivritti extends BaseActivity {
                 //        tvCkOutTime.setVisibility(View.VISIBLE);
 
                 break;
+            case "24":
+                calendar.setText(START_DATE+" - "+END_DATE);
+                alottedSubject.setVisibility(View.GONE);
+                alloted_subject.setVisibility(View.GONE);
+                commentToApprover.setVisibility(View.GONE);
+                comment_toApprover.setVisibility(View.GONE);
+                etCheckInDate.setVisibility(View.GONE);
+                etCheckOutDate.setVisibility(View.GONE);
+                etCheckInTime.setVisibility(View.GONE);
+                etCheckOutTime.setVisibility(View.GONE);
+                submit.setVisibility(View.GONE);
+                tvcheckoutTime_image.setVisibility(View.GONE);
+                tvcheckinTime_image.setVisibility(View.GONE);
+                tvCkInTime.setVisibility(View.GONE);
+                tvCkOutTime.setVisibility(View.GONE);
+                break;
             case "29":
+                calendar.setText(START_DATE+" - "+END_DATE);
                 timeView.setVisibility(View.VISIBLE);
                 alottedSubject.setVisibility(View.VISIBLE);
                 alloted_subject.setVisibility(View.VISIBLE);
