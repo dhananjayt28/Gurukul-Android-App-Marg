@@ -65,6 +65,7 @@ public class MainActivity extends BaseActivity{
             tvDesc.setText(R.string.dialog_sync);
             Button sync = (Button) dialog.findViewById(R.id.sync);
             Button exit = (Button) dialog.findViewById(R.id.exit);
+            exit.setVisibility(View.GONE);
             sync.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

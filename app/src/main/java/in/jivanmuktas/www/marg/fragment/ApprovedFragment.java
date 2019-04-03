@@ -371,7 +371,7 @@ public class ApprovedFragment extends Fragment {
                                                 @Override
                                                 public void onResponse(String response) {
                                                     Log.i("!!!Response->", response);
-                                                    Toast.makeText(getActivity(), "Updated Sucessfully", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getActivity(), "Event Cancelled Sucessfully", Toast.LENGTH_SHORT).show();
                                                     getActivity().finish();
                                                 }
                                             }, new Response.ErrorListener() {
@@ -409,6 +409,9 @@ public class ApprovedFragment extends Fragment {
                             Intent intent=new Intent(getActivity(), View1.class);
                             intent.putExtra("KEY", "MODIFY");
                             intent.putExtra("EVENT_ID",EVENT_REG_ID);
+                            intent.putExtra("START_DATE",START_DATE);
+                            intent.putExtra("END_DATE",END_DATE);
+                            intent.putExtra("NOTES",NOTES);
                             startActivity(intent);
                             /*Snackbar snackbar = Snackbar.make(approvedLayout, "Work-in-Progress", Snackbar.LENGTH_LONG);
                             View sbView = snackbar.getView();
