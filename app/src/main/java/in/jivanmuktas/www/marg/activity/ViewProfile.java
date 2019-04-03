@@ -92,11 +92,14 @@ public class ViewProfile extends BaseActivity {
     String[] Gender = {"Select","Male","Female"};
     String GenderId = "";
     //String chapter_;
-    String countryId = "";
+    String CountryId = "";
     String CityId = "";
     String ChapterId = "";
     String EducationId = "";
     String TitleId = "";
+    String country_Id = "";
+    String city_id = "";
+    String chapter_id = "";
 
 
     HashMap<String, String> educationMap = new HashMap<>();
@@ -366,19 +369,32 @@ public class ViewProfile extends BaseActivity {
             etPhoneNumber.setError("Please enter your Phone Number ");
             editTextFocus(etPhoneNumber);
             return false;
-        }/* else if (spinner_country.getSelectedItemPosition() == 0) {
+        } else if (count == 1  && spinner_country.getSelectedItemPosition() == 0){
+    //        if(spinner_country.getSelectedItemPosition() == 0) {
+                SnackbarRed(R.id.profileLayout, "Please Select your country.");
+                return false;
+    //        }
+        /*(spinner_country.getSelectedItemPosition() == 0) {
             SnackbarRed(R.id.profileLayout, "Please Select your country.");
-            return false;
-        }else if(spinner_satsang.getSelectedItemPosition()==0){
+            return false;*/
+        }/*else if(spinner_satsang.getSelectedItemPosition()==0){
             SnackbarRed(R.id.profileLayout,"Please Select Satsang Chapter.");
             return false;
-        }*/else if (spinner_city.getSelectedItem() == null) {
-            SnackbarRed(R.id.reglayout,"Satsang City cannot be empty please select another Country having City");
-            flag = false;
-        }else if (spinner_satsang.getSelectedItem() == null) {
+        }*/else if (count == 1 && spinner_city.getSelectedItem() == null) {
+    //        if (spinner_city.getSelectedItem() == null) {
+                SnackbarRed(R.id.profileLayout,"Satsang City cannot be empty please select another Country having City");
+                flag = false;
+    //        }
+        }/*else if (spinner_satsang.getSelectedItem() == null) {
             SnackbarRed(R.id.reglayout,"Satsang Chapter cannot be empty please select another Country having Satsang Chapter");
             flag = false;
-        } else if (spinner_edu.getSelectedItemPosition() == 0) {
+        }*/else if (count == 1 && spinner_satsang.getSelectedItem() == null) {
+    //        if (spinner_satsang.getSelectedItem() == null) {
+            SnackbarRed(R.id.profileLayout,"Satsang Chapter cannot be empty please select another Country having Chapter");
+            flag = false;
+    //    }
+
+    } else if (spinner_edu.getSelectedItemPosition() == 0) {
             SnackbarRed(R.id.profileLayout, "Please Select Education. ");
             return false;
         }/*else if(etPostalCode.getText().toString().trim().length()==0){
@@ -724,9 +740,9 @@ public class ViewProfile extends BaseActivity {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                 if (position != 0) {
-                                    countryId = countries.get(position).getCountry_id();
-                                    Log.d("!!!countries", countryId.toString());
-                                    SetCitySpinner(countryId);
+                                    CountryId = countries.get(position).getCountry_id();
+                                    Log.d("!!!countries", CountryId.toString());
+                                    SetCitySpinner(CountryId);
 
                                 } else {
                                 }
@@ -831,7 +847,7 @@ public class ViewProfile extends BaseActivity {
 
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                ChapterId = chapters.get(position).getChapterName();
+                                ChapterId = chapters.get(position).getChapterId();
                             }
                             @Override
                             public void onNothingSelected(AdapterView<?> parent) {
@@ -911,9 +927,9 @@ public class ViewProfile extends BaseActivity {
                     //   String status = object.getString("STATUS");
                     //   String BusinessProfile = object.getString("ROLE");
                     String chapter = object.getString("SATSANG_CHAPTER");
-                    String country_id = object.getString("COUNTRY_ID");
-                    String city_id = object.getString("CITY_ID");
-                    String chapter_id = object.getString("SATSANG_CHAPTER_ID");
+                    country_Id = object.getString("COUNTRY_ID");
+                    city_id = object.getString("CITY_ID");
+                    chapter_id = object.getString("SATSANG_CHAPTER_ID");
 
                     //   String help_in_other_activity = object.getString("HELP_IN_OTHER_ACTIVITY");
                     //    String postal_code = "0";
@@ -1005,14 +1021,19 @@ public class ViewProfile extends BaseActivity {
             reqObj.put("EMAIL_ID", etEmail.getText().toString().trim());
             reqObj.put("MODIFIEDBY",app.getUserId());
             reqObj.put("POSTAL_CODE", " ");
-            reqObj.put("COUNTRY", countryId);
-            /*if(textviewCity.getVisibility() == View.VISIBLE){
-                reqObj.put("CITY_ID",textviewCity.getText().toString());
+            if(count == 0) {
+                reqObj.put("COUNTRY",country_Id);
+                reqObj.put("CITY_ID",city_id);
+                reqObj.put("SATSANG_CHAPTER",chapter_id);
             } else {
+                reqObj.put("COUNTRY", CountryId);
                 reqObj.put("CITY_ID", CityId);
-            }*/
-            reqObj.put("CITY_ID", CityId);
-            reqObj.put("SATSANG_CHAPTER", ChapterId);
+                reqObj.put("SATSANG_CHAPTER", ChapterId);
+            }
+
+        //    reqObj.put("COUNTRY", CountryId);
+        //    reqObj.put("CITY_ID", CityId);
+        //    reqObj.put("SATSANG_CHAPTER", ChapterId);
             reqObj.put("EDUCATION",EducationId );
             jsonArray.put(reqObj);
             final String requestBody = jsonArray.toString();
