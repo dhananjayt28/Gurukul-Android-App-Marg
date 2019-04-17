@@ -192,7 +192,7 @@ public class GitaDistribution extends BaseActivity {
         Log.d("!!!This is",Status.toString());
 
         switch(Status){
-            case "28":
+            case "27":
                 layout_button.setVisibility(View.INVISIBLE);
                 layout_exit.setVisibility(View.VISIBLE);
                 tvbookingContinue.setVisibility(View.INVISIBLE);
@@ -250,9 +250,6 @@ public class GitaDistribution extends BaseActivity {
                 default:
 
         }
-
-
-
 
         //the status set to 28 or 27
         /*if (Status.equals(Integer.parseInt("28")) || Status.equals(Integer.parseInt("27"))) {
