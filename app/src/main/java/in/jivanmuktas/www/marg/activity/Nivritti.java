@@ -181,7 +181,7 @@ public class Nivritti extends BaseActivity {
             case "26":
                 alloted_subject.setVisibility(View.GONE);
                 alottedSubject.setVisibility(View.GONE);
-                commentToApprover.setVisibility(View.GONE);
+                commentToApprover.setVisibility(View.VISIBLE);
                 comment_toApprover.setVisibility(View.VISIBLE);
                 etCheckInDate.setVisibility(View.GONE);
                 etCheckOutDate.setVisibility(View.GONE);
@@ -192,7 +192,7 @@ public class Nivritti extends BaseActivity {
                 //    tvCkInTime.setText(checkin_date);
                 //    tvCkOutTime.setText(checkout_time);
 
-                //        tvcheckoutTime_image.setVisibility(View.VISIBLE);
+                //       tvcheckoutTime_image.setVisibility(View.VISIBLE);
                 //        tvcheckinTime_image.setVisibility(View.VISIBLE);
                 //        tvCkInTime.setVisibility(View.VISIBLE);
                 //        tvCkOutTime.setVisibility(View.VISIBLE);
@@ -620,6 +620,7 @@ public class Nivritti extends BaseActivity {
 
     public void RegisteredEventData() {
         String url = Constant.GET_REGISTERED_EVENT_DATA + "?event_id=" + EVENT_ID;
+        Log.d("!!! regis", url);
         JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -634,6 +635,7 @@ public class Nivritti extends BaseActivity {
                                 tvCkOutTime.setText(jsonObject.getString("CHECKOUT_DATE") + " , " + jsonObject.getString("CHECKOUT_TIME"));
                          //       calendar.setText(jsonObject.getString("CHECKIN_DATE") + " - " + jsonObject.getString("CHECKOUT_DATE"));
                                 commentToApprover.setText(jsonObject.getString("COMMENT"));
+                                Log.i("!!!comm", jsonObject.getString("COMMENT"));
 
                                 //    checkout_date = jsonObject.getString("CHECKOUT_DATE");
                                 //    checkin_time = jsonObject.getString("CHECKIN_TIME");

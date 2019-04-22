@@ -103,7 +103,7 @@ public class View1 extends BaseActivity {
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
                 //datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+        //        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
                 datePickerDialog.show();
 
             }
@@ -124,7 +124,7 @@ public class View1 extends BaseActivity {
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
                 //datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+         //       datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
                 datePickerDialog.show();
             }
         });
@@ -371,14 +371,9 @@ public class View1 extends BaseActivity {
             if (prsDlg.isShowing()) {
                 prsDlg.dismiss();
             }
-
             if (aBoolean) {
-
             } else {
-
             }
-
         }
-
     }
 }

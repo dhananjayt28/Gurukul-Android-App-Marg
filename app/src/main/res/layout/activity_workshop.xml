@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -449,6 +450,17 @@
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
             </LinearLayout>
+            <!--<LinearLayout
+                android:id="@+id/textview_show_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/not_avail"
+                    android:padding="20dp"/>
+            </LinearLayout>-->
 
             <LinearLayout
                 android:id="@+id/tvDateTimeView"

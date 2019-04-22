@@ -67,6 +67,8 @@ public class Workshop extends BaseActivity {
     String stat = "";
      ArrayList<TopicCompletionStatus> statuses = new ArrayList<>();
      ImageView originModeAir,originModeRail,destModeAir,destModeRail;
+     LinearLayout restrictmeaasge;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +114,7 @@ public class Workshop extends BaseActivity {
         departureDate = (EditText) findViewById(R.id.departureDate);
         departureTime = (EditText) findViewById(R.id.departureTime);
         edDateTimeView = (LinearLayout) findViewById(R.id.edDateTimeView);
+    //    edDateTimeView.setVisibility(View.GONE);
         itienaryAction = (Spinner) findViewById(R.id.itienaryAction);
         tvDateTimeView = (LinearLayout) findViewById(R.id.tvDateTimeView);
         itienaryView = (LinearLayout) findViewById(R.id.itienaryView);
@@ -135,8 +138,8 @@ public class Workshop extends BaseActivity {
         destModeAir.setVisibility(View.GONE);
         destModeRail = findViewById(R.id.rail_image2);
         destModeRail.setVisibility(View.GONE);
-
-
+    //    restrictmeaasge = findViewById(R.id.textview_show_message);
+    //    restrictmeaasge.setVisibility(View.INVISIBLE);
 
         //CustomSpinner(itienaryAction,R.array.itiespinner);
 
@@ -315,12 +318,12 @@ public class Workshop extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if(isNetworkAvailable()) {
-
-                        SubmitDataAgain();
-
+                    SubmitDataAgain();
                 }
             }
         });
+
+
     }
     //**************#******************#*****************#*******************#******************#
     //changes done  on 16th Mar
@@ -456,6 +459,8 @@ public class Workshop extends BaseActivity {
                     final String ITINERARY_FILES = object.getString("ITINERARY_FILES");
                     final String URI = "http://uatappweb.jivanmuktas.org//Uploaded_files/";
                 //    final String SOURCE = object.getString("SOURCE");
+                    Log.d("!!!originloc", ORIGIN_LOCATION);
+                    Log.d("!!!endLoc", END_LOCATION);
 
                     tvCalendar.setText(EVENT_START_DATE+" - "+EVENT_END_DATE);
                     STATE_NAME = STATE_NAME.replaceAll("\\{","");
@@ -480,6 +485,14 @@ public class Workshop extends BaseActivity {
                     tvrailway.setText(DESTINATION_PALACE);
                     tvalottedDistrict.setText(STATE_NAME);
                     Log.d("!!!alloted",STATE_NAME);
+
+                    /*if(ORIGIN_LOCATION.equals(" ") || END_LOCATION.equals(" ") || ORIGIN_PLACE.equals(" ") || DESTINATION_PALACE.equals(" ") ){
+                        restrictmeaasge.setVisibility(View.VISIBLE);
+                        edDateTimeView.setVisibility(View.GONE);
+                    } else {
+                        restrictmeaasge.setVisibility(View.GONE);
+                        edDateTimeView.setVisibility(View.VISIBLE);
+                    }*/
 
 
                     tvcommentToApprover.setText(COMMENT);
