@@ -22,10 +22,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import in.jivanmuktas.www.marg.R;
 import in.jivanmuktas.www.marg.activity.GitaDistribution;
 import in.jivanmuktas.www.marg.activity.MyApplication;
 import in.jivanmuktas.www.marg.activity.Nivritti;
+import in.jivanmuktas.www.marg.activity.View1;
+import in.jivanmuktas.www.marg.activity.View3;
 import in.jivanmuktas.www.marg.activity.Workshop;
 import in.jivanmuktas.www.marg.constant.Constant;
 import in.jivanmuktas.www.marg.network.HttpGetHandler;
@@ -37,11 +49,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import static android.content.Context.INPUT_METHOD_SERVICE;
 import static in.jivanmuktas.www.marg.activity.BaseActivity.AssetJSONFile;
 
 public class ApprovedFragment extends Fragment {
@@ -54,6 +68,7 @@ public class ApprovedFragment extends Fragment {
     LinearLayout approvedLayout;
     ExpandableHeightListView approveList;
     SwipeRefreshLayout swipeApprove;
+    CardView cardView3;
 
     // newInstance constructor for creating fragment with arguments
     public static ApprovedFragment newInstance(int page, String title) {
@@ -82,6 +97,7 @@ public class ApprovedFragment extends Fragment {
         approvedLayout = (LinearLayout) view.findViewById(R.id.approvedLayout);
         swipeApprove = (SwipeRefreshLayout) view.findViewById(R.id.swipeApprove);
         approveList = (ExpandableHeightListView) view.findViewById(R.id.approveList);
+        //cardView3 = (CardView) view.findViewById(R.id.card3);
 
 
         swipeApprove.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -92,7 +108,7 @@ public class ApprovedFragment extends Fragment {
                 }
             }
         });
-        /*cardView1.setOnClickListener(new View.OnClickListener() {
+       /* cardView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), View1.class);
@@ -100,9 +116,9 @@ public class ApprovedFragment extends Fragment {
                 startActivity(intent);
                 //getActivity().finish();
             }
-        });
+        });*/
 
-        cardView2.setOnClickListener(new View.OnClickListener() {
+        /*cardView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), View2.class);
@@ -110,9 +126,9 @@ public class ApprovedFragment extends Fragment {
                 startActivity(intent);
                 //getActivity().finish();
             }
-        });
+        });*/
 
-        cardView3.setOnClickListener(new View.OnClickListener() {
+        /*cardView3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), View3.class);
@@ -120,8 +136,8 @@ public class ApprovedFragment extends Fragment {
                 startActivity(intent);
                 //getActivity().finish();
             }
-        });
-        cardView4.setOnClickListener(new View.OnClickListener() {
+        });*/
+        /*cardView4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), View4.class);
@@ -217,7 +233,7 @@ public class ApprovedFragment extends Fragment {
     }
 
     public class GetApproveEvent extends AsyncTask<String, String, Boolean> {
-    String id = MyApplication.getInstance().getUserId();
+    String User_id = MyApplication.getInstance().getUserId();
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -235,9 +251,9 @@ public class ApprovedFragment extends Fragment {
             HttpGetHandler handler = new HttpGetHandler();
             String response;
             try {
-                response = handler.makeServiceCall(Constant.ApprovedEvent + id);
+                response = handler.makeServiceCall(Constant.ApprovedEvent + User_id);
                 //response = AssetJSONFile("ApprovedEvent.json",getActivity());
-                Log.i("!!!RequestApproved", Constant.ApprovedEvent + id);
+                Log.i("!!!RequestApproved", Constant.ApprovedEvent + User_id);
                 jsonResponse = new JSONObject(response);
                 Log.i("!!!ResponseApproved", response);
                 if (jsonResponse.getBoolean("status")) {
@@ -287,7 +303,7 @@ public class ApprovedFragment extends Fragment {
 
             @Override
             public View getView(int position, View view, ViewGroup parent) {
-                final String EVENT_NAME, START_DATE, END_DATE, TODAY, EVENT_TYPE, EVENT_REG_ID, EVENT_CALNDER_ID, EVENT_MASTER_ID;
+                final String EVENT_NAME, START_DATE, END_DATE, TODAY, EVENT_TYPE, EVENT_REG_ID, EVENT_CALNDER_ID, EVENT_MASTER_ID,MESSAGE,NOTES,STATUS,TRANSPORTAION_ARRANGEMENT,ACCOMODATION_ARRANGEMENT,CARD_TYPE,ORIGIN_PLACE,DESTINATION_PALACE,TRANSPORT_MODE_ORIGIN,ORIGIN_LOCATION,TRANSPORT_MODE_END,END_LOCATION;
                 JSONObject object;
                 try {
                     object = responseArray.getJSONObject(position);
@@ -299,6 +315,18 @@ public class ApprovedFragment extends Fragment {
                     EVENT_REG_ID = object.getString("EVENT_REG_ID");
                     EVENT_CALNDER_ID = object.getString("EVENT_CALNDER_ID");
                     EVENT_MASTER_ID = object.getString("EVENT_MASTER_ID");
+                    MESSAGE = object.getString("MESSAGE");
+                    NOTES = object.getString("NOTES");
+                    STATUS = object.getString("STATUS");
+                    TRANSPORTAION_ARRANGEMENT = object.getString("TRANSPORTAION_ARRANGEMENT");
+                    ACCOMODATION_ARRANGEMENT = object.getString("ACCOMODATION_ARRANGEMENT");
+                    CARD_TYPE = object.getString("CARD_TYPE");
+                    ORIGIN_PLACE = object.getString("ORIGIN_PLACE");
+                    DESTINATION_PALACE = object.getString("DESTINATION_PALACE");
+                    TRANSPORT_MODE_ORIGIN = object.getString("TRANSPORT_MODE_ORIGIN");
+                    ORIGIN_LOCATION = object.getString("ORIGIN_LOCATION");
+                    TRANSPORT_MODE_END = object.getString("TRANSPORT_MODE_END");
+                    END_LOCATION = object.getString("END_LOCATION");
 
                     LayoutInflater layoutInflater = LayoutInflater.from(getContext());
                     view = layoutInflater.inflate(R.layout.approvedlist, null);
@@ -310,9 +338,11 @@ public class ApprovedFragment extends Fragment {
                     Button cancel = (Button) view.findViewById(R.id.cancel);
                     Button modify = (Button) view.findViewById(R.id.modify);
                     CardView card = (CardView) view.findViewById(R.id.card);
+                    TextView message = view.findViewById(R.id.message_show);
 
                     tvEvent.setText(EVENT_NAME);
                     tvDate.setText(START_DATE+" - "+END_DATE);
+                    message.setText(MESSAGE);
 
                     cancel.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -323,7 +353,52 @@ public class ApprovedFragment extends Fragment {
                                 sbView.setBackgroundColor(getResources().getColor(R.color.Red));
                                 snackbar.show();
                             }else {
-                                new CancelApproveEvent().execute(EVENT_REG_ID);
+                            //    new CancelApproveEvent().execute(EVENT_REG_ID);
+                                String User_id = MyApplication.getInstance().getUserId();
+                                final String url = Constant.CANCEL_EVENT;
+                                Log.d("!!!urlcancel",url);
+                                JSONArray jsonArray =  new JSONArray();
+                                JSONObject reqObj = new JSONObject();
+                                try {
+                                    reqObj.put("USER_ID", User_id);
+                                    reqObj.put("EVENT_ID",EVENT_REG_ID);
+                                    reqObj.put("ISACTIVE","0");
+                                    jsonArray.put(reqObj);
+                                    final String requestBody = jsonArray.toString();
+                                    Log.i("!!!req",jsonArray.toString());
+                                    StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                                            new Response.Listener<String>() {
+                                                @Override
+                                                public void onResponse(String response) {
+                                                    Log.i("!!!Response->", response);
+                                                    Toast.makeText(getActivity(), "Event Cancelled Sucessfully", Toast.LENGTH_SHORT).show();
+                                                    getActivity().finish();
+                                                }
+                                            }, new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            Log.e("!!!response",error.toString());
+
+                                        }
+                                    })
+                                    {
+                                        @Override
+                                        public byte[] getBody() throws AuthFailureError {
+                                            try {
+                                                Log.i("!!!Request", url+"    "+requestBody.getBytes("utf-8"));
+                                                return requestBody == null ? null : requestBody.getBytes("utf-8");
+                                            } catch (UnsupportedEncodingException uee) {
+                                                VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                                                return null;
+                                            }
+                                        }
+                                    };
+                                    RequestQueue queue = Volley.newRequestQueue(getContext());
+                                    // add it to the RequestQueue
+                                    queue.add(postRequest);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     });
@@ -331,14 +406,17 @@ public class ApprovedFragment extends Fragment {
                     modify.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            /*Intent intent=new Intent(getActivity(), View1.class);
+                            Intent intent=new Intent(getActivity(), View1.class);
                             intent.putExtra("KEY", "MODIFY");
                             intent.putExtra("EVENT_ID",EVENT_REG_ID);
-                            startActivity(intent);*/
-                            Snackbar snackbar = Snackbar.make(approvedLayout, "Work-in-Progress", Snackbar.LENGTH_LONG);
+                            intent.putExtra("START_DATE",START_DATE);
+                            intent.putExtra("END_DATE",END_DATE);
+                            intent.putExtra("NOTES",NOTES);
+                            startActivity(intent);
+                            /*Snackbar snackbar = Snackbar.make(approvedLayout, "Work-in-Progress", Snackbar.LENGTH_LONG);
                             View sbView = snackbar.getView();
                             sbView.setBackgroundColor(getResources().getColor(R.color.Red));
-                            snackbar.show();
+                            snackbar.show();*/
                         }
                     });
 
@@ -347,8 +425,11 @@ public class ApprovedFragment extends Fragment {
                         ivEvent.setImageDrawable(getResources().getDrawable(R.drawable.gurukul));
                     }else if(EVENT_TYPE.equals("2")){
                         ivEvent.setImageDrawable(getResources().getDrawable(R.drawable.workshop));
+                        modify.setVisibility(View.GONE);
+                        cancel.setVisibility(View.GONE);
                     }else if(EVENT_TYPE.equals("3")){
                         modify.setVisibility(View.GONE);
+                        cancel.setVisibility(View.GONE);
                         ivEvent.setImageDrawable(getResources().getDrawable(R.drawable.distribution));
                     }
 
@@ -359,14 +440,32 @@ public class ApprovedFragment extends Fragment {
                             if (EVENT_TYPE.equals("1")){
                                 intent=new Intent(getActivity(), Nivritti.class);
                                 intent.putExtra("EVENT_ID", EVENT_REG_ID);
+                                intent.putExtra("START_DATE",START_DATE);
+                                intent.putExtra("END_DATE",END_DATE);
+                                intent.putExtra("NOTES",NOTES);
+                                intent.putExtra("STATUS",STATUS);
                                 startActivity(intent);
                             }else if (EVENT_TYPE.equals("2")){
                                 intent=new Intent(getActivity(), Workshop.class);//Change line later
                                 intent.putExtra("EVENT_ID", EVENT_REG_ID);
+                                intent.putExtra("STATUS",STATUS);
+                                intent.putExtra("ORIGIN_PLACE",ORIGIN_PLACE);
+                                intent.putExtra("DESTINATION_PALACE",DESTINATION_PALACE);
+                                intent.putExtra("TRANSPORT_MODE_ORIGIN",TRANSPORT_MODE_ORIGIN);
+                                intent.putExtra("TRANSPORT_MODE_END",TRANSPORT_MODE_END);
                                 startActivity(intent);
                             }else if (EVENT_TYPE.equals("3")){
                                 intent=new Intent(getActivity(), GitaDistribution.class);//Change line later
                                 intent.putExtra("EVENT_ID", EVENT_REG_ID);
+                                intent.putExtra("EVENT_NAME",EVENT_NAME);
+                                intent.putExtra("START_DATE",START_DATE);
+                                intent.putExtra("END_DATE",END_DATE);
+                                intent.putExtra("NOTES",NOTES);
+                                intent.putExtra("MESSAGE",MESSAGE);
+                                intent.putExtra("STATUS",STATUS);
+                                intent.putExtra("TRANSPORTAION_ARRANGEMENT",TRANSPORTAION_ARRANGEMENT);
+                                intent.putExtra("ACCOMODATION_ARRANGEMENT",ACCOMODATION_ARRANGEMENT);
+                                intent.putExtra("CARD_TYPE",CARD_TYPE);
                                 startActivity(intent);
                             }
 
@@ -443,6 +542,55 @@ public class ApprovedFragment extends Fragment {
     }
     //***************************************************************************************
 
+    public void CancelApproveEvent(){
+        String User_id = MyApplication.getInstance().getUserId();
+        final String url = Constant.CANCEL_EVENT;
+
+        JSONArray jsonArray =  new JSONArray();
+        JSONObject reqObj = new JSONObject();
+        try {
+            reqObj.put("USER_ID", User_id);
+        //    reqObj.put("EVENT_ID",);
+            reqObj.put("ISACTIVE","0");
+            jsonArray.put(reqObj);
+            final String requestBody = jsonArray.toString();
+            Log.i("!!!req",jsonArray.toString());
+            StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("!!!Response->", response);
+                            Toast.makeText(getActivity(), "Updated Sucessfully", Toast.LENGTH_SHORT).show();
+                            getActivity().finish();
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("!!!response",error.toString());
+
+                }
+            })
+            {
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        Log.i("!!!Request", url+"    "+requestBody.getBytes("utf-8"));
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+            RequestQueue queue = Volley.newRequestQueue(getContext());
+            // add it to the RequestQueue
+            queue.add(postRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public class CancelApproveEvent extends AsyncTask<String, String, Boolean> {
         String USER_ID = MyApplication.getInstance().getUserId();
 
@@ -466,7 +614,7 @@ public class ApprovedFragment extends Fragment {
 
             try {
                 reqObj.put("USER_ID",USER_ID);
-                reqObj.put("EVENT_ID",EVENT_ID);
+                reqObj.put("EVENT_REG_ID",EVENT_ID);
                 response = HttpPutHandler.SendHttpPut(Constant.CANCEL_EVENT,reqObj.toString());//Using Put Method
 
                 json = new JSONObject(response);

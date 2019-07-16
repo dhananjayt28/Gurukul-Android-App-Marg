@@ -4,7 +4,9 @@ import android.app.DatePickerDialog;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +19,17 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonObject;
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import in.jivanmuktas.www.marg.R;
 
@@ -31,14 +44,23 @@ import java.util.Locale;
 
 import in.jivanmuktas.www.marg.constant.Constant;
 import in.jivanmuktas.www.marg.database.JivanmuktasDB;
+import in.jivanmuktas.www.marg.model.Chapter;
+import in.jivanmuktas.www.marg.model.City;
+import in.jivanmuktas.www.marg.model.Country;
 import in.jivanmuktas.www.marg.model.CountrySetGet;
+import in.jivanmuktas.www.marg.model.Education;
+import in.jivanmuktas.www.marg.model.Title;
 import in.jivanmuktas.www.marg.network.HttpClient;
 import in.jivanmuktas.www.marg.network.HttpGetHandler;
+import in.jivanmuktas.www.marg.singleton.VolleySingleton;
 
 public class RegistrationActivity extends BaseActivity {
-    EditText etFirstName,etLastName,etDob,etAge,etPass,etRePass,etEmail,etPhoneNumber;
+    EditText etFirstName,etLastName,etDob,etAge,etPass,etRePass,etEmail,etPhoneNumber,etHelpAnother;
     RadioGroup title,rgGender;
-    Spinner spinner_satsang,spinner_edu,spinner_country;
+    Spinner spinner_satsang,spinner_edu,spinner_country,spinner_title,spinner_gender,spinner_city;
+    //SearchableSpinner spinner_city;
+
+
 
     private SimpleDateFormat dateFormatter;
     private DatePickerDialog datePickerDialog;
@@ -47,42 +69,63 @@ public class RegistrationActivity extends BaseActivity {
 
     JSONObject jsonResponse;
     JSONArray responseArray;
-    JivanmuktasDB jivanmuktasDB;
+    //JivanmuktasDB jivanmuktasDB;
     Cursor result;
     ArrayList<String> satsang;
-    ArrayList<CountrySetGet> country;
+    ArrayList<Country> countries = new ArrayList<>();
+    ArrayList<City> cities = new ArrayList<>();
+    ArrayList<Education> edu = new ArrayList<>();
+    ArrayList<Title> titles = new ArrayList<>();
+    ArrayList<Chapter> chapters = new ArrayList<>();
+    String countryId="";
+    String CityId="";
+    String ChapterId="";
+    String EducationId="";
+    String TitleId = "";
+    String[] Gender = {"Select","Male","Female"};
+    String GenderId = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_registration);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarTop);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Registration");
+        setTitle("User Registration");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+        final String countr;
         //////////////************************///////////////////
 
-        jivanmuktasDB = JivanmuktasDB.getInstance(this);
-        jivanmuktasDB.open();
+    //    jivanmuktasDB = JivanmuktasDB.getInstance(this);
+    //    jivanmuktasDB.open();
 
         title = (RadioGroup) findViewById(R.id.title);
         etFirstName =(EditText) findViewById(R.id.etFirstName);
+    //    etFirstName.setHint(Html.fromHtml(getString(R.string.first_name)));
         etLastName = (EditText) findViewById(R.id.etLastName);
-        rgGender = (RadioGroup) findViewById(R.id.rgGender);
+    //    etLastName.setHint(Html.fromHtml(getString(R.string.last_name)));
+    //    rgGender = (RadioGroup) findViewById(R.id.rgGender);
         etDob = (EditText) findViewById(R.id.etDob);
+    //    etDob.setHint(Html.fromHtml(getString(R.string.enterdob)));
         etAge = (EditText) findViewById(R.id.etAge);
         etPass = (EditText) findViewById(R.id.etPass);
         etRePass = (EditText) findViewById(R.id.etRePass);
         etEmail = (EditText) findViewById(R.id.etEmail);
         etPhoneNumber = (EditText) findViewById(R.id.etPhoneNumber);
         spinner_satsang = (Spinner) findViewById(R.id.spinner_satsang);
-        spinner_edu = (Spinner) findViewById(R.id.spinner_edu);
+        spinner_edu = (Spinner) findViewById(R.id.spinner_edu);  //education
         spinner_country = (Spinner) findViewById(R.id.spinner_country);
+        //spinner_city = (SearchableSpinner) findViewById(R.id.spinner_city);
+        spinner_city = (Spinner) findViewById(R.id.spinner_city);
+        spinner_title = (Spinner)findViewById(R.id.spinner_title);
+        spinner_gender = (Spinner)findViewById(R.id.spinner_gender);
+        etHelpAnother = (EditText) findViewById(R.id.etHelpAnother);
         button_Sign_Up = (Button)findViewById(R.id.button_Sign_Up);
         /////////////////////************************///////////////////
         button_Sign_Up.setOnClickListener(new View.OnClickListener() {
@@ -111,28 +154,56 @@ public class RegistrationActivity extends BaseActivity {
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
                 datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-
                 datePickerDialog.show();
             }
         });
 
-        ////////// Spinner For Country
-        //CustomSpinner(spinner_country, R.array.country);
-        new GetCountryList().execute();
-        //new GetSatsangChapter().execute();
-        ////////// Spinner For Education
-        CustomSpinner(spinner_edu, R.array.education);
-
-
-        spinner_country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        SetTitle();
+        spinner_title.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position!=0) {
-                    new GetSatsangChapter().execute("" + country.get(position-1).getCOUNTRY_ID());
+                if(position != 0){
+                    TitleId = titles.get(position).getTitle_id();
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        getGender();
+        spinner_gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position != 0){
+                    GenderId = Gender[position];
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+
+        });
+
+
+        SetCountrySpinner();
+        /*spinner_country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position != 0 ){
+                    countryId = countries.get(position).getCountry_id();
+
+                    Log.d("!!!countries",countryId.toString());
+                    SetCitySpinner(countryId);
+                //    new GetSatsangChapter().execute("" + countries.get(position).getCountry_id());
+                //    SetSatsangChapterSpinner(countries.get(position).getCountry_id());
+
                     /// Set Country code
-                    String[] array= getResources().getStringArray(R.array.country_code);
-                    countryCode = array[position];
-                }else {
+                    String[] array = getResources().getStringArray(R.array.country_code);
+                    }
+                else {
                     /////// If Country selected position is 0
                     satsang = new ArrayList<>();
                     satsang.add("Select Chapter");
@@ -144,9 +215,50 @@ public class RegistrationActivity extends BaseActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });*/
+
+     //   SetCitySpinner();
+        /*spinner_city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position != 0){
+                    CityId = cities.get(position).getCity_id();
+                    SetSatsangChapterSpinner(countryId,CityId);
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
+        });*/
+
+        /*spinner_satsang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position != 0){
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });*/
+
+        SetEducation();
+        spinner_edu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position != 0){
+                    EducationId = edu.get(position).getEducation_id();
+                //    Toast.makeText(RegistrationActivity.this, "edu.get(position).getEducation_id()", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
+
     }
 
     public boolean isValid() {
@@ -186,11 +298,24 @@ public class RegistrationActivity extends BaseActivity {
         }else if (spinner_country.getSelectedItemPosition() == 0) {
             SnackbarRed(R.id.reglayout,"Please Choose Country Name");
             flag = false;
-        }else if (spinner_satsang.getSelectedItemPosition() == 0) {
-            SnackbarRed(R.id.reglayout,"Please Choose Satsang Chapter");
+        }else if (spinner_city.getSelectedItem() == null) {
+            SnackbarRed(R.id.reglayout,"Satsang City cannot be empty please select another Country having City");
             flag = false;
-        }else if (spinner_edu.getSelectedItemPosition() == 0) {
+        }else if (spinner_satsang.getSelectedItem() == null) {
+            SnackbarRed(R.id.reglayout,"Satsang Chapter cannot be empty please select another Country having Satsang Chapter");
+            flag = false;
+        }else if (spinner_title.getSelectedItemPosition() == 0) {
+            SnackbarRed(R.id.reglayout,"Please Choose Title");
+            flag = false;
+        } else if (spinner_gender.getSelectedItemPosition() == 0) {
+            SnackbarRed(R.id.reglayout,"Please Choose gender");
+            flag = false;
+        } else if (spinner_edu.getSelectedItemPosition() == 0) {
             SnackbarRed(R.id.reglayout,"Please Choose Education");
+            flag = false;
+        } else if (etHelpAnother.getText().toString().trim().length() == 0 ) {
+            etHelpAnother.setError("Please enter Other Activity");
+            editTextFocus(etHelpAnother);
             flag = false;
         }
         return flag;
@@ -203,6 +328,333 @@ public class RegistrationActivity extends BaseActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    /////////////COUNTRIES///////////////
+
+    public void SetTitle(){
+        String url =Constant.GET_TITLE_LIST;
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url,null,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject object = response;
+                            if (object.getString("status").equals("true")){
+                                JSONArray jsonArray = object.getJSONArray("response");
+                                for (int i=0;i<jsonArray.length();i++){
+                                    Log.d("!!!!Title",response.toString());
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    Title title = new Title();
+                                    title.setTitle_id(jsonObject.getString("LOV_ID"));
+                                    title.setTitle_name(jsonObject.getString("LOV_NAME"));
+                                    titles.add(title);
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        ArrayAdapter title=new ArrayAdapter(RegistrationActivity.this, R.layout.spinner_dropdown_item, titles);
+                        title.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_title.setAdapter(title);
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        );
+
+        VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
+    }
+
+    public void getGender(){
+        ArrayAdapter gender = new ArrayAdapter(RegistrationActivity.this,R.layout.spinner_dropdown_item,Gender);
+        gender.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_gender.setAdapter(gender);
+    }
+
+    public void SetCountrySpinner(){
+        String url = Constant.GET_COUNTRY_LIST;
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url,null,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject object = response;
+                            if (object.getString("status").equals("true")){
+                                Log.d("!!! countries",object.toString());
+                                JSONArray jsonArray = object.getJSONArray("response");
+                                Log.d("!!! countries",response.toString());
+                                for (int i=0;i<jsonArray.length();i++){
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    Country country = new Country();
+                                    country.setCountry_id(jsonObject.getString("LOV_ID"));
+                                    country.setCountry_name(jsonObject.getString("LOV_NAME"));
+                                    countries.add(country);
+                                }
+
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        ArrayAdapter<Country> country = new ArrayAdapter<Country>(RegistrationActivity.this,android.R.layout.simple_list_item_1,countries);
+                        country.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_country.setAdapter(country);
+
+                        spinner_country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                if(position != 0 ){
+                                    countryId = countries.get(position).getCountry_id();
+
+                                    Log.d("!!!countries",countryId.toString());
+                                    SetCitySpinner(countryId);
+                                }
+                                else {
+                                }
+                            }
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+                            }
+                        });
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        );
+        VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
+    }
+    /////////CITY//////////////////
+    public void SetCitySpinner(final String country){
+        cities.clear();
+        String url = Constant.GET_CITY_LIST + "country_id=" + country;
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url,null,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject object = response;
+                            if (object.getString("status").equals("true")){
+                                Log.d("!!! city",object.toString());
+                                JSONArray jsonArray = object.getJSONArray("response");
+                                Log.d("!!! city",response.toString());
+                                for (int i=0;i<jsonArray.length();i++){
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    City city = new City();
+                                    city.setCity_id(jsonObject.getString("LOV_ID"));
+                                    city.setCity_name(jsonObject.getString("LOV_NAME"));
+                                    cities.add(city);
+                                }
+
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        ArrayAdapter city = new ArrayAdapter(RegistrationActivity.this,android.R.layout.simple_list_item_1,cities);
+                        city.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_city.setAdapter(city);
+
+                        spinner_city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                    CityId = cities.get(position).getCity_id();
+                                    SetSatsangChapterSpinner(country,CityId);
+
+                            }
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+
+                            }
+                        });
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        );
+        VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
+    }
+
+    public void SetSatsangChapterSpinner(final String country,final String city){
+        chapters.clear();
+        String url = Constant.GET_SATSANG_CHAPTER + "country_id="+country +"&city_id="+ city;
+        Log.d("!!!chapter",url);
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url,null,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject object = response;
+                            if (object.getString("status").equals("true")){
+                                Log.d("!!! chapter",object.toString());
+                                JSONArray jsonArray = object.getJSONArray("response");
+                                Log.d("!!! chapter",response.toString());
+                                for (int i=0;i<jsonArray.length();i++){
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    Chapter chapter1 = new Chapter();
+                                    chapter1.setChapterId(jsonObject.getString("CHAPTER_ID"));
+                                    chapter1.setChapterName(jsonObject.getString("CHAPTER_NAME"));
+                                    chapters.add(chapter1);
+                                }
+
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        ArrayAdapter<Chapter> chapter = new ArrayAdapter<Chapter>(RegistrationActivity.this,android.R.layout.simple_list_item_1,chapters);
+                        chapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_satsang.setAdapter(chapter);
+                        spinner_satsang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                ChapterId = chapters.get(position).getChapterId();
+                            }
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+                            }
+                        });
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        );
+        VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
+    }
+
+    public void SetEducation(){
+        String url =Constant.GET_EDUCATION_LIST;
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url,null,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject object = response;
+                            if (object.getString("status").equals("true")){
+                                JSONArray jsonArray = object.getJSONArray("response");
+                                for (int i=0;i<jsonArray.length();i++){
+                                    Log.d("!!!!Education",response.toString());
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    Education education = new Education();
+                                    education.setEducation_id(jsonObject.getString("LOV_ID"));
+                                    education.setEducation_name(jsonObject.getString("LOV_NAME"));
+                                    edu.add(education);
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        ArrayAdapter educate=new ArrayAdapter(RegistrationActivity.this, R.layout.spinner_dropdown_item, edu);
+                        educate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_edu.setAdapter(educate);
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        );
+
+        VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
+    }
+
+    ///////***********************//////////////////
+
+    public class GetSatsangChapter extends AsyncTask<String, String, Boolean> {
+        JSONObject jsonObject1;
+        JSONArray jsonArray1;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDailog();
+
+        }
+        //?id=0&eventid=1
+        @Override
+        protected Boolean doInBackground(String... params) {
+            String s = params[0];
+            HttpGetHandler handler = new HttpGetHandler();
+            try {
+                Log.i("!!!!URL",Constant.GET_SATSANG_CHAPTER+s);
+
+                String response = handler.makeServiceCall(Constant.GET_SATSANG_CHAPTER+s);
+                //String response = handler.makeServiceCall(Constant.GET_SATSANG_CHAPTER);
+                // response = AssetJSONFile("SatsangChapter.json",RegistrationActivity.this);
+                Log.d("!!!Response", response.toString());
+                jsonObject1 = new JSONObject(response);
+                ;
+                jsonArray1 = jsonObject1.getJSONArray("response");
+                Log.i("!!!Response",response);
+                if(jsonObject1.getBoolean("status"))
+                    return true;
+                else
+                    return false;
+
+            } catch (Exception e) {
+                System.out.println("!! Reach here error " + e.getMessage());
+                e.printStackTrace();
+            }
+
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean s) {
+            super.onPostExecute(s);
+            dismissProgressDialog();
+
+
+            if(s) {
+                ArrayList<String> satsang = new ArrayList<>();
+                satsang.clear();
+                satsang.add("Select Chapter");
+                try {
+                    for (int i = 0; i < jsonArray1.length(); i++) {
+                        JSONObject object = jsonArray1.getJSONObject(i);
+                        satsang.add(object.getString("CHAPTER_NAME"));
+
+                    }
+                    ////////// Spinner For satsang
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(RegistrationActivity.this, android.R.layout.simple_spinner_item, satsang);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner_satsang.setAdapter(adapter);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }else {
+                CustomToast("No Data Found.");
+            }
         }
     }
     /////***********************//////////////////
@@ -218,21 +670,26 @@ public class RegistrationActivity extends BaseActivity {
             try {
                 JSONArray reqArr = new JSONArray();
                 JSONObject reqObj = new JSONObject();
-                RadioButton rbTitle = (RadioButton) findViewById(title.getCheckedRadioButtonId());
-                int indexTitle = title.indexOfChild(rbTitle)+1;
-                reqObj.put("TITLE",String.valueOf(indexTitle));// 1 = Mr., 2 = Mrs., 3 = Miss.
+            //    RadioButton rbTitle = (RadioButton) findViewById(title.getCheckedRadioButtonId());
+            //    int indexTitle = title.indexOfChild(rbTitle)+1;
+            //    reqObj.put("TITLE",String.valueOf(indexTitle));// 1 = Mr., 2 = Mrs., 3 = Miss.
+                reqObj.put("TITLE",TitleId);
                 reqObj.put("NAME",etFirstName.getText().toString().trim()+" "+etLastName.getText().toString().trim());
-                RadioButton rb = (RadioButton) findViewById(rgGender.getCheckedRadioButtonId());
-                int indexGen = rgGender.indexOfChild(rb);
-                reqObj.put("GENDER",String.valueOf(indexGen));// 0 = male, 1 = Female
+            //    RadioButton rb = (RadioButton) findViewById(rgGender.getCheckedRadioButtonId());
+            //    int indexGen = rgGender.indexOfChild(rb);
+            //    reqObj.put("GENDER",String.valueOf(indexGen));// 0 = male, 1 = Female
+                reqObj.put("GENDER",GenderId);
                 reqObj.put("DOB", etDob.getText().toString().trim());
                 reqObj.put("EMAIL", etEmail.getText().toString().trim());
                 reqObj.put("CONTACT", etPhoneNumber.getText().toString().trim());
                 reqObj.put("PASSWORD", etPass.getText().toString().trim());
-                reqObj.put("COUNTRY", String.valueOf(spinner_country.getSelectedItemPosition()));
-                reqObj.put("COUNTRY_CODE", countryCode);
-                reqObj.put("CHAPTER", spinner_satsang.getSelectedItem().toString());
-                reqObj.put("EDUCATION", String.valueOf(spinner_edu.getSelectedItemPosition()));
+                reqObj.put("COUNTRY", countryId);
+                reqObj.put("CITY", CityId);
+                reqObj.put("COUNTRY_CODE", "+91");
+                reqObj.put("CHAPTER", ChapterId);
+                reqObj.put("EDUCATION", EducationId);
+            //    reqObj.put("EDUCATION",spinner_edu.getSelectedItem().toString());
+                reqObj.put("ACTIVITY", etHelpAnother.getText().toString().trim());
 
                 reqArr.put(reqObj);
                 System.out.println("!!reqArr  " + reqArr);
@@ -265,12 +722,20 @@ public class RegistrationActivity extends BaseActivity {
                 try {
                     CustomToast(jsonResponse.getString("response")+"\n Registration failed. ");
                 }catch (Exception e){
-                    CustomToast("Server Busy! \nPlease try again later.");
+                //    CustomToast("Server Busy! \nPlease try again later.");
+                    Toast.makeText(RegistrationActivity.this, "Please Enter a country which has satsang Chapter", Toast.LENGTH_LONG).show();
                 }
             }
         }
     }
 
+    ///////////// Hide Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        /* Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);*/
+        return false;
+    }
 
     /////////////////***********////************//////////////////
    /* public class GetSatsangChapter extends AsyncTask<String, String, Boolean> {
@@ -316,70 +781,9 @@ public class RegistrationActivity extends BaseActivity {
         }
     }*/
 
-    public class GetSatsangChapter extends AsyncTask<String, String, Boolean> {
-        JSONObject jsonObject1;
-        JSONArray jsonArray1;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showProgressDailog();
-        }
-        //?id=0&eventid=1
-        @Override
-        protected Boolean doInBackground(String... params) {
-            String s = params[0];
-            HttpGetHandler handler = new HttpGetHandler();
-            try {
-                String response = handler.makeServiceCall(Constant.GET_SATSANG_CHAPTER+s);
-                //String response = handler.makeServiceCall(Constant.GET_SATSANG_CHAPTER);
-               // response = AssetJSONFile("SatsangChapter.json",RegistrationActivity.this);
-                Log.d("!!!Response", response.toString());
-                jsonObject1 = new JSONObject(response);
 
-                jsonArray1 = jsonObject1.getJSONArray("response");
-                Log.i("!!!Response",response);
-                if(jsonObject1.getBoolean("status"))
-                    return true;
-                else
-                    return false;
-
-            } catch (Exception e) {
-                System.out.println("!! Reach here error " + e.getMessage());
-                e.printStackTrace();
-            }
-
-            return false;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean s) {
-            super.onPostExecute(s);
-            dismissProgressDialog();
-
-            if(s) {
-                ArrayList<String> satsang = new ArrayList<>();
-                satsang.add("Select Chapter");
-                try {
-                    for (int i = 0; i < jsonArray1.length(); i++) {
-                        JSONObject object = jsonArray1.getJSONObject(i);
-                        satsang.add(object.getString("CHAPTER_NAME"));
-
-                    }
-                    ////////// Spinner For satsang
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(RegistrationActivity.this, android.R.layout.simple_spinner_item, satsang);
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spinner_satsang.setAdapter(adapter);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }else {
-                CustomToast("Server Busy! \nPlease try again later.");
-            }
-        }
-    }
 //************************#****************************#*************************#**************************#
-public class GetCountryList extends AsyncTask<String, String, Boolean> {
+/*public class GetCountryList extends AsyncTask<String, String, Boolean> {
     JSONObject jsonObject;
     JSONArray jsonArray;
     @Override
@@ -445,14 +849,8 @@ public class GetCountryList extends AsyncTask<String, String, Boolean> {
             CustomToast("Server Busy! \nPlease try again later.");
         }
     }
-}
+}*/
 
     //************************#****************************#*************************#**************************#
-    ///////////// Hide Menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        /* Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);*/
-        return false;
-    }
+
 }

@@ -235,7 +235,7 @@
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/colorPrimary"
                     android:gravity="left"
-                    android:text="Logout" />
+                    android:text="Close" />
             </LinearLayout>
 
         </LinearLayout>

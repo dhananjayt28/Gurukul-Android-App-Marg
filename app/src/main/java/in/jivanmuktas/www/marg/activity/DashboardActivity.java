@@ -47,7 +47,6 @@ public class DashboardActivity extends BaseActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
@@ -62,17 +61,13 @@ public class DashboardActivity extends BaseActivity {
             Intent approvals = new Intent(DashboardActivity.this, ViewProfile.class);
             startActivity(approvals);
         }
-
-
         // For notifications
         if ( id == R.id.action_notification){
             Intent intent = new Intent(DashboardActivity.this, Notification.class);
             startActivity(intent);
         }
-
         return super.onOptionsItemSelected(item);
     }
-
 */
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -120,8 +115,3 @@ public class DashboardActivity extends BaseActivity {
 
     }
  }
-
-
-
-
-

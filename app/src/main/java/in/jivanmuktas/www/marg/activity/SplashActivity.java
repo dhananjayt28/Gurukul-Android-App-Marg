@@ -58,6 +58,7 @@ public class SplashActivity extends BaseActivity {
         loader = (AVLoadingIndicatorView) findViewById(R.id.loader);
 
 //*****************************************************************************************************
+        //Handler can be changed to the following java 8
             handler = new Handler();
             new Handler().postDelayed(new Runnable() {
                 @Override

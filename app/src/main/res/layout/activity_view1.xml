@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/layoutView1"
     tools:context="in.jivanmuktas.www.marg.activity.View1">
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -150,7 +151,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text=" English,History of India"
+                android:text=" Subject Allocation Pending from Approver"
                 android:textColor="@color/colorTextLabel"
                 android:textSize="15sp"
                 android:fontFamily="sans-serif-condensed"/>
@@ -166,10 +167,11 @@
                 android:fontFamily="sans-serif-condensed" />
 
             <TextView
+                android:id="@+id/tvcommentApprover"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text=" I shall reach alone"
+                android:text=" Comment is Pending"
                 android:textColor="@color/colorTextLabel"
                 android:textSize="15sp"
                 android:fontFamily="sans-serif-condensed"/>

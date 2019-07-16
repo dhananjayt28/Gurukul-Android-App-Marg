@@ -7,5 +7,4 @@
     android:textSize="15sp"
     android:gravity="left"
     android:textColor="@color/colorTextViewLight"
-    android:padding="5dip"
-    />
+    android:padding="5dip" />

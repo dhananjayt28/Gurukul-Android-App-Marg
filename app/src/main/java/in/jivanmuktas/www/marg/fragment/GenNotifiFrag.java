@@ -34,8 +34,8 @@ import in.jivanmuktas.www.marg.dataclass.GenNotiSetGet;
 public class GenNotifiFrag extends Fragment {
     ListView genNotiList;
     DataBase dataBase;
-    TextView tip;
     public ProgressDialog prsDlg;
+    TextView no_notification;
     ArrayList<GenNotiSetGet> notificationData = new ArrayList<GenNotiSetGet>();
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,9 +45,10 @@ public class GenNotifiFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.gennotification, container, false);
+        no_notification = (TextView) view.findViewById(R.id.no_notification);
+        no_notification.setVisibility(View.GONE);
         genNotiList = (ListView) view.findViewById(R.id.genNotiList);
-        tip = (TextView)  view.findViewById(R.id.tip);
-        tip.setVisibility(View.GONE);
+        genNotiList.setVisibility(View.GONE);
         return view;
     }
     @Override
@@ -72,17 +73,18 @@ public class GenNotifiFrag extends Fragment {
             } while (result.moveToPrevious());
         }
         if(notificationData.size() != 0) {
-            tip.setVisibility(View.VISIBLE);
             NotificationAdapter adapter = new NotificationAdapter();
             genNotiList.setAdapter(adapter);
+            no_notification.setVisibility(View.GONE);
+            genNotiList.setVisibility(View.VISIBLE);
             //genNotiList.
         }else {
-            Toast.makeText(getActivity(), "You have no Notification", Toast.LENGTH_SHORT).show();
-            tip.setVisibility(View.GONE);
+            no_notification.setVisibility(View.VISIBLE);
+            genNotiList.setVisibility(View.GONE);
         }
 
 
-        //Delete Item From List Start
+        /*//Delete Item From List Start
         genNotiList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
             @Override
@@ -113,7 +115,7 @@ public class GenNotifiFrag extends Fragment {
                         .show();
                 return false;
             }
-        });
+        });*/
         //Delete Item From List End
     }
 

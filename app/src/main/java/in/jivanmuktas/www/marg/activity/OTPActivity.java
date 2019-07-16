@@ -215,7 +215,8 @@ public class OTPActivity extends BaseActivity {
                 }
 
                 reqArr.put(reqObj);
-                String response = HttpClient.SendHttpPost(Constant.PASSWORD_RESET, reqObj.toString());
+            //    String response = HttpClient.SendHttpPost(Constant.PASSWORD_RESET, reqObj.toString());
+                String response = "";
                 Log.d("!!Response", response.toString());
                 jsonResponse = new JSONObject(response);
                 if(jsonResponse.getString("status").equals("true")){
@@ -316,7 +317,8 @@ public class OTPActivity extends BaseActivity {
                 reqObj.put("EMAIL_ID", email);
                 reqObj.put("PASSWORD", etNewPassword.getText().toString());
                 reqArr.put(reqObj);
-                String response = HttpClient.SendHttpPost(Constant.PASSWORD_UPDATE, reqObj.toString());
+            //    String response = HttpClient.SendHttpPost(Constant.PASSWORD_UPDATE, reqObj.toString());
+                String response = "";
                 Log.d("!!Response", response.toString());
                 jsonResponse = new JSONObject(response);
                 return  jsonResponse.getBoolean("status");

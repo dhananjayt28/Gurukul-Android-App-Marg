@@ -4,13 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <TextView
-        android:id="@+id/tip"
+        android:id="@+id/no_notification"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="* For delete item press long on item "
+        android:layout_height="match_parent"
+        android:text="@string/no_notification"
         android:textColor="@color/Red"
-        android:layout_marginLeft="10dp"
-        android:fontFamily="monospace"/>
+        android:fontFamily="monospace"
+        android:gravity="center"/>
     <ListView
         android:id="@+id/genNotiList"
         android:layout_width="match_parent"

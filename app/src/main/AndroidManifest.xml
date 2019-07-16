@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="in.jivanmuktas.www.marg">
-
-    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <!-- <uses-permission android:name="android.permission.CALL_PHONE" /> -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -13,19 +12,18 @@
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-permission android:name="android.permission.SEND_SMS" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name=".activity.MyApplication"
         android:allowBackup="true"
-        android:icon="@drawable/gurukul_icon"
+        android:icon="@drawable/margimage"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/gurukul_icon"
+        android:roundIcon="@drawable/margimage"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.ForgotPassword"></activity>
+        <activity android:name=".activity.PermissionDenied" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="959916309d49c601e2770053baebfee4296abc14" />
@@ -35,6 +33,7 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
@@ -53,6 +52,12 @@
             android:parentActivityName=".activity.MainActivity" />
         <activity
             android:name=".activity.RegistrationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.QRscanner"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.LoginViaQRScanner"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MyProfileActivity"
@@ -114,7 +119,7 @@
 
         <activity android:name=".activity.Nivritti" />
         <activity android:name=".activity.Workshop" />
-        <activity android:name=".activity.GitaDistribution"></activity>
+        <activity android:name=".activity.GitaDistribution" />
     </application>
 
 </manifest>

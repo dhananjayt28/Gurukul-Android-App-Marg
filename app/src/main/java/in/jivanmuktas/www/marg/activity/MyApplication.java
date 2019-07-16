@@ -7,13 +7,13 @@ import android.content.SharedPreferences.Editor;
 
 public class MyApplication extends Application{
     public String AppKey = "4321";
-    private String userId, userName,password,education,dob,age,gender,contact,email,country,chapter;
+    private String userId, userName,password,education,dob,age,gender,contact,email,country,chapter,roleId,city;
     public boolean session=false;
     public SharedPreferences pref;
     private static MyApplication instance;
 
     private enum UserData {
-        LOGIN_PREF,SESSION,USER_ID,USER_NAME,PASSWORD,EDUCATION,DOB,AGE,GENDER,CONTACT, EMAIL,COUNTRY,CHAPTER
+        LOGIN_PREF,SESSION,USER_ID,USER_NAME,PASSWORD,EDUCATION,DOB,AGE,GENDER,CONTACT, EMAIL,COUNTRY,CHAPTER,ROLEID,CITY
     }
     public static MyApplication getInstance(){
         return instance;
@@ -38,6 +38,7 @@ public class MyApplication extends Application{
     public String getUserId() {
         return pref.getString(UserData.USER_ID.name(), this.userId);
     }
+
     public void setUserId(String userId) {
         this.userId = userId;
         Editor edit = pref.edit();
@@ -48,6 +49,7 @@ public class MyApplication extends Application{
     public String getUserName() {
         return pref.getString(UserData.USER_NAME.name(), this.userName);
     }
+
     public void setUserName(String userName) {
         this.userName = userName;
         Editor edit = pref.edit();
@@ -68,6 +70,7 @@ public class MyApplication extends Application{
     public String getEducation() {
         return pref.getString(UserData.EDUCATION.name(),this.education);
     }
+
     public void setEducation(String education) {
         this.education = education;
         Editor editor=pref.edit();
@@ -99,6 +102,7 @@ public class MyApplication extends Application{
     public String getGender() {
         return pref.getString(UserData.GENDER.name(),this.gender);
     }
+
     public void setGender(String gender) {
         this.gender = gender;
         Editor edit = pref.edit();
@@ -109,6 +113,7 @@ public class MyApplication extends Application{
     public String getContact() {
         return pref.getString(UserData.CONTACT.name(), this.contact);
     }
+
     public void setContact(String userContact) {
         contact = userContact;
         Editor edit = pref.edit();
@@ -119,6 +124,7 @@ public class MyApplication extends Application{
     public String getEmail() {
         return pref.getString(UserData.EMAIL.name(), this.email);
     }
+
     public void setEmail(String userMail) {
         email = userMail;
         Editor edit = pref.edit();
@@ -129,6 +135,7 @@ public class MyApplication extends Application{
     public String getCountry() {
         return pref.getString(UserData.COUNTRY.name(), this.country);
     }
+
     public void setCountry(String country) {
         this.country = country;
         Editor edit = pref.edit();
@@ -139,10 +146,33 @@ public class MyApplication extends Application{
     public String getChapter() {
         return pref.getString(UserData.CHAPTER.name(), this.chapter);
     }
+
     public void setChapter(String chapter) {
         this.chapter = chapter;
         Editor edit = pref.edit();
         edit.putString(UserData.CHAPTER.name(), this.chapter);
+        edit.commit();
+    }
+
+    public String getCity() {
+        return pref.getString(UserData.CITY.name(), this.city);
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+        Editor edit = pref.edit();
+        edit.putString(UserData.CITY.name(), this.city);
+        edit.commit();
+    }
+    ////////**********************************//////////////
+    public String getRoleId(){
+        return pref.getString(UserData.ROLEID.name() , this.roleId);
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+        Editor edit = pref.edit();
+        edit.putString(UserData.ROLEID.name(), this.roleId);
         edit.commit();
     }
 

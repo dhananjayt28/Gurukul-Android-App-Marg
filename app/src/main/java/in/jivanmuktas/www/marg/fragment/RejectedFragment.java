@@ -82,7 +82,7 @@ public class RejectedFragment extends Fragment {
     }
 
     public class GetRejectEvent extends AsyncTask<String, String, Boolean> {
-        String id = MyApplication.getInstance().getUserId();
+        String id = MyApplication.getInstance().getUserId();        // to get the userId using instance method
         @Override
         protected void onPreExecute() {
             super.onPreExecute();

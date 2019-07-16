@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.GitaDistribution"
+    tools:context="in.jivanmuktas.www.marg.activity.GitaDistribution"
     android:orientation="vertical"
     android:id="@+id/gitadisLayout">
     <android.support.design.widget.AppBarLayout
@@ -112,6 +112,17 @@
                     android:textSize="15sp"
                     android:fontFamily="sans-serif-condensed"/>
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorPrimary"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="This is the message"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -242,18 +253,34 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:src="@drawable/id_proof"/>
-
-                    <Spinner
-                        android:id="@+id/idpprofSpinner"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="10dp"
-                        android:gravity="left" />
-                </LinearLayout>
-            </LinearLayout>
+                        android:layout_height="wrap_content">
+                        <Spinner
+                            android:id="@+id/idpprofSpinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="10dp"
+                            android:gravity="left" />
+                        <TextView
+                            android:id="@+id/set_id"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:text="ID Card"
+                            android:textColor="@color/colorPrimaryDeep"
+                            android:textSize="15sp"
+                            android:layout_marginLeft="15dp"
+                            android:fontFamily="sans-serif-condensed"/>
 
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
 
             <CheckBox
                 android:id="@+id/cbTransportArran"
@@ -275,8 +302,29 @@
                 android:textSize="15sp"
                 android:fontFamily="sans-serif-condensed"
                 android:gravity="left"/>
+            <TextView
+                android:id="@+id/transport_arrangement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Transport"
+                android:textColor="@color/colorPrimaryDeep"
+                android:textSize="15sp"
+                android:fontFamily="sans-serif-condensed"/>
+            <TextView
+                android:id="@+id/accomodation_arrangement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Accomodation"
+                android:textColor="@color/colorPrimaryDeep"
+                android:textSize="15sp"
+                android:fontFamily="sans-serif-condensed"/>
 
             <TextView
+                android:id="@+id/tvbookingContinue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -285,36 +333,74 @@
                 android:textColor="@color/colorPrimaryDeep"
                 android:textSize="15sp"
                 android:fontFamily="sans-serif-condensed"/>
-            <LinearLayout
+            <TextView
+                android:id="@+id/Status_show"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center"
-                android:gravity="center">
+                android:padding="10dp"
+                android:gravity="center"/>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
+
+                <LinearLayout
+                    android:id="@+id/layout_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/submit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_marginBottom="20dp"
+                        android:background="@drawable/button"
+                        android:text="Yes"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_marginBottom="20dp"
+                        android:background="@drawable/button"
+                        android:text="No"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/layout_button_exit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
                 <Button
-                    android:id="@+id/submit"
+                    android:id="@+id/exit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@drawable/button"
+                    android:text="Exit"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="20dp"
-                    android:text="Yes" />
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/button"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="20dp"
-                    android:text="No" />
-            </LinearLayout>
+                    android:textStyle="bold" />
+                </LinearLayout>
+
+            </RelativeLayout>
             <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
