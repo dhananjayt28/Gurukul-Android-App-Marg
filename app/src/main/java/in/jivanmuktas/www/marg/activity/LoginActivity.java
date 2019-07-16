@@ -61,11 +61,13 @@ public class LoginActivity extends BaseActivity {
                 if (isNetworkAvailable()) {
                     if (isValid()) {
                         new LoginAsynctask().execute();
+                        //This is done for tesing purpose to be removed later
+                        CustomIntent(MainActivity.class);
+                        LoginActivity.this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
                     }
                 }
               // login();
-
             }
         });
 
